@@ -1,11 +1,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "simulation.hpp"
 
+Simulation simulation;
 sf::Clock clockwork;
-
-// Pixels per second.
-float speed = 300.f;
-sf::Vector2f position;
 
 void handleEvent(sf::RenderWindow &window) {
     sf::Event event;
@@ -29,38 +27,14 @@ void handleEvent(sf::RenderWindow &window) {
     }
 }
 
-void step(float timeDelta) {
-    sf::Vector2f direction(0, 0);
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        direction.x -= 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        direction.x += 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        direction.y -= 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        direction.y += 1;
-    }
-
-    if (direction.x != 0 || direction.y != 0) {
-        float len = sqrt(direction.x * direction.x + direction.y * direction.y);
-        position.x += direction.x / len * speed * timeDelta;
-        position.y += direction.y / len * speed * timeDelta;
-    }
-}
-
-
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 800), "BraitenBoids");
     window.setKeyRepeatEnabled(false);
     window.setFramerateLimit(60);
 
     sf::Vector2u size = window.getSize();
-    position.x = size.x / 2;
-    position.y = size.y / 2;
+    simulation.position.x = size.x / 2;
+    simulation.position.y = size.y / 2;
 
     float radius = 20.f;
     sf::CircleShape shape(radius);
@@ -72,9 +46,9 @@ int main() {
         clockwork.restart();
 
         handleEvent(window);
-        step(elapsed.asSeconds());
+        simulation.step(elapsed.asSeconds());
 
-        shape.setPosition(position);
+        shape.setPosition(simulation.position);
 
         window.clear();
         window.draw(shape);
