@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "food_source.hpp"
 
 class Simulation {
 	// Pixels per second.
@@ -12,7 +13,7 @@ class Simulation {
 public:
 	sf::Vector2i size;
 
-	std::vector<sf::Vector2f> foodSources;
+	std::vector<FoodSource*> foodSources;
 
 	sf::Vector2f position;
 

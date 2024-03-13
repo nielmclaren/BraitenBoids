@@ -18,9 +18,20 @@ SimRenderer::~SimRenderer() {
 }
 
 void SimRenderer::draw() {
+    window->clear();
+
     shape->setPosition(simulation->position);
 
-    window->clear();
     window->draw(*shape);
+
     window->display();
+}
+
+
+void SimRenderer::foodSourceCreated(FoodSource foodSource) {
+
+}
+
+void SimRenderer::foodSourceDestroyed(FoodSource foodSource) {
+
 }

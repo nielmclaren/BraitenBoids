@@ -15,7 +15,8 @@ Simulation::Simulation(int w, int h) {
 void Simulation::initFoodSources() {
     int numFoodSources = 30;
     for (int i = 0; i < numFoodSources; i++) {
-        foodSources.push_back(sf::Vector2f(rand() * size.x, rand() * size.y));
+        FoodSource* foodSource = new FoodSource(sf::Vector2f(rand() * size.x, rand() * size.y));
+        foodSources.push_back(foodSource);
     }
 }
 
