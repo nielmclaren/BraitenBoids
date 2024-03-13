@@ -1,8 +1,9 @@
 #include <iostream>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include "simulation.hpp"
+#include "sim_renderer.hpp"
 
-Simulation simulation;
 sf::Clock clockwork;
 
 void handleEvent(sf::RenderWindow &window) {
@@ -33,13 +34,10 @@ int main() {
     window.setFramerateLimit(60);
 
     sf::Vector2u size = window.getSize();
-    simulation.position.x = size.x / 2;
-    simulation.position.y = size.y / 2;
+    Simulation simulation(size.x, size.y);
+    SimRenderer simRenderer(simulation, window);
 
-    float radius = 20.f;
-    sf::CircleShape shape(radius);
-    shape.setFillColor(sf::Color::Green);
-    shape.setOrigin(radius, radius);
+    std::vector<sf::CircleShape> foodSourceShapes;
 
     while (window.isOpen()) {
         sf::Time elapsed = clockwork.getElapsedTime();
@@ -47,12 +45,7 @@ int main() {
 
         handleEvent(window);
         simulation.step(elapsed.asSeconds());
-
-        shape.setPosition(simulation.position);
-
-        window.clear();
-        window.draw(shape);
-        window.display();
+        simRenderer.draw();
     }
 
     return 0;

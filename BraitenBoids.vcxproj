@@ -140,9 +140,11 @@
   <ItemGroup>
     <ClCompile Include="BraitenBoids\main.cpp" />
     <ClCompile Include="BraitenBoids\simulation.cpp" />
+    <ClCompile Include="BraitenBoids\sim_renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BraitenBoids\simulation.hpp" />
+    <ClInclude Include="BraitenBoids\sim_renderer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

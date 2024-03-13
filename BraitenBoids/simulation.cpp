@@ -2,6 +2,23 @@
 #include <SFML/Graphics.hpp>
 #include "simulation.hpp"
 
+Simulation::Simulation(int w, int h) {
+    size.x = w;
+    size.y = h;
+
+    position.x = size.x / 2;
+    position.y = size.y / 2;
+
+    initFoodSources();
+}
+
+void Simulation::initFoodSources() {
+    int numFoodSources = 30;
+    for (int i = 0; i < numFoodSources; i++) {
+        foodSources.push_back(sf::Vector2f(rand() * size.x, rand() * size.y));
+    }
+}
+
 void Simulation::step(float timeDelta) {
     sf::Vector2f direction(0, 0);
 
