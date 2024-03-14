@@ -29,7 +29,7 @@ SimRenderer::~SimRenderer() {
 void SimRenderer::draw() {
     window->clear();
 
-    shape->setPosition(simulation->position);
+    shape->setPosition(simulation->avatar.position);
 
     for (std::vector<FoodSourceRenderer*>::iterator it = begin(foodSourceRenderers); it != end(foodSourceRenderers); ++it) {
         window->draw(*((*it)->shape));

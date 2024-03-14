@@ -7,8 +7,8 @@ Simulation::Simulation(int w, int h) {
     size.x = w;
     size.y = h;
 
-    position.x = size.x / 2;
-    position.y = size.y / 2;
+    avatar.position.x = size.x / 2;
+    avatar.position.y = size.y / 2;
 }
 
 Simulation::~Simulation() {
@@ -52,8 +52,8 @@ void Simulation::step(float timeDelta) {
 
     if (direction.x != 0 || direction.y != 0) {
         float len = sqrt(direction.x * direction.x + direction.y * direction.y);
-        position.x += direction.x / len * speed * timeDelta;
-        position.y += direction.y / len * speed * timeDelta;
+        avatar.position.x += direction.x / len * speed * timeDelta;
+        avatar.position.y += direction.y / len * speed * timeDelta;
     }
 }
 

@@ -30,6 +30,9 @@
     <ClCompile Include="BraitenBoids\food_source_renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BraitenBoids\avatar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BraitenBoids\simulation.hpp">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BraitenBoids\food_source_renderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BraitenBoids\avatar.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
