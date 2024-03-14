@@ -8,9 +8,11 @@
 
 class Simulation {
 	// Pixels per second.
-	float speed = 300.f;
+	float speed = 300;
 
 	void initFoodSources();
+	void stepFoodSources();
+
 	void foodSourceCreated(FoodSource* foodSource);
 	void foodSourceDeleted(FoodSource* foodSource);
 	

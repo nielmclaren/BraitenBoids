@@ -2,13 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include "ifood_source_listener.hpp"
 #include "simulation.hpp"
+#include "collision_detection.hpp"
 
 Simulation::Simulation(int w, int h) {
     size.x = w;
     size.y = h;
 
-    avatar.position.x = size.x / 2;
-    avatar.position.y = size.y / 2;
+    avatar.position.x = size.x / 2.;
+    avatar.position.y = size.y / 2.;
 }
 
 Simulation::~Simulation() {
@@ -54,6 +55,18 @@ void Simulation::step(float timeDelta) {
         float len = sqrt(direction.x * direction.x + direction.y * direction.y);
         avatar.position.x += direction.x / len * speed * timeDelta;
         avatar.position.y += direction.y / len * speed * timeDelta;
+    }
+
+    stepFoodSources();
+}
+
+void Simulation::stepFoodSources() {
+    for (std::vector<FoodSource*>::iterator it = begin(foodSources); it != end(foodSources); ++it) {
+        if (CollisionDetection::detect(avatar, **it)) {
+            FoodSource* doomedFoodSource = *it;
+            it = foodSources.erase(it);
+            foodSourceDeleted(doomedFoodSource);
+        }
     }
 }
 

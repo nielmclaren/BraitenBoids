@@ -9,7 +9,7 @@ SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win) {
 	simulation = &sim;
 	window = &win;
 
-    float radius = 20.f;
+    float radius = simulation->avatar.radius;
     shape = new sf::CircleShape(radius);
     shape->setFillColor(sf::Color::Green);
     shape->setOrigin(radius, radius);
@@ -42,13 +42,13 @@ void SimRenderer::draw() {
 
 
 void SimRenderer::foodSourceCreated(FoodSource* foodSource) {
-    float radius = 50.f;
+    float radius = foodSource->radius;
     sf::Shape* shape = new sf::CircleShape(radius);
     shape->setFillColor(sf::Color(0, 0, 128));
     shape->setOrigin(radius, radius);
     shape->setPosition(foodSource->position);
 
-    std::cout << "Food sourdce created: " << foodSource->position.x << ", " << foodSource->position.y << std::endl;
+    std::cout << "Food source created: " << foodSource->position.x << ", " << foodSource->position.y << std::endl;
 
     FoodSourceRenderer* renderer = new FoodSourceRenderer(foodSource, shape);
     foodSourceRenderers.push_back(renderer);

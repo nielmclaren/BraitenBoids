@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="avatar.cpp" />
+    <ClCompile Include="collision_detection.cpp" />
     <ClCompile Include="food_source.cpp" />
     <ClCompile Include="food_source_renderer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avatar.hpp" />
+    <ClInclude Include="collision_detection.hpp" />
     <ClInclude Include="food_source.hpp" />
     <ClInclude Include="food_source_renderer.hpp" />
     <ClInclude Include="ifood_source_listener.hpp" />
@@ -87,13 +89,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files\SFML\SFML-2.6.1\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\SFML\SFML-2.6.1\include;C:\Program Files\Eigen\eigen-3.4.0;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\SFML\SFML-2.6.1\lib;$(LibraryPath)</LibraryPath>
     <ExcludePath>$(CommonExcludePath);$(VC_ExecutablePath_x64);$(VC_LibraryPath_x64)</ExcludePath>
+    <SourcePath>C:\Program Files\Eigen\eigen-3.4.0;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Program Files\SFML\SFML-2.6.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>C:\Program Files\SFML\SFML-2.6.1\include;C:\Program Files\Eigen\eigen-3.4.0;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>C:\Program Files\SFML\SFML-2.6.1\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <SourcePath>C:\Program Files\Eigen\eigen-3.4.0;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

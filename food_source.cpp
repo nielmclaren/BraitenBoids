@@ -6,6 +6,8 @@ unsigned int FoodSource::nextId = 0;
 FoodSource::FoodSource(sf::Vector2f pos) {
 	id = FoodSource::nextId++;
 	position = pos;
+
+	radius = 5.f;
 }
 
 unsigned int FoodSource::getId() {

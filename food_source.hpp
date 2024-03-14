@@ -8,6 +8,7 @@ class FoodSource {
 
 public:
 	sf::Vector2f position;
+	float radius;
 
 	FoodSource(sf::Vector2f pos);
 	unsigned int getId();
