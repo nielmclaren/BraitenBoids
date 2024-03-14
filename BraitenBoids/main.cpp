@@ -29,6 +29,9 @@ void handleEvent(sf::RenderWindow &window) {
 }
 
 int main() {
+    // Seed the random number generator.
+    srand(static_cast <unsigned> (time(0)));
+
     sf::RenderWindow window(sf::VideoMode(800, 800), "BraitenBoids");
     window.setKeyRepeatEnabled(false);
     window.setFramerateLimit(60);
@@ -36,6 +39,7 @@ int main() {
     sf::Vector2u size = window.getSize();
     Simulation simulation(size.x, size.y);
     SimRenderer simRenderer(simulation, window);
+    simulation.init();
 
     std::vector<sf::CircleShape> foodSourceShapes;
 

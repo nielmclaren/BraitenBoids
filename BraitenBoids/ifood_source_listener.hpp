@@ -5,6 +5,6 @@
 class IFoodSourceListener {
 public:
 	virtual ~IFoodSourceListener() {}
-	virtual void foodSourceCreated(FoodSource foodSource) = 0;
-	virtual void foodSourceDestroyed(FoodSource foodSource) = 0;
+	virtual void foodSourceCreated(FoodSource* foodSource) = 0;
+	virtual void foodSourceDeleted(FoodSource* foodSource) = 0;
 };

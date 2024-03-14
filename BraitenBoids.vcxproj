@@ -138,11 +138,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BraitenBoids\food_source.cpp" />
+    <ClCompile Include="BraitenBoids\food_source_renderer.cpp" />
     <ClCompile Include="BraitenBoids\main.cpp" />
     <ClCompile Include="BraitenBoids\simulation.cpp" />
     <ClCompile Include="BraitenBoids\sim_renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BraitenBoids\food_source.hpp" />
+    <ClInclude Include="BraitenBoids\food_source_renderer.hpp" />
+    <ClInclude Include="BraitenBoids\ifood_source_listener.hpp" />
     <ClInclude Include="BraitenBoids\simulation.hpp" />
     <ClInclude Include="BraitenBoids\sim_renderer.hpp" />
   </ItemGroup>
