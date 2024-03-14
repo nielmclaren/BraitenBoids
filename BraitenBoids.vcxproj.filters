@@ -15,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BraitenBoids\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BraitenBoids\simulation.cpp">
+    <ClCompile Include="sim_renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BraitenBoids\sim_renderer.cpp">
+    <ClCompile Include="simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BraitenBoids\food_source.cpp">
+    <ClCompile Include="avatar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BraitenBoids\food_source_renderer.cpp">
+    <ClCompile Include="food_source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BraitenBoids\avatar.cpp">
+    <ClCompile Include="food_source_renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BraitenBoids\simulation.hpp">
+    <ClInclude Include="avatar.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BraitenBoids\sim_renderer.hpp">
+    <ClInclude Include="food_source.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BraitenBoids\ifood_source_listener.hpp">
+    <ClInclude Include="food_source_renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BraitenBoids\food_source.hpp">
+    <ClInclude Include="ifood_source_listener.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BraitenBoids\food_source_renderer.hpp">
+    <ClInclude Include="sim_renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BraitenBoids\avatar.hpp">
+    <ClInclude Include="simulation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

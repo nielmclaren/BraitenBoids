@@ -18,6 +18,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="avatar.cpp" />
+    <ClCompile Include="food_source.cpp" />
+    <ClCompile Include="food_source_renderer.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="simulation.cpp" />
+    <ClCompile Include="sim_renderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="avatar.hpp" />
+    <ClInclude Include="food_source.hpp" />
+    <ClInclude Include="food_source_renderer.hpp" />
+    <ClInclude Include="ifood_source_listener.hpp" />
+    <ClInclude Include="simulation.hpp" />
+    <ClInclude Include="sim_renderer.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -137,22 +153,6 @@
       <AdditionalDependencies>sfml-system.lib;sfml-graphics.lib;sfml-window.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="BraitenBoids\avatar.cpp" />
-    <ClCompile Include="BraitenBoids\food_source.cpp" />
-    <ClCompile Include="BraitenBoids\food_source_renderer.cpp" />
-    <ClCompile Include="BraitenBoids\main.cpp" />
-    <ClCompile Include="BraitenBoids\simulation.cpp" />
-    <ClCompile Include="BraitenBoids\sim_renderer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BraitenBoids\avatar.hpp" />
-    <ClInclude Include="BraitenBoids\food_source.hpp" />
-    <ClInclude Include="BraitenBoids\food_source_renderer.hpp" />
-    <ClInclude Include="BraitenBoids\ifood_source_listener.hpp" />
-    <ClInclude Include="BraitenBoids\simulation.hpp" />
-    <ClInclude Include="BraitenBoids\sim_renderer.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
