@@ -1,8 +1,10 @@
 #include "food_source.hpp"
 
+using Eigen::Vector2f;
+
 unsigned int FoodSource::nextId = 0;
 
-FoodSource::FoodSource(sf::Vector2f pos) {
+FoodSource::FoodSource(Vector2f pos) {
 	id = FoodSource::nextId++;
 	position = pos;
 

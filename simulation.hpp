@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <SFML/Graphics.hpp>
 #include "avatar.hpp"
 #include "boid.hpp"
 #include "iboid_listener.hpp"

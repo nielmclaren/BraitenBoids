@@ -1,11 +1,13 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <Eigen/Dense>
+
+using Eigen::Vector2f;
 
 class Avatar {
 public:
 	float radius;
-	sf::Vector2f position;
+	Vector2f position;
 
 	Avatar();
 };

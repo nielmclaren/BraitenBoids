@@ -30,11 +30,11 @@ SimRenderer::~SimRenderer() {
 void SimRenderer::draw() {
     window->clear();
 
-    shape->setPosition(simulation->avatar.position);
+    shape->setPosition(eigenToSfml(simulation->avatar.position));
 
     for (std::vector<BoidRenderer*>::iterator it = begin(boidRenderers); it != end(boidRenderers); ++it) {
         // Worth assuming the position changed every frame.
-        (*it)->shape->setPosition((*it)->boid->position);
+        (*it)->shape->setPosition(eigenToSfml((*it)->boid->position));
 
         window->draw(*((*it)->shape));
     }
@@ -54,7 +54,7 @@ void SimRenderer::boidCreated(Boid* boid) {
     sf::Shape* shape = new sf::CircleShape(radius);
     shape->setFillColor(sf::Color(0, 128, 0));
     shape->setOrigin(radius, radius);
-    shape->setPosition(boid->position);
+    shape->setPosition(eigenToSfml(boid->position));
 
     BoidRenderer* renderer = new BoidRenderer(boid, shape);
     boidRenderers.push_back(renderer);
@@ -75,9 +75,7 @@ void SimRenderer::foodSourceCreated(FoodSource* foodSource) {
     sf::Shape* shape = new sf::CircleShape(radius);
     shape->setFillColor(sf::Color(0, 0, 128));
     shape->setOrigin(radius, radius);
-    shape->setPosition(foodSource->position);
-
-    std::cout << "Food source created: " << foodSource->position.x << ", " << foodSource->position.y << std::endl;
+    shape->setPosition(eigenToSfml(foodSource->position));
 
     FoodSourceRenderer* renderer = new FoodSourceRenderer(foodSource, shape);
     foodSourceRenderers.push_back(renderer);
@@ -90,4 +88,8 @@ void SimRenderer::foodSourceDeleted(FoodSource* foodSource) {
             break;
         }
     }
+}
+
+sf::Vector2f SimRenderer::eigenToSfml(Eigen::Vector2f v) {
+    return sf::Vector2f(v.x(), v.y());
 }

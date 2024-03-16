@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <Eigen/Dense>
 #include <SFML/Graphics.hpp>
 #include "boid_renderer.hpp"
 #include "food_source_renderer.hpp"
@@ -13,6 +14,8 @@ class SimRenderer : public IBoidListener, public IFoodSourceListener {
 	sf::CircleShape *shape;
 	std::vector<BoidRenderer*> boidRenderers;
 	std::vector<FoodSourceRenderer*> foodSourceRenderers;
+
+	sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:
 

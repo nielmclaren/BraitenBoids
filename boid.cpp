@@ -6,7 +6,7 @@ using Eigen::Vector2f;
 
 unsigned int Boid::nextId = 0;
 
-Boid::Boid(sf::Vector2f pos) {
+Boid::Boid(Vector2f pos) {
 	const double pi = std::acos(-1.0);
 
 	id = Boid::nextId++;
@@ -20,5 +20,5 @@ unsigned int Boid::getId() {
 }
 
 void Boid::step(float timeDelta) {
-	position.x += 5;
+	position.x() += 5;
 }

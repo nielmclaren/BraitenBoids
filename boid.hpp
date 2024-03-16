@@ -1,18 +1,19 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <Eigen/Dense>
+
+using Eigen::Vector2f;
 
 class Boid {
 	static unsigned int nextId;
 	unsigned int id;
 
 public:
-	sf::Vector2f position;
+	Vector2f position;
 	float radius;
 
-	Boid(sf::Vector2f pos);
+	Boid(Vector2f pos);
 	unsigned int getId();
 
 	void step(float timeDelta);
 };
-
