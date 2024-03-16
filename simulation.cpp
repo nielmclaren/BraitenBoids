@@ -84,11 +84,14 @@ void Simulation::stepBoids(float timeDelta) {
 }
 
 void Simulation::stepFoodSources(float timeDelta) {
-    for (std::vector<FoodSource*>::iterator it = begin(foodSources); it != end(foodSources); ++it) {
+    for (std::vector<FoodSource*>::iterator it = begin(foodSources); it != end(foodSources); ) {
         if (CollisionDetection::detect(avatar, **it)) {
             FoodSource* doomedFoodSource = *it;
             it = foodSources.erase(it);
             foodSourceDeleted(doomedFoodSource);
+        }
+        else {
+            it++;
         }
     }
 }
