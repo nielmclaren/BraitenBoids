@@ -14,6 +14,7 @@ SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win) {
     shape->setFillColor(sf::Color::Green);
     shape->setOrigin(radius, radius);
 
+    simulation->registerBoidListener(this);
     simulation->registerFoodSourceListener(this);
 }
 
@@ -31,6 +32,13 @@ void SimRenderer::draw() {
 
     shape->setPosition(simulation->avatar.position);
 
+    for (std::vector<BoidRenderer*>::iterator it = begin(boidRenderers); it != end(boidRenderers); ++it) {
+        // Worth assuming the position changed every frame.
+        (*it)->shape->setPosition((*it)->boid->position);
+
+        window->draw(*((*it)->shape));
+    }
+
     for (std::vector<FoodSourceRenderer*>::iterator it = begin(foodSourceRenderers); it != end(foodSourceRenderers); ++it) {
         window->draw(*((*it)->shape));
     }
@@ -38,6 +46,27 @@ void SimRenderer::draw() {
     window->draw(*shape);
 
     window->display();
+}
+
+
+void SimRenderer::boidCreated(Boid* boid) {
+    float radius = boid->radius;
+    sf::Shape* shape = new sf::CircleShape(radius);
+    shape->setFillColor(sf::Color(0, 128, 0));
+    shape->setOrigin(radius, radius);
+    shape->setPosition(boid->position);
+
+    BoidRenderer* renderer = new BoidRenderer(boid, shape);
+    boidRenderers.push_back(renderer);
+}
+
+void SimRenderer::boidDeleted(Boid* boid) {
+    for (std::vector<BoidRenderer*>::iterator it = begin(boidRenderers); it != end(boidRenderers); ++it) {
+        if ((*it)->boid->getId() == boid->getId()) {
+            boidRenderers.erase(it);
+            break;
+        }
+    }
 }
 
 

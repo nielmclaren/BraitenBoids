@@ -1,4 +1,3 @@
-#include <SFML/Graphics.hpp>
 #include "food_source.hpp"
 
 unsigned int FoodSource::nextId = 0;

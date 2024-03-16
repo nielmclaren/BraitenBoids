@@ -41,8 +41,6 @@ int main() {
     SimRenderer simRenderer(simulation, window);
     simulation.init();
 
-    std::vector<sf::CircleShape> foodSourceShapes;
-
     while (window.isOpen()) {
         sf::Time elapsed = clockwork.getElapsedTime();
         clockwork.restart();

@@ -1,8 +1,6 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include "ifood_source_listener.hpp"
-#include "simulation.hpp"
 #include "collision_detection.hpp"
+#include "simulation.hpp"
 
 Simulation::Simulation(int w, int h) {
     size.x = w;
@@ -13,6 +11,11 @@ Simulation::Simulation(int w, int h) {
 }
 
 Simulation::~Simulation() {
+    for (Boid* boid : boids) {
+        delete boid;
+    }
+    boids.clear();
+
     for (FoodSource* foodSource : foodSources) {
         delete foodSource;
     }
@@ -22,11 +25,20 @@ Simulation::~Simulation() {
 }
 
 void Simulation::init() {
+    initBoids();
     initFoodSources();
 }
 
+void Simulation::initBoids() {
+    int numBoids = 10;
+    for (int i = 0; i < numBoids; i++) {
+        Boid* boid = new Boid(sf::Vector2f(randf() * size.x, randf() * size.y));
+        boids.push_back(boid);
+        boidCreated(boid);
+    }
+}
+
 void Simulation::initFoodSources() {
-    std::cout << "Size: " << size.x << ", " << size.y << std::endl;
     int numFoodSources = 30;
     for (int i = 0; i < numFoodSources; i++) {
         FoodSource* foodSource = new FoodSource(sf::Vector2f(randf() * size.x, randf() * size.y));
@@ -57,10 +69,17 @@ void Simulation::step(float timeDelta) {
         avatar.position.y += direction.y / len * speed * timeDelta;
     }
 
-    stepFoodSources();
+    stepBoids(timeDelta);
+    stepFoodSources(timeDelta);
 }
 
-void Simulation::stepFoodSources() {
+void Simulation::stepBoids(float timeDelta) {
+    for (std::vector<Boid*>::iterator it = begin(boids); it != end(boids); ++it) {
+        (*it)->step(timeDelta);
+    }
+}
+
+void Simulation::stepFoodSources(float timeDelta) {
     for (std::vector<FoodSource*>::iterator it = begin(foodSources); it != end(foodSources); ++it) {
         if (CollisionDetection::detect(avatar, **it)) {
             FoodSource* doomedFoodSource = *it;
@@ -69,6 +88,24 @@ void Simulation::stepFoodSources() {
         }
     }
 }
+
+
+void Simulation::registerBoidListener(IBoidListener* listener) {
+    boidListeners.push_back(listener);
+}
+
+void Simulation::boidCreated(Boid* boid) {
+    for (std::vector<IBoidListener*>::iterator it = begin(boidListeners); it != end(boidListeners); ++it) {
+        (*it)->boidCreated(boid);
+    }
+}
+
+void Simulation::boidDeleted(Boid* boid) {
+    for (std::vector<IBoidListener*>::iterator it = begin(boidListeners); it != end(boidListeners); ++it) {
+        (*it)->boidDeleted(boid);
+    }
+}
+
 
 void Simulation::registerFoodSourceListener(IFoodSourceListener* listener) {
     foodSourceListeners.push_back(listener);
