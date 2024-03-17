@@ -1,8 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <Eigen/Dense>
 #include "simulation.hpp"
 #include "sim_renderer.hpp"
+
+using Eigen::Vector2f;
 
 sf::Clock clockwork;
 
@@ -28,6 +31,26 @@ void handleEvent(sf::RenderWindow &window) {
     }
 }
 
+Vector2f getPlayerInputDirection() {
+    Vector2f direction(0, 0);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        direction.x() -= 1;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        direction.x() += 1;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        direction.y() -= 1;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        direction.y() += 1;
+    }
+
+    direction.normalize();
+    return direction;
+}
+
 int main() {
     // Seed the random number generator.
     srand(static_cast <unsigned> (time(0)));
@@ -46,6 +69,7 @@ int main() {
         clockwork.restart();
 
         handleEvent(window);
+        simulation.setPlayerDirection(getPlayerInputDirection());
         simulation.step(elapsed.asSeconds());
         simRenderer.draw();
     }

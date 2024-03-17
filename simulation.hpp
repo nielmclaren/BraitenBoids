@@ -1,15 +1,19 @@
 #pragma once
 
 #include <vector>
+#include <Eigen/Dense>
 #include "avatar.hpp"
 #include "boid.hpp"
 #include "iboid_listener.hpp"
 #include "ifood_source_listener.hpp"
 #include "food_source.hpp"
 
+using Eigen::Vector2f;
+
 class Simulation {
 	// Pixels per second.
 	float speed = 300;
+	Vector2f playerDirection;
 
 	void initBoids();
 	void stepBoids(float timeDelta);
@@ -26,7 +30,7 @@ class Simulation {
 	float randf();
 
 public:
-	sf::Vector2i size;
+	Vector2f size;
 
 	std::vector<Boid*> boids;
 	std::vector<IBoidListener*> boidListeners;
@@ -40,6 +44,7 @@ public:
 	~Simulation();
 
 	void init();
+	void setPlayerDirection(Vector2f direction);
 	void step(float timeDelta);
 	void registerBoidListener(IBoidListener* listener);
 	void registerFoodSourceListener(IFoodSourceListener* listener);

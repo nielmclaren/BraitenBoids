@@ -1,5 +1,4 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include <Eigen/Dense>
 #include "collision_detection.hpp"
 #include "simulation.hpp"
@@ -7,11 +6,11 @@
 using Eigen::Vector2f;
 
 Simulation::Simulation(int w, int h) {
-    size.x = w;
-    size.y = h;
+    size.x() = w;
+    size.y() = h;
 
-    avatar.position.x() = size.x / 2.;
-    avatar.position.y() = size.y / 2.;
+    avatar.position.x() = w / 2.;
+    avatar.position.y() = h / 2.;
 }
 
 Simulation::~Simulation() {
@@ -36,7 +35,7 @@ void Simulation::init() {
 void Simulation::initBoids() {
     int numBoids = 10;
     for (int i = 0; i < numBoids; i++) {
-        Boid* boid = new Boid(Vector2f(randf() * size.x, randf() * size.y));
+        Boid* boid = new Boid(Vector2f(randf() * size.x(), randf() * size.y()));
         boids.push_back(boid);
         boidCreated(boid);
     }
@@ -45,33 +44,19 @@ void Simulation::initBoids() {
 void Simulation::initFoodSources() {
     int numFoodSources = 30;
     for (int i = 0; i < numFoodSources; i++) {
-        FoodSource* foodSource = new FoodSource(Vector2f(randf() * size.x, randf() * size.y));
+        FoodSource* foodSource = new FoodSource(Vector2f(randf() * size.x(), randf() * size.y()));
         foodSources.push_back(foodSource);
         foodSourceCreated(foodSource);
     }
 }
 
+void Simulation::setPlayerDirection(Vector2f direction) {
+    playerDirection = direction;
+}
+
 void Simulation::step(float timeDelta) {
-    Vector2f direction(0, 0);
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        direction.x() -= 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        direction.x() += 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        direction.y() -= 1;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        direction.y() += 1;
-    }
-
-    if (direction.x() != 0 || direction.y() != 0) {
-        float m = direction.size();
-        avatar.position.x() += direction.x() / m * speed * timeDelta;
-        avatar.position.y() += direction.y() / m * speed * timeDelta;
-    }
+    avatar.position.x() += playerDirection.x() * speed * timeDelta;
+    avatar.position.y() += playerDirection.y() * speed * timeDelta;
 
     stepBoids(timeDelta);
     stepFoodSources(timeDelta);
