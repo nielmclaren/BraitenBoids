@@ -12,13 +12,14 @@ using Eigen::Vector2f;
 
 class Simulation {
 	// Pixels per second.
-	float speed = 300;
+	float speed = 200;
 	Vector2f playerDirection;
 
 	void initBoids();
-	void stepBoids(float timeDelta);
-
 	void initFoodSources();
+
+	void stepAvatar(float timeDelta);
+	void stepBoids(float timeDelta);
 	void stepFoodSources(float timeDelta);
 
 	void boidCreated(Boid* boid);
@@ -46,6 +47,7 @@ public:
 	void init();
 	void setPlayerDirection(Vector2f direction);
 	void step(float timeDelta);
+
 	void registerBoidListener(IBoidListener* listener);
 	void registerFoodSourceListener(IFoodSourceListener* listener);
 };

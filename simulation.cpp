@@ -55,16 +55,46 @@ void Simulation::setPlayerDirection(Vector2f direction) {
 }
 
 void Simulation::step(float timeDelta) {
-    avatar.position.x() += playerDirection.x() * speed * timeDelta;
-    avatar.position.y() += playerDirection.y() * speed * timeDelta;
-
+    stepAvatar(timeDelta);
     stepBoids(timeDelta);
     stepFoodSources(timeDelta);
 }
 
+void Simulation::stepAvatar(float timeDelta) {
+    avatar.position.x() += playerDirection.x() * speed * timeDelta;
+    avatar.position.y() += playerDirection.y() * speed * timeDelta;
+
+    while (avatar.position.x() < 0) {
+        avatar.position.x() += size.x();
+    }
+    while (avatar.position.x() > size.x()) {
+        avatar.position.x() -= size.x();
+    }
+    while (avatar.position.y() < 0) {
+        avatar.position.y() += size.y();
+    }
+    while (avatar.position.y() > size.y()) {
+        avatar.position.y() -= size.y();
+    }
+}
+
 void Simulation::stepBoids(float timeDelta) {
     for (std::vector<Boid*>::iterator it = begin(boids); it != end(boids); ++it) {
-        (*it)->step(timeDelta);
+        Boid* boid = *it;
+        boid->step(timeDelta);
+
+        while (boid->position.x() < 0) {
+            boid->position.x() += size.x();
+        }
+        while (boid->position.x() > size.x()) {
+            boid->position.x() -= size.x();
+        }
+        while (boid->position.y() < 0) {
+            boid->position.y() += size.y();
+        }
+        while (boid->position.y() > size.y()) {
+            boid->position.y() -= size.y();
+        }
     }
 }
 
