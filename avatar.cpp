@@ -2,7 +2,8 @@
 
 using Eigen::Vector2f;
 
-Avatar::Avatar() {
+Avatar::Avatar(Simulation* sim) {
+	simulation = sim;
 	radius = 7.f;
 	senseRadius = 100.f;
 }

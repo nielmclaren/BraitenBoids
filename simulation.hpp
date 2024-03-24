@@ -39,7 +39,7 @@ public:
 	std::vector<FoodSource*> foodSources;
 	std::vector<IFoodSourceListener*> foodSourceListeners;
 
-	Avatar avatar;
+	Avatar *avatar;
 
 	Simulation(float w, float h);
 	~Simulation();

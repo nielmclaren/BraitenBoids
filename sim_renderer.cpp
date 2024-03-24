@@ -12,27 +12,14 @@ SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win) {
 	simulation = &sim;
 	window = &win;
 
-    avatarDirectionShape = new sf::RectangleShape(sf::Vector2f(20, 1.f));
-    avatarDirectionShape->setFillColor(sf::Color::Green);
-    avatarNewDirectionShape = new sf::RectangleShape(sf::Vector2f(30.f, 2.f));
-    avatarNewDirectionShape->setFillColor(sf::Color::Green);
-    avatarToFoodSourceShape = new sf::RectangleShape(sf::Vector2f(15.f, 1.f));
-    avatarToFoodSourceShape->setFillColor(sf::Color::Green);
-
-    float radius = simulation->avatar.radius;
-    avatarShape = new sf::CircleShape(radius);
-    avatarShape->setFillColor(sf::Color::Green);
-    avatarShape->setOrigin(radius, radius);
+    avatarRenderer = new AvatarRenderer(simulation->avatar);
 
     simulation->registerBoidListener(this);
     simulation->registerFoodSourceListener(this);
 }
 
 SimRenderer::~SimRenderer() {
-    delete avatarDirectionShape;
-    delete avatarNewDirectionShape;
-    delete avatarToFoodSourceShape;
-    delete avatarShape;
+    delete avatarRenderer;
 
     for (BoidRenderer* renderer : boidRenderers) {
         delete renderer;
@@ -56,39 +43,9 @@ void SimRenderer::draw() {
         window->draw(*((*it)->shape));
     }
 
-    drawAvatar();
+    avatarRenderer->draw(*window);
 
     window->display();
-}
-
-void SimRenderer::drawAvatar() {
-    Vector2f direction = simulation->avatar.direction;
-    avatarDirectionShape->setPosition(eigenToSfml(simulation->avatar.position));
-    avatarDirectionShape->setRotation(atan2(direction.y(), direction.x()) * 180 / pi);
-    window->draw(*avatarDirectionShape);
-
-    FoodSource* nearestFoodSource = simulation->getNearestFoodSource(simulation->avatar.position);
-    if (nearestFoodSource != nullptr) {
-        Vector2f toFoodSource = nearestFoodSource->position - simulation->avatar.position;
-        float dist = (toFoodSource).norm();
-        if (dist <= simulation->avatar.senseRadius) {
-            avatarToFoodSourceShape->setPosition(eigenToSfml(simulation->avatar.position));
-            avatarToFoodSourceShape->setSize(sf::Vector2f(dist, avatarToFoodSourceShape->getSize().y));
-            avatarToFoodSourceShape->setRotation(atan2(toFoodSource.y(), toFoodSource.x()) * 180 / pi);
-            window->draw(*avatarToFoodSourceShape);
-
-            float angleBetween = atan2(direction.x() * toFoodSource.y() - direction.y() * toFoodSource.x(), toFoodSource.dot(direction));
-            Rotation2Df rotation(angleBetween * 0.1f);
-            Vector2f newDirection = rotation.toRotationMatrix() * direction;
-
-            avatarNewDirectionShape->setPosition(eigenToSfml(simulation->avatar.position));
-            avatarNewDirectionShape->setRotation(atan2(newDirection.y(), newDirection.x()) * 180 / pi);
-            window->draw(*avatarNewDirectionShape);
-        }
-    }
-
-    avatarShape->setPosition(eigenToSfml(simulation->avatar.position));
-    window->draw(*avatarShape);
 }
 
 void SimRenderer::drawBoid(BoidRenderer &renderer) {

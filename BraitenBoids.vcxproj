@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="avatar.cpp" />
+    <ClCompile Include="avatar_renderer.cpp" />
     <ClCompile Include="boid.cpp" />
     <ClCompile Include="boid_renderer.cpp" />
     <ClCompile Include="collision_detection.cpp" />
@@ -31,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avatar.hpp" />
+    <ClInclude Include="avatar_renderer.hpp" />
     <ClInclude Include="boid.hpp" />
     <ClInclude Include="boid_renderer.hpp" />
     <ClInclude Include="collision_detection.hpp" />

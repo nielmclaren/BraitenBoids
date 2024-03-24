@@ -3,6 +3,7 @@
 #include <vector>
 #include <Eigen/Dense>
 #include <SFML/Graphics.hpp>
+#include "avatar_renderer.hpp"
 #include "boid_renderer.hpp"
 #include "food_source_renderer.hpp"
 #include "ifood_source_listener.hpp"
@@ -13,15 +14,10 @@ class SimRenderer : public IBoidListener, public IFoodSourceListener {
 	Simulation *simulation;
 	sf::RenderWindow *window;
 
-	sf::CircleShape *avatarShape;
-	sf::RectangleShape* avatarDirectionShape;
-	sf::RectangleShape* avatarNewDirectionShape;
-	sf::RectangleShape* avatarToFoodSourceShape;
-
+	AvatarRenderer* avatarRenderer;
 	std::vector<BoidRenderer*> boidRenderers;
 	std::vector<FoodSourceRenderer*> foodSourceRenderers;
 
-	void drawAvatar();
 	void drawBoid(BoidRenderer &renderer);
 
 	sf::Vector2f eigenToSfml(Eigen::Vector2f v);
