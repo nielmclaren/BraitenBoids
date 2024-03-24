@@ -11,8 +11,8 @@ Simulation::Simulation(float w, float h) {
     size.y() = h;
 
     avatar = new Avatar(this);
-    avatar->position.x() = w / 2.;
-    avatar->position.y() = h / 2.;
+    avatar->position.x() = w / 2.f;
+    avatar->position.y() = h / 2.f;
 
     avatar->direction.x() = 0;
     avatar->direction.y() = -1;

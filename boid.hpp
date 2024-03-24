@@ -11,11 +11,11 @@ class Boid {
 	static unsigned int nextId;
 	unsigned int id;
 
-	Simulation *simulation;
-
 	float randf();
 
 public:
+	Simulation* simulation;
+
 	Vector2f position;
 	Vector2f velocity;
 

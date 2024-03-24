@@ -18,8 +18,6 @@ class SimRenderer : public IBoidListener, public IFoodSourceListener {
 	std::vector<BoidRenderer*> boidRenderers;
 	std::vector<FoodSourceRenderer*> foodSourceRenderers;
 
-	void drawBoid(BoidRenderer &renderer);
-
 	sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:

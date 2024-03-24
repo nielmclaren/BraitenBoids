@@ -60,7 +60,7 @@ int main() {
     window.setFramerateLimit(60);
 
     sf::Vector2u size = window.getSize();
-    Simulation simulation(size.x, size.y);
+    Simulation simulation(static_cast<float>(size.x), static_cast<float>(size.y));
     SimRenderer simRenderer(simulation, window);
     simulation.init();
 
