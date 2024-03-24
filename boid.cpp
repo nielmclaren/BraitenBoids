@@ -32,7 +32,7 @@ void Boid::step(float timeDelta) {
 	FoodSource* foodSource = simulation->getNearestFoodSource(position);
 	if (foodSource != nullptr) {
 		Vector2f toFoodSource = foodSource->position - position;
-		float dist = (toFoodSource).norm();
+		float dist = toFoodSource.norm();
 		if (dist <= senseRadius) {
 			float angleBetween = atan2(direction.x() * toFoodSource.y() - direction.y() * toFoodSource.x(), toFoodSource.dot(direction));
 			Rotation2Df rotation(angleBetween * 0.01f);

@@ -40,7 +40,7 @@ void SimRenderer::draw() {
     }
 
     for (std::vector<FoodSourceRenderer*>::iterator it = begin(foodSourceRenderers); it != end(foodSourceRenderers); ++it) {
-        window->draw(*((*it)->shape));
+        (*it)->draw(*window);
     }
 
     avatarRenderer->draw(*window);
@@ -64,13 +64,7 @@ void SimRenderer::boidDeleted(Boid* boid) {
 }
 
 void SimRenderer::foodSourceCreated(FoodSource* foodSource) {
-    float radius = foodSource->radius;
-    sf::Shape* shape = new sf::CircleShape(radius);
-    shape->setFillColor(sf::Color(0, 128, 0));
-    shape->setOrigin(radius, radius);
-    shape->setPosition(eigenToSfml(foodSource->position));
-
-    FoodSourceRenderer* renderer = new FoodSourceRenderer(foodSource, shape);
+    FoodSourceRenderer* renderer = new FoodSourceRenderer(foodSource);
     foodSourceRenderers.push_back(renderer);
 }
 
