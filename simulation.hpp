@@ -41,12 +41,15 @@ public:
 
 	Avatar avatar;
 
-	Simulation(int w, int h);
+	Simulation(float w, float h);
 	~Simulation();
 
 	void init();
 	void setPlayerDirection(Vector2f direction);
 	void step(float timeDelta);
+
+	FoodSource* getNearestFoodSource(Vector2f& point);
+	float distanceToNearestFoodSource(Vector2f& point);
 
 	void registerBoidListener(IBoidListener* listener);
 	void registerFoodSourceListener(IFoodSourceListener* listener);

@@ -8,12 +8,21 @@
 #include "ifood_source_listener.hpp"
 
 class SimRenderer : public IBoidListener, public IFoodSourceListener {
+	const float pi = std::acos(-1.0f);
+
 	Simulation *simulation;
 	sf::RenderWindow *window;
 
-	sf::CircleShape *shape;
+	sf::CircleShape *avatarShape;
+	sf::RectangleShape* avatarDirectionShape;
+	sf::RectangleShape* avatarNewDirectionShape;
+	sf::RectangleShape* avatarToFoodSourceShape;
+
 	std::vector<BoidRenderer*> boidRenderers;
 	std::vector<FoodSourceRenderer*> foodSourceRenderers;
+
+	void drawAvatar();
+	void drawBoid(BoidRenderer &renderer);
 
 	sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 

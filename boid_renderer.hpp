@@ -6,7 +6,8 @@
 class BoidRenderer {
 public:
 	Boid* boid;
-	sf::Shape* shape;
+	sf::CircleShape* body;
+	sf::RectangleShape* toNearestFoodSource;
 
-	BoidRenderer(Boid* boid, sf::Shape* shape);
+	BoidRenderer(Boid* boid, sf::CircleShape* bodyShape, sf::RectangleShape* toNearestFoodSourceShape);
 };

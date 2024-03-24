@@ -1,6 +1,7 @@
 #include "boid_renderer.hpp"
 
-BoidRenderer::BoidRenderer(Boid* b, sf::Shape* s) {
+BoidRenderer::BoidRenderer(Boid* b, sf::CircleShape* bodyShape, sf::RectangleShape* toNearestFoodSourceShape) {
 	boid = b;
-	shape = s;
+	body = bodyShape;
+	toNearestFoodSource = toNearestFoodSourceShape;
 }

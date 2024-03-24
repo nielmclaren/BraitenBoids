@@ -1,16 +1,20 @@
 #include <iostream>
+#include <limits>
 #include <Eigen/Dense>
 #include "collision_detection.hpp"
 #include "simulation.hpp"
 
 using Eigen::Vector2f;
 
-Simulation::Simulation(int w, int h) {
+Simulation::Simulation(float w, float h) {
     size.x() = w;
     size.y() = h;
 
     avatar.position.x() = w / 2.;
     avatar.position.y() = h / 2.;
+
+    avatar.direction.x() = 0;
+    avatar.direction.y() = -1;
 }
 
 Simulation::~Simulation() {
@@ -35,7 +39,7 @@ void Simulation::init() {
 void Simulation::initBoids() {
     int numBoids = 10;
     for (int i = 0; i < numBoids; i++) {
-        Boid* boid = new Boid(Vector2f(randf() * size.x(), randf() * size.y()));
+        Boid* boid = new Boid(this, Vector2f(randf() * size.x(), randf() * size.y()));
         boids.push_back(boid);
         boidCreated(boid);
     }
@@ -52,6 +56,10 @@ void Simulation::initFoodSources() {
 
 void Simulation::setPlayerDirection(Vector2f direction) {
     playerDirection = direction;
+
+    if (direction.norm() > 0) {
+        avatar.direction = direction;
+    }
 }
 
 void Simulation::step(float timeDelta) {
@@ -102,8 +110,9 @@ void Simulation::stepFoodSources(float timeDelta) {
     for (std::vector<FoodSource*>::iterator it = begin(foodSources); it != end(foodSources); ) {
         if (CollisionDetection::detect(avatar, **it)) {
             FoodSource* doomedFoodSource = *it;
-            it = foodSources.erase(it);
             foodSourceDeleted(doomedFoodSource);
+            delete doomedFoodSource;
+            it = foodSources.erase(it);
         }
         else {
             it++;
@@ -111,6 +120,36 @@ void Simulation::stepFoodSources(float timeDelta) {
     }
 }
 
+FoodSource* Simulation::getNearestFoodSource(Vector2f& point) {
+    FoodSource* nearest = nullptr;
+    float nearestDist = std::numeric_limits<float>::max();
+    for (std::vector<FoodSource*>::iterator it = begin(foodSources); it != end(foodSources); ++it) {
+        FoodSource* curr = *it;
+        float dist = (curr->position - point).norm();
+        if (dist < nearestDist) {
+            nearest = curr;
+            nearestDist = dist;
+        }
+    }
+    return nearest;
+}
+
+float Simulation::distanceToNearestFoodSource(Vector2f& point) {
+    if (foodSources.size() <= 0) {
+        return -1;
+    }
+
+    float nearestDist = std::numeric_limits<float>::max();
+    for (std::vector<FoodSource*>::iterator it = begin(foodSources); it != end(foodSources); ++it) {
+        FoodSource* curr = *it;
+        float dist = (curr->position - point).norm();
+        if (dist < nearestDist) {
+            nearestDist = dist;
+        }
+    }
+    return nearestDist;
+
+}
 
 void Simulation::registerBoidListener(IBoidListener* listener) {
     boidListeners.push_back(listener);
