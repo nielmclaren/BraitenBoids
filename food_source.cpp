@@ -1,3 +1,4 @@
+#include <iostream>
 #include "food_source.hpp"
 
 using Eigen::Vector2f;
@@ -13,4 +14,8 @@ FoodSource::FoodSource(Vector2f pos) {
 
 unsigned int FoodSource::getId() {
 	return id;
+}
+
+void FoodSource::handleCollision(ICollidable* collidable) {
+	std::cout << "Food source handle collision." << std::endl;
 }

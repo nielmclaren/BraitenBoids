@@ -67,6 +67,7 @@ void Simulation::step(float timeDelta) {
     stepAvatar(timeDelta);
     stepBoids(timeDelta);
     stepFoodSources(timeDelta);
+    handleCollisions();
 }
 
 void Simulation::stepAvatar(float timeDelta) {
@@ -107,16 +108,42 @@ void Simulation::stepBoids(float timeDelta) {
     }
 }
 
-void Simulation::stepFoodSources(float timeDelta) {
+void Simulation::stepFoodSources(float timeDelta) {}
+
+void Simulation::handleCollisions() {
     for (std::vector<FoodSource*>::iterator it = begin(foodSources); it != end(foodSources); ) {
         if (CollisionDetection::detect(*avatar, **it)) {
             FoodSource* doomedFoodSource = *it;
+
+            doomedFoodSource->handleCollision(avatar);
+            avatar->handleCollision(doomedFoodSource);
+
             foodSourceDeleted(doomedFoodSource);
             delete doomedFoodSource;
             it = foodSources.erase(it);
         }
         else {
             it++;
+        }
+    }
+
+    for (std::vector<Boid*>::iterator boidIter = begin(boids); boidIter != end(boids); ++boidIter) {
+        Boid* boid = *boidIter;
+
+        for (std::vector<FoodSource*>::iterator foodIter = begin(foodSources); foodIter != end(foodSources); ) {
+            FoodSource* foodSource = *foodIter;
+
+            if (CollisionDetection::detect(*boid, *foodSource)) {
+                foodSource->handleCollision(boid);
+                boid->handleCollision(foodSource);
+
+                foodSourceDeleted(foodSource);
+                delete foodSource;
+                foodIter = foodSources.erase(foodIter);
+            }
+            else {
+                foodIter++;
+            }
         }
     }
 }

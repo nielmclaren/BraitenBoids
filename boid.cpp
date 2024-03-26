@@ -11,6 +11,7 @@ unsigned int Boid::nextId = 0;
 
 Boid::Boid(Simulation* sim, Vector2f pos) {
 	id = Boid::nextId++;
+
 	simulation = sim;
 	position = pos;
 	direction << 1, 0;
@@ -19,6 +20,8 @@ Boid::Boid(Simulation* sim, Vector2f pos) {
 
 	float speed = 2;
 	velocity = direction * speed;
+
+	numFoodsEaten = 0;
 
 	radius = 8.f;
 	senseRadius = 200.f;
@@ -44,6 +47,12 @@ void Boid::step(float timeDelta) {
 	}
 
 	position += velocity;
+}
+
+
+void Boid::handleCollision(ICollidable* collidable) {
+	numFoodsEaten++;
+	std::cout << "Boid handle collision; numFoodsEaten=" << numFoodsEaten << std::endl;
 }
 
 float Boid::randf() {

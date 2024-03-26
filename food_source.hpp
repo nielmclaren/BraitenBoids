@@ -1,10 +1,11 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include "icollidable.hpp"
 
 using Eigen::Vector2f;
 
-class FoodSource {
+class FoodSource : public ICollidable {
 	static unsigned int nextId;
 	unsigned int id;
 
@@ -14,4 +15,6 @@ public:
 
 	FoodSource(Vector2f pos);
 	unsigned int getId();
+
+	void handleCollision(ICollidable* collidable);
 };

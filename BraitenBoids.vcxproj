@@ -38,6 +38,7 @@
     <ClInclude Include="collision_detection.hpp" />
     <ClInclude Include="food_source.hpp" />
     <ClInclude Include="food_source_renderer.hpp" />
+    <ClInclude Include="icollidable.hpp" />
     <ClInclude Include="ifood_source_listener.hpp" />
     <ClInclude Include="simulation.hpp" />
     <ClInclude Include="sim_renderer.hpp" />

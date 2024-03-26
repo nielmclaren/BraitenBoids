@@ -1,11 +1,14 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include "icollidable.hpp"
 
 using Eigen::Vector2f;
 
 class Simulation;
-class Avatar {
+class Avatar : public ICollidable {
+	unsigned int numFoodsEaten;
+
 public:
 	Simulation* simulation;
 	float radius;
@@ -14,5 +17,7 @@ public:
 	Vector2f direction;
 
 	Avatar(Simulation* simulation);
+
+	void handleCollision(ICollidable* collidable);
 };
 

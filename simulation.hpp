@@ -21,6 +21,7 @@ class Simulation {
 	void stepAvatar(float timeDelta);
 	void stepBoids(float timeDelta);
 	void stepFoodSources(float timeDelta);
+	void handleCollisions();
 
 	void boidCreated(Boid* boid);
 	void boidDeleted(Boid* boid);

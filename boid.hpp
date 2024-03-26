@@ -1,15 +1,18 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include "icollidable.hpp"
 
 using Eigen::Vector2f;
 
 class Simulation;
-class Boid {
+class Boid : public ICollidable {
 	const float pi = std::acos(-1.0f);
 
 	static unsigned int nextId;
 	unsigned int id;
+
+	unsigned int numFoodsEaten;
 
 	float randf();
 
@@ -29,4 +32,6 @@ public:
 	unsigned int getId();
 
 	void step(float timeDelta);
+
+	void handleCollision(ICollidable* collidable);
 };
