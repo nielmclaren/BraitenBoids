@@ -1,13 +1,17 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <Eigen/Dense>
+#include "screenshot.hpp"
 #include "simulation.hpp"
 #include "sim_renderer.hpp"
 
 using Eigen::Vector2f;
 
 sf::Clock clockwork;
+
+Screenshot screenshot(".\\screenies");
 
 void handleEvent(sf::RenderWindow &window) {
     sf::Event event;
@@ -21,6 +25,9 @@ void handleEvent(sf::RenderWindow &window) {
             case sf::Event::KeyReleased: {
                 if (event.key.scancode == sf::Keyboard::Scan::Escape) {
                     window.close();
+                }
+                if (event.key.scancode == sf::Keyboard::Scan::R) {
+                    screenshot.capture(window);
                 }
                 break;
             }
