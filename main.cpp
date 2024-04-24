@@ -12,6 +12,7 @@ using Eigen::Vector2f;
 sf::Clock clockwork;
 
 Screenshot screenshot(".\\screenies");
+bool isRecording = false;
 
 void handleEvent(sf::RenderWindow &window) {
     sf::Event event;
@@ -28,6 +29,14 @@ void handleEvent(sf::RenderWindow &window) {
                 }
                 if (event.key.scancode == sf::Keyboard::Scan::R) {
                     screenshot.capture(window);
+                }
+                if (event.key.scancode == sf::Keyboard::Scan::G) {
+                    isRecording = !isRecording;
+                    if (isRecording) {
+                        screenshot.startRecording(window);
+                    } else {
+                        screenshot.stopRecording();
+                    }
                 }
                 break;
             }
@@ -73,12 +82,17 @@ int main() {
 
     while (window.isOpen()) {
         sf::Time elapsed = clockwork.getElapsedTime();
+        float elapsedSeconds = elapsed.asSeconds();
         clockwork.restart();
 
         handleEvent(window);
         simulation.setPlayerDirection(getPlayerInputDirection());
-        simulation.step(elapsed.asSeconds());
+        simulation.step(elapsedSeconds);
         simRenderer.draw();
+
+        if (isRecording) {
+            screenshot.step(window);
+        }
     }
 
     return 0;

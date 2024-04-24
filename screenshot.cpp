@@ -9,12 +9,9 @@
 
 namespace fs = std::filesystem;
 
-Screenshot::Screenshot(std::string basePath) {
-    nextBuildNum = getNextBuildNum(basePath);
-    buildPath = getBuildPath(basePath, nextBuildNum);
-    nextFrameNum = 0;
-
-    std::cout << "buildPath=" << buildPath << std::endl;
+Screenshot::Screenshot(std::string basePathArg) {
+    basePath = basePathArg;
+    isRecording = false;
 }
 
 Screenshot::~Screenshot() {}
@@ -35,6 +32,44 @@ void Screenshot::capture(sf::RenderWindow& window) {
     }
 
     nextFrameNum++;
+}
+
+void Screenshot::startRecording(sf::RenderWindow& window) {
+    recordingFrameTextures.clear();
+    isRecording = true;
+}
+
+void Screenshot::step(sf::RenderWindow& window) {
+    sf::Texture texture;
+    texture.create(window.getSize().x, window.getSize().y);
+    texture.update(window);
+
+    recordingFrameTextures.push_back(texture);
+}
+
+void Screenshot::stopRecording() {
+    nextBuildNum = getNextBuildNum(basePath);
+    buildPath = getBuildPath(basePath, nextBuildNum);
+    nextFrameNum = 0;
+
+    std::cout << "Saving screenshots to " << buildPath << std::endl;
+
+    for (sf::Texture frameTexture : recordingFrameTextures) {
+        std::string framePath = getFramePath(buildPath, nextFrameNum);
+
+        if (nextFrameNum == 0) {
+            std::filesystem::create_directories(buildPath);
+        }
+
+        if (frameTexture.copyToImage().saveToFile(framePath)) {
+            std::cout << "screenshot saved to " << framePath << std::endl;
+        }
+
+        nextFrameNum++;
+    }
+
+    recordingFrameTextures.clear();
+    isRecording = false;
 }
 
 int Screenshot::getNextBuildNum(std::string basePath) {

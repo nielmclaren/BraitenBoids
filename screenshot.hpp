@@ -3,6 +3,12 @@
 #include <filesystem>
 
 class Screenshot {
+	static const int frameInterval = 10;
+	int currFrame;
+
+	std::vector<sf::Texture> recordingFrameTextures;
+
+	std::string basePath;
 	std::string buildPath;
 
 	int nextBuildNum;
@@ -20,5 +26,10 @@ public:
 	Screenshot(std::string screenshotDirPath);
 	~Screenshot();
 
+	bool isRecording;
+
 	void capture(sf::RenderWindow& window);
+	void startRecording(sf::RenderWindow& window);
+	void step(sf::RenderWindow& window);
+	void stopRecording();
 };
