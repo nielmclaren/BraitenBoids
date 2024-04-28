@@ -11,26 +11,22 @@ namespace fs = std::filesystem;
 
 Screenshot::Screenshot() :
         buildNamer("screenies/", "build", "/"),
-        frameNamer(buildNamer.curr(), "frame", "png"),
-        isRecording(false) {
-}
+        frameNamer(buildNamer.curr(), "frame", "png") {}
 
 void Screenshot::capture(sf::RenderWindow& window) {
     std::string buildPath = buildNamer.curr();
-    std::cout << "buildPath=" << buildPath << std::endl;
-
     std::string framePath = frameNamer.curr();
-    std::cout << "framePath=" << framePath << std::endl;
 
-    if (frameNamer.currIndex() == 0) {
+    if (!isBuildDirectoryCreated) {
         std::filesystem::create_directories(buildPath);
+        isBuildDirectoryCreated = true;
     }
 
     sf::Texture texture;
     texture.create(window.getSize().x, window.getSize().y);
     texture.update(window);
     if (texture.copyToImage().saveToFile(framePath)) {
-        std::cout << "screenshot saved to " << framePath << std::endl;
+        std::cout << "Screenshot saved to " << framePath << std::endl;
     }
 
     frameNamer.next();
@@ -62,18 +58,16 @@ void Screenshot::step(sf::RenderWindow& window) {
 
 void Screenshot::stopRecording() {
     std::string buildPath = buildNamer.curr();
-    std::cout << "buildPath=" << buildPath << std::endl;
+
+    if (!isBuildDirectoryCreated) {
+        std::filesystem::create_directories(buildPath);
+        isBuildDirectoryCreated = true;
+    }
 
     for (sf::Texture frameTexture : recordingFrameTextures) {
         std::string framePath = frameNamer.curr();
-        std::cout << "framePath=" << framePath << std::endl;
-
-        if (frameNamer.currIndex() == 0) {
-            std::filesystem::create_directories(buildPath);
-        }
-
         if (frameTexture.copyToImage().saveToFile(framePath)) {
-            std::cout << "screenshot saved to " << framePath << std::endl;
+            std::cout << "Screenshot saved to " << framePath << std::endl;
         }
 
         frameNamer.next();

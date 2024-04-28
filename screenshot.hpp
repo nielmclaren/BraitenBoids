@@ -8,7 +8,8 @@ class Screenshot {
 	FileNamer buildNamer;
 	FileNamer frameNamer;
 
-	bool isRecording;
+	bool isRecording = false;
+	bool isBuildDirectoryCreated = false;
 
 	std::vector<sf::Texture> recordingFrameTextures;
 

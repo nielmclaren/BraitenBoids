@@ -49,16 +49,13 @@ int FileNamer::getInitialIndex() {
     int highestIndex = -1;
     for (const auto& entry : fs::directory_iterator(basePath)) {
         std::string path = entry.path().string();
-        std::cout << "regex=" << regex << "\t" << "path=" << path << std::endl;
         if (std::regex_search(path, matches, re)) {
             int index = stoi(matches[1]);
-            std::cout << "MATCH " << index << std::endl;
             if (index > highestIndex) {
                 highestIndex = index;
             }
         }
     }
-    std::cout << "highest index = " << highestIndex << std::endl;
     return highestIndex + 1;
 }
 
