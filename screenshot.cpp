@@ -9,18 +9,20 @@
 
 namespace fs = std::filesystem;
 
-Screenshot::Screenshot(std::string basePathArg) {
-    basePath = basePathArg;
-    isRecording = false;
+Screenshot::Screenshot() :
+        buildNamer("screenies/", "build", "/"),
+        frameNamer(buildNamer.curr(), "frame", "png"),
+        isRecording(false) {
 }
 
-Screenshot::~Screenshot() {}
-
 void Screenshot::capture(sf::RenderWindow& window) {
-    std::string framePath = getFramePath(buildPath, nextFrameNum);
+    std::string buildPath = buildNamer.curr();
+    std::cout << "buildPath=" << buildPath << std::endl;
+
+    std::string framePath = frameNamer.curr();
     std::cout << "framePath=" << framePath << std::endl;
 
-    if (nextFrameNum == 0) {
+    if (frameNamer.currIndex() == 0) {
         std::filesystem::create_directories(buildPath);
     }
 
@@ -31,33 +33,42 @@ void Screenshot::capture(sf::RenderWindow& window) {
         std::cout << "screenshot saved to " << framePath << std::endl;
     }
 
-    nextFrameNum++;
+    frameNamer.next();
 }
 
-void Screenshot::startRecording(sf::RenderWindow& window) {
+void Screenshot::toggleRecording() {
+    if (isRecording) {
+        stopRecording();
+    }
+    else {
+        startRecording();
+    }
+}
+
+void Screenshot::startRecording() {
     recordingFrameTextures.clear();
     isRecording = true;
 }
 
 void Screenshot::step(sf::RenderWindow& window) {
-    sf::Texture texture;
-    texture.create(window.getSize().x, window.getSize().y);
-    texture.update(window);
+    if (isRecording) {
+        sf::Texture texture;
+        texture.create(window.getSize().x, window.getSize().y);
+        texture.update(window);
 
-    recordingFrameTextures.push_back(texture);
+        recordingFrameTextures.push_back(texture);
+    }
 }
 
 void Screenshot::stopRecording() {
-    nextBuildNum = getNextBuildNum(basePath);
-    buildPath = getBuildPath(basePath, nextBuildNum);
-    nextFrameNum = 0;
-
-    std::cout << "Saving screenshots to " << buildPath << std::endl;
+    std::string buildPath = buildNamer.curr();
+    std::cout << "buildPath=" << buildPath << std::endl;
 
     for (sf::Texture frameTexture : recordingFrameTextures) {
-        std::string framePath = getFramePath(buildPath, nextFrameNum);
+        std::string framePath = frameNamer.curr();
+        std::cout << "framePath=" << framePath << std::endl;
 
-        if (nextFrameNum == 0) {
+        if (frameNamer.currIndex() == 0) {
             std::filesystem::create_directories(buildPath);
         }
 
@@ -65,45 +76,11 @@ void Screenshot::stopRecording() {
             std::cout << "screenshot saved to " << framePath << std::endl;
         }
 
-        nextFrameNum++;
+        frameNamer.next();
     }
 
     recordingFrameTextures.clear();
     isRecording = false;
-}
-
-int Screenshot::getNextBuildNum(std::string basePath) {
-    std::stringstream ss;
-    ss << escapeRegex(basePath) << R"(\\build(\d+))";
-    std::string regex = ss.str();
-    std::regex re(regex, std::regex_constants::ECMAScript);
-    std::smatch matches;
-
-    int highestBuildNum = -1;
-    for (const auto& entry : fs::directory_iterator(basePath)) {
-        std::string path = entry.path().string();
-        std::cout << "regex=" << regex << "\t" << "path=" << path << std::endl;
-        if (std::regex_search(path, matches, re)) {
-            int buildNum = stoi(matches[1]);
-            std::cout << "MATCH" << buildNum << std::endl;
-            if (buildNum > highestBuildNum) {
-                highestBuildNum = buildNum;
-            }
-        }
-    }
-    return highestBuildNum + 1;
-}
-
-std::string Screenshot::getBuildPath(std::string basePath, int buildNum) {
-    std::stringstream ss;
-    ss << basePath << "\\build" << pad(buildNum);
-    return ss.str();
-}
-
-std::string Screenshot::getFramePath(std::string buildPath, int frameNum) {
-    std::stringstream ss;
-    ss << buildPath << "\\frame" << pad(frameNum) << ".png";
-    return ss.str();
 }
 
 std::string Screenshot::pad(int n) {

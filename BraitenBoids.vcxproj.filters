@@ -48,6 +48,9 @@
     <ClCompile Include="screenshot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="file_namer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avatar.hpp">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="screenshot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="file_namer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

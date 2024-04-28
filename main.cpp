@@ -3,6 +3,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <Eigen/Dense>
+#include "file_namer.hpp"
 #include "screenshot.hpp"
 #include "simulation.hpp"
 #include "sim_renderer.hpp"
@@ -11,8 +12,7 @@ using Eigen::Vector2f;
 
 sf::Clock clockwork;
 
-Screenshot screenshot(".\\screenies");
-bool isRecording = false;
+Screenshot screenshot;
 
 void handleEvent(sf::RenderWindow &window) {
     sf::Event event;
@@ -31,12 +31,7 @@ void handleEvent(sf::RenderWindow &window) {
                     screenshot.capture(window);
                 }
                 if (event.key.scancode == sf::Keyboard::Scan::G) {
-                    isRecording = !isRecording;
-                    if (isRecording) {
-                        screenshot.startRecording(window);
-                    } else {
-                        screenshot.stopRecording();
-                    }
+                    screenshot.toggleRecording();
                 }
                 break;
             }
@@ -90,9 +85,7 @@ int main() {
         simulation.step(elapsedSeconds);
         simRenderer.draw();
 
-        if (isRecording) {
-            screenshot.step(window);
-        }
+        screenshot.step(window);
     }
 
     return 0;

@@ -1,35 +1,27 @@
 #pragma once
 
 #include <filesystem>
+#include <SFML/Graphics.hpp>
+#include "file_namer.hpp"
 
 class Screenshot {
-	static const int frameInterval = 10;
-	int currFrame;
+	FileNamer buildNamer;
+	FileNamer frameNamer;
+
+	bool isRecording;
 
 	std::vector<sf::Texture> recordingFrameTextures;
-
-	std::string basePath;
-	std::string buildPath;
-
-	int nextBuildNum;
-	int nextFrameNum;
-
-	int getNextBuildNum(std::string basePath);
-
-	std::string getBuildPath(std::string basePath, int buildNum);
-	std::string getFramePath(std::string buildPath, int frameNum);
 
 	std::string pad(int n);
 	std::string escapeRegex(std::string regex);
 
 public:
-	Screenshot(std::string screenshotDirPath);
-	~Screenshot();
-
-	bool isRecording;
+	Screenshot();
 
 	void capture(sf::RenderWindow& window);
-	void startRecording(sf::RenderWindow& window);
+
+	void toggleRecording();
+	void startRecording();
 	void step(sf::RenderWindow& window);
 	void stopRecording();
 };
