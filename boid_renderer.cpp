@@ -6,18 +6,25 @@ BoidRenderer::BoidRenderer(Boid* b) {
 	boid = b;
 
     float radius = boid->radius;
+
     bodyShape = new sf::CircleShape(radius);
     bodyShape->setFillColor(sf::Color(0, 128, 0));
     bodyShape->setOrigin(radius, radius);
-    bodyShape->setPosition(eigenToSfml(boid->position));
+
+    directionShape = new sf::ConvexShape();
+    directionShape->setFillColor(sf::Color(33, 33, 33));
+    directionShape->setPointCount(3);
+    directionShape->setPoint(0, sf::Vector2f(radius * 0.6f, 0));
+    directionShape->setPoint(1, sf::Vector2f(-radius * 0.4f, -radius * 0.4f));
+    directionShape->setPoint(2, sf::Vector2f(-radius * 0.4f, +radius * 0.4f));
 
     toNearestFoodSourceShape = new sf::RectangleShape(sf::Vector2f(15.f, 1.f));
     toNearestFoodSourceShape->setFillColor(sf::Color::Green);
-
 }
 
 BoidRenderer::~BoidRenderer() {
     delete bodyShape;
+    delete directionShape;
     delete toNearestFoodSourceShape;
 }
 
@@ -26,8 +33,9 @@ void BoidRenderer::draw(sf::RenderWindow& window) {
     Vector2f direction = boid->direction;
 
     // Worth assuming the position changed every frame.
-    bodyShape->setPosition(eigenToSfml(position));
-    window.draw(*bodyShape);
+    transform.setPosition(eigenToSfml(position));
+    transform.setRotation(atan2(direction.y(), direction.x()) * 180 / pi);
+
     FoodSource* nearestFoodSource = boid->simulation->getNearestFoodSource(position);
     if (nearestFoodSource != nullptr) {
         Vector2f toFoodSource = nearestFoodSource->position - position;
@@ -39,6 +47,9 @@ void BoidRenderer::draw(sf::RenderWindow& window) {
             window.draw(*toNearestFoodSourceShape);
         }
     }
+
+    window.draw(*bodyShape, transform.getTransform());
+    window.draw(*directionShape, transform.getTransform());
 }
 
 sf::Vector2f BoidRenderer::eigenToSfml(Eigen::Vector2f v) {
