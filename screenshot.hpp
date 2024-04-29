@@ -11,6 +11,10 @@ class Screenshot {
 	bool isRecording = false;
 	bool isBuildDirectoryCreated = false;
 
+	// When recording, only capture one in every x frames.
+	int frameInterval;
+	int frameIntervalRemaining = 0;
+
 	std::vector<sf::Texture> recordingFrameTextures;
 
 	std::string pad(int n);
@@ -18,11 +22,12 @@ class Screenshot {
 
 public:
 	Screenshot();
+	Screenshot(int frameInterval);
 
 	void capture(sf::RenderWindow& window);
 
 	void toggleRecording();
 	void startRecording();
-	void step(sf::RenderWindow& window);
+	void frameChanged(sf::RenderWindow& window);
 	void stopRecording();
 };

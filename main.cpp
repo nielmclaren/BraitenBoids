@@ -85,7 +85,7 @@ int main() {
         simulation.step(elapsedSeconds);
         simRenderer.draw();
 
-        screenshot.step(window);
+        screenshot.frameChanged(window);
     }
 
     return 0;

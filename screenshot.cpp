@@ -9,9 +9,13 @@
 
 namespace fs = std::filesystem;
 
-Screenshot::Screenshot() :
-        buildNamer("screenies/", "build", "/"),
-        frameNamer(buildNamer.curr(), "frame", "png") {}
+Screenshot::Screenshot() : Screenshot(3) {}
+
+Screenshot::Screenshot(int frameInterval) :
+    frameInterval(frameInterval),
+    buildNamer("screenies/", "build", "/"),
+    frameNamer(buildNamer.curr(), "frame", "png") {}
+    
 
 void Screenshot::capture(sf::RenderWindow& window) {
     std::string buildPath = buildNamer.curr();
@@ -46,13 +50,17 @@ void Screenshot::startRecording() {
     isRecording = true;
 }
 
-void Screenshot::step(sf::RenderWindow& window) {
+void Screenshot::frameChanged(sf::RenderWindow& window) {
     if (isRecording) {
-        sf::Texture texture;
-        texture.create(window.getSize().x, window.getSize().y);
-        texture.update(window);
+        if (--frameIntervalRemaining <= 0) {
+            frameIntervalRemaining = frameInterval;
 
-        recordingFrameTextures.push_back(texture);
+            sf::Texture texture;
+            texture.create(window.getSize().x, window.getSize().y);
+            texture.update(window);
+
+            recordingFrameTextures.push_back(texture);
+        }
     }
 }
 
