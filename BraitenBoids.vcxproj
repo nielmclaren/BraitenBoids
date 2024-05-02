@@ -28,6 +28,7 @@
     <ClCompile Include="food_source.cpp" />
     <ClCompile Include="food_source_renderer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="neural_network.cpp" />
     <ClCompile Include="screenshot.cpp" />
     <ClCompile Include="simulation.cpp" />
     <ClCompile Include="sim_renderer.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="food_source_renderer.hpp" />
     <ClInclude Include="icollidable.hpp" />
     <ClInclude Include="ifood_source_listener.hpp" />
+    <ClInclude Include="neural_network.hpp" />
     <ClInclude Include="screenshot.hpp" />
     <ClInclude Include="simulation.hpp" />
     <ClInclude Include="sim_renderer.hpp" />

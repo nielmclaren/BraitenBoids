@@ -18,7 +18,7 @@ Boid::Boid(Simulation* sim, Vector2f pos) {
 	Rotation2Df rotation(randf() * 2 * pi);
 	direction = rotation.toRotationMatrix() * direction;
 
-	float speed = 2;
+	speed = 0;
 	velocity = direction * speed;
 
 	numFoodsEaten = 0;
@@ -32,27 +32,45 @@ unsigned int Boid::getId() {
 }
 
 void Boid::step(float timeDelta) {
+	float detectionNeuron = 0;
+	float directionNeuron = 0;
+
 	FoodSource* foodSource = simulation->getNearestFoodSource(position);
 	if (foodSource != nullptr) {
 		Vector2f toFoodSource = foodSource->position - position;
 		float dist = toFoodSource.norm();
 		if (dist <= senseRadius) {
-			float angleBetween = atan2(direction.x() * toFoodSource.y() - direction.y() * toFoodSource.x(), toFoodSource.dot(direction));
-			Rotation2Df rotation(angleBetween * 0.01f);
-			direction = rotation.toRotationMatrix() * direction;
+			detectionNeuron = (senseRadius - dist) / senseRadius;
 
-			float speed = 2;
-			velocity = direction * speed;
+			float angleBetween = atan2(direction.x() * toFoodSource.y() - direction.y() * toFoodSource.x(), toFoodSource.dot(direction));
+			directionNeuron = angleBetween / pi;
 		}
 	}
+
+	std::vector input({ detectionNeuron, directionNeuron });
+	std::vector output = neuralNetwork.forward(input);
+	float speedNeuron = output[0];
+	float turnNeuron = output[1];
+
+	float maxTurnDegrees = 1;
+	float turnAmount = std::min(abs(turnNeuron), maxTurnDegrees * pi / 180);
+	float turn = turnAmount == 0 ? turnAmount : turnAmount * turnNeuron / abs(turnNeuron);
+	Rotation2Df rotation(turn);
+	direction = rotation.toRotationMatrix() * direction;
+
+	speed = std::clamp(speed + linearInterp(speedNeuron, -1.f, 1.f, -0.1, 0.1), 0.f, MAX_SPEED);
+	velocity = direction * speed;
 
 	position += velocity;
 }
 
-
 void Boid::handleCollision(ICollidable* collidable) {
 	numFoodsEaten++;
 	std::cout << "Boid handle collision; numFoodsEaten=" << numFoodsEaten << std::endl;
+}
+
+float Boid::linearInterp(float v, float inLow, float inHigh, float outLow, float outHigh) {
+	return outLow + (v - inLow) * (outHigh - outLow) / (inHigh - inLow);
 }
 
 float Boid::randf() {

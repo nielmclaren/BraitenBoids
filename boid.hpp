@@ -2,18 +2,23 @@
 
 #include <Eigen/Dense>
 #include "icollidable.hpp"
+#include "neural_network.hpp"
 
 using Eigen::Vector2f;
 
 class Simulation;
 class Boid : public ICollidable {
 	const float pi = std::acos(-1.0f);
+	const float MAX_SPEED = 2;
 
 	static unsigned int nextId;
 	unsigned int id;
 
 	unsigned int numFoodsEaten;
 
+	NeuralNetwork neuralNetwork;
+
+	float linearInterp(float v, float inLow, float inHigh, float outLow, float outHigh);
 	float randf();
 
 public:
@@ -24,6 +29,8 @@ public:
 
 	// Remember direction even when velocity is zero.
 	Vector2f direction;
+
+	float speed;
 
 	float radius;
 	float senseRadius;
