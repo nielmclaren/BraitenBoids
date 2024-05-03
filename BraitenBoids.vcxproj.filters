@@ -54,6 +54,12 @@
     <ClCompile Include="neural_network.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main_generate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_visualize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avatar.hpp">
@@ -96,6 +102,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="neural_network.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_generate.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_visualize.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
