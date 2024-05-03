@@ -21,14 +21,14 @@ public:
 
 		std::string filename = "boids.csv";
 		std::ofstream file(filename);
-		file << "id, numFoodsEaten, ";
+		file << "id, generation, numFoodsEaten, ";
 		for (int i = 0; i < numWeights; i++) {
 			file << "w" << i << ", ";
 		}
 		file << std::endl;
 
 		for (int i = 0; i < numBoids; i++) {
-			file << i << ", " << 0 << ", ";
+			file << i << ", " << 0 << ", " << 0 << ", ";
 			for (int j = 0; j < numWeights; j++) {
 				file << randf();
 				if (j < numWeights - 1) {
