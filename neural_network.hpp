@@ -8,7 +8,7 @@ class NeuralNetwork {
     std::vector<float> weights;
 
 public:
-    NeuralNetwork();
+    NeuralNetwork(std::vector<float> weights);
 
     std::vector<float> forward(std::vector<float> input);
 };

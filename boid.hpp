@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include "boid_props.hpp"
 #include "icollidable.hpp"
 #include "neural_network.hpp"
 
@@ -11,8 +12,8 @@ class Boid : public ICollidable {
 	const float pi = std::acos(-1.0f);
 	const float MAX_SPEED = 2;
 
-	static unsigned int nextId;
 	unsigned int id;
+	unsigned int generationIndex;
 
 	unsigned int numFoodsEaten;
 
@@ -35,7 +36,7 @@ public:
 	float radius;
 	float senseRadius;
 
-	Boid(Simulation *sim, Vector2f pos);
+	Boid(Simulation *sim, BoidProps& boidProps, Vector2f pos);
 	unsigned int getId();
 
 	void step(float timeDelta);

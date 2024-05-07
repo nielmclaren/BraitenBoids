@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <Eigen/Dense>
@@ -15,6 +16,7 @@ class MainVisualize {
 
     Vector2f getPlayerInputDirection();
     void handleEvent(sf::RenderWindow& window);
+    void load(Simulation& simulation);
 
 public:
     int main(int argc, char* argv[]);

@@ -7,10 +7,11 @@
 using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
-unsigned int Boid::nextId = 0;
-
-Boid::Boid(Simulation* sim, Vector2f pos) {
-	id = Boid::nextId++;
+Boid::Boid(Simulation* sim, BoidProps& props, Vector2f pos) :
+    neuralNetwork(props.weights)
+{
+	id = props.id;
+	generationIndex = props.generationIndex;
 
 	simulation = sim;
 	position = pos;
@@ -58,7 +59,7 @@ void Boid::step(float timeDelta) {
 	Rotation2Df rotation(turn);
 	direction = rotation.toRotationMatrix() * direction;
 
-	speed = std::clamp(speed + linearInterp(speedNeuron, -1.f, 1.f, -0.1, 0.1), 0.f, MAX_SPEED);
+	speed = std::clamp(speed + linearInterp(speedNeuron, -1.f, 1.f, -0.1f, 0.1f), 0.f, MAX_SPEED);
 	velocity = direction * speed;
 
 	position += velocity;

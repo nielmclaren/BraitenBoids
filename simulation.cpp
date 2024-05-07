@@ -33,17 +33,7 @@ Simulation::~Simulation() {
 }
 
 void Simulation::init() {
-    initBoids();
     initFoodSources();
-}
-
-void Simulation::initBoids() {
-    int numBoids = 10;
-    for (int i = 0; i < numBoids; i++) {
-        Boid* boid = new Boid(this, Vector2f(randf() * size.x(), randf() * size.y()));
-        boids.push_back(boid);
-        boidCreated(boid);
-    }
 }
 
 void Simulation::initFoodSources() {
@@ -146,6 +136,12 @@ void Simulation::handleCollisions() {
             }
         }
     }
+}
+
+void Simulation::addBoid(BoidProps boidProps) {
+    Boid* boid = new Boid(this, boidProps, Vector2f(randf() * size.x(), randf() * size.y()));
+    boids.push_back(boid);
+    boidCreated(boid);
 }
 
 FoodSource* Simulation::getNearestFoodSource(Vector2f& point) {

@@ -1,7 +1,14 @@
 #include "neural_network.hpp"
 
-NeuralNetwork::NeuralNetwork() :
-	weights({ -0.2, 1, 0, 0, 0, 1 }) {}
+NeuralNetwork::NeuralNetwork(std::vector<float> weights) :
+	weights(weights) {
+		std::cout << "NeuralNetwork: ";
+	for (auto& w : weights) {
+		std::cout << w << ", ";
+	}
+	std::cout << std::endl;
+}
+//	weights({ -0.2, 1, 0, 0, 0, 1 }) {}
 
 std::vector<float> NeuralNetwork::forward(std::vector<float> input) {
 	assert(input.size() == 2);

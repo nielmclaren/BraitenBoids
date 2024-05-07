@@ -6,7 +6,7 @@
 class MainGenerate {
 
 	float randf() {
-		return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		return 2.f * static_cast <float> (rand()) / static_cast <float> (RAND_MAX) - 1.f;
 	}
 
 public:
@@ -21,20 +21,21 @@ public:
 
 		std::string filename = "boids.csv";
 		std::ofstream file(filename);
-		file << "id, generation, numFoodsEaten, ";
-		for (int i = 0; i < numWeights; i++) {
-			file << "w" << i << ", ";
-		}
-		file << std::endl;
+
+		file << "id, generation, numFoodsEaten, w0, w1, w2, w3, w4, w5" << std::endl;
 
 		for (int i = 0; i < numBoids; i++) {
+			// boid ID, generation index, number of food sources consumed
 			file << i << ", " << 0 << ", " << 0 << ", ";
+
+			// neural network weights
 			for (int j = 0; j < numWeights; j++) {
 				file << randf();
 				if (j < numWeights - 1) {
 					file << ", ";
 				}
 			}
+
 			file << std::endl;
 		}
 

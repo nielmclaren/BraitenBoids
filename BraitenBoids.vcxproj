@@ -22,12 +22,14 @@
     <ClCompile Include="avatar.cpp" />
     <ClCompile Include="avatar_renderer.cpp" />
     <ClCompile Include="boid.cpp" />
+    <ClCompile Include="boid_props.cpp" />
     <ClCompile Include="boid_renderer.cpp" />
     <ClCompile Include="collision_detection.cpp" />
     <ClCompile Include="file_namer.cpp" />
     <ClCompile Include="food_source.cpp" />
     <ClCompile Include="food_source_renderer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_evaluate.cpp" />
     <ClCompile Include="main_generate.cpp" />
     <ClCompile Include="main_visualize.cpp" />
     <ClCompile Include="neural_network.cpp" />
@@ -39,6 +41,7 @@
     <ClInclude Include="avatar.hpp" />
     <ClInclude Include="avatar_renderer.hpp" />
     <ClInclude Include="boid.hpp" />
+    <ClInclude Include="boid_props.hpp" />
     <ClInclude Include="boid_renderer.hpp" />
     <ClInclude Include="collision_detection.hpp" />
     <ClInclude Include="file_namer.hpp" />
@@ -46,6 +49,7 @@
     <ClInclude Include="food_source_renderer.hpp" />
     <ClInclude Include="icollidable.hpp" />
     <ClInclude Include="ifood_source_listener.hpp" />
+    <ClInclude Include="main_evaluate.hpp" />
     <ClInclude Include="main_generate.hpp" />
     <ClInclude Include="main_visualize.hpp" />
     <ClInclude Include="neural_network.hpp" />

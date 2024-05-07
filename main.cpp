@@ -1,4 +1,5 @@
 #include <iostream>
+#include "main_evaluate.hpp"
 #include "main_generate.hpp"
 #include "main_visualize.hpp"
 
@@ -28,8 +29,8 @@ int main(int argc, char* argv[]) {
     }
 
     if (!strcmp(argv[1], "evaluate")) {
-        std::cout << "evaluate command not implemented." << std::endl;
-        return 0;
+        MainEvaluate m;
+        return m.main(argc, argv);
     }
 
     if (!strcmp(argv[1], "select")) {
