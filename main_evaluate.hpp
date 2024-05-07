@@ -11,13 +11,12 @@ class MainEvaluate {
 	}
 
 public:
-	int main(int argc, char* argv[]) {
+	MainEvaluate(int argc, char* argv[]) {
 
 		// Seed the random number generator.
 		srand(static_cast <unsigned> (time(0)));
 
 		std::cout << "evaluate command" << std::endl;
-		return 0;
 	}
 };
 

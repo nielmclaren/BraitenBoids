@@ -24,13 +24,13 @@ int main(int argc, char* argv[]) {
     }
 
     if (!strcmp(argv[1], "generate")) {
-        MainGenerate m;
-        return m.main(argc, argv);
+        MainGenerate m(argc, argv);
+        return 0;
     }
 
     if (!strcmp(argv[1], "evaluate")) {
-        MainEvaluate m;
-        return m.main(argc, argv);
+        MainEvaluate m(argc, argv);
+        return 0;
     }
 
     if (!strcmp(argv[1], "select")) {
@@ -39,8 +39,8 @@ int main(int argc, char* argv[]) {
     }
 
     if (!strcmp(argv[1], "visualize")) {
-        MainVisualize m;
-        return m.main(argc, argv);
+        MainVisualize m(argc, argv);
+        return 0;
     }
 
     std::cout << "Unknown command: " << argv[1] << std::endl;

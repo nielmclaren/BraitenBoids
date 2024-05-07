@@ -12,6 +12,11 @@ using Eigen::Vector2f;
 
 class MainVisualize {
     sf::Clock clockwork;
+
+    sf::RenderWindow window;
+    Simulation simulation;
+    SimRenderer simRenderer;
+
     Screenshot screenshot;
 
     Vector2f getPlayerInputDirection();
@@ -19,6 +24,6 @@ class MainVisualize {
     void load(Simulation& simulation);
 
 public:
-    int main(int argc, char* argv[]);
+    MainVisualize(int argc, char* argv[]);
 };
 

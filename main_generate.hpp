@@ -10,7 +10,7 @@ class MainGenerate {
 	}
 
 public:
-	int main(int argc, char* argv[]) {
+	MainGenerate(int argc, char* argv[]) {
 		// Seed the random number generator.
 		srand(static_cast <unsigned> (time(0)));
 
@@ -40,8 +40,6 @@ public:
 		}
 
         file.close();
-
-		return 0;
 	}
 };
 
