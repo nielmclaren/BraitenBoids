@@ -32,6 +32,18 @@ unsigned int Boid::getId() {
 	return id;
 }
 
+std::vector<float> Boid::getWeights() {
+	return neuralNetwork.getWeights();
+}
+
+int Boid::getGenerationIndex() {
+	return generationIndex;
+}
+
+int Boid::getNumFoodsEaten() {
+	return numFoodsEaten;
+}
+
 void Boid::step(float timeDelta) {
 	float detectionNeuron = 0;
 	float directionNeuron = 0;

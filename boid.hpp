@@ -39,6 +39,10 @@ public:
 	Boid(Simulation *sim, BoidProps& boidProps, Vector2f pos);
 	unsigned int getId();
 
+	int getGenerationIndex();
+	int getNumFoodsEaten();
+	std::vector<float> getWeights();
+
 	void step(float timeDelta);
 
 	void handleCollision(ICollidable* collidable);

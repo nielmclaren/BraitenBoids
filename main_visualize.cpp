@@ -69,6 +69,9 @@ void MainVisualize::handleEvent(sf::RenderWindow& window) {
             if (event.key.scancode == sf::Keyboard::Scan::G) {
                 screenshot.toggleRecording();
             }
+            if (event.key.scancode == sf::Keyboard::Scan::V) {
+                save(simulation);
+            }
             break;
         }
 
@@ -105,6 +108,8 @@ void MainVisualize::load(Simulation& sim) {
         props.id = stoi(value);
         std::getline(ss, value, ',');
         props.generationIndex = stoi(value);
+        std::getline(ss, value, ',');
+        int numFoodsEaten = stoi(value); // discard
         while (std::getline(ss, value, ',')) {
             props.weights.push_back(stof(value));
         }
@@ -116,6 +121,29 @@ void MainVisualize::load(Simulation& sim) {
         std::cout << std::endl;
 
         sim.addBoid(props);
+    }
+
+    file.close();
+}
+
+void MainVisualize::save(Simulation& sim) {
+    std::string filename = "boids_out.csv";
+    std::cout << "Saving file " << filename << std::endl;
+
+    std::ofstream file(filename);
+
+    file << "id, generation, numFoodsEaten, w0, w1, w2, w3, w4, w5" << std::endl;
+
+    for (auto& boid : sim.boids) {
+        file << boid->getId() << ", " << (boid->getGenerationIndex() + 1) << ", " << boid->getNumFoodsEaten() << ", ";
+        int numWeights = boid->getWeights().size();
+        for (int i = 0; i < numWeights; ++i) {
+            file << boid->getWeights()[i];
+            if (i < numWeights - 1) {
+                file << ", ";
+            }
+        }
+        file << std::endl;
     }
 
     file.close();
