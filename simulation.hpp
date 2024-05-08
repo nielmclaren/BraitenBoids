@@ -15,8 +15,6 @@ class Simulation {
 	float speed = 200;
 	Vector2f playerDirection;
 
-	void initFoodSources();
-
 	void stepAvatar(float timeDelta);
 	void stepBoids(float timeDelta);
 	void stepFoodSources(float timeDelta);
@@ -45,10 +43,15 @@ public:
 	~Simulation();
 
 	void init();
+
+	void resetFoodSources();
+
 	void setPlayerDirection(Vector2f direction);
 	void step(float timeDelta);
 
 	void addBoid(BoidProps boidProps);
+	void clearBoids();
+	void setBoids(std::vector<BoidProps> boidPropses);
 
 	FoodSource* getNearestFoodSource(Vector2f& point);
 	float distanceToNearestFoodSource(Vector2f& point);

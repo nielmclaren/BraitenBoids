@@ -72,6 +72,9 @@ void MainVisualize::handleEvent(sf::RenderWindow& window) {
             if (event.key.scancode == sf::Keyboard::Scan::V) {
                 save(simulation);
             }
+            if (event.key.scancode == sf::Keyboard::Scan::M) {
+                selectAndMutate(simulation);
+            }
             break;
         }
 
@@ -147,4 +150,68 @@ void MainVisualize::save(Simulation& sim) {
     }
 
     file.close();
+}
+
+void MainVisualize::selectAndMutate(Simulation& simulation) {
+    int population = 10;
+    int selectNum = 4;
+
+    std::vector<Boid*> boids = simulation.boids;
+    for (auto& boid : boids) {
+        boid->fitnessScore = fitnessFunction(*boid);
+    }
+
+    sort(boids.begin(), boids.end(), [](const auto& lhs, const auto& rhs) {
+        return lhs->fitnessScore > rhs->fitnessScore;
+    }); 
+
+    std::vector<Boid*> selected;
+
+    std::cout << "Fitness scores:" << std::endl;
+    for (int i = 0; i < boids.size(); ++i) {
+        Boid* boid = boids[i];
+        std::cout << boid->fitnessScore;
+        if (i < selectNum) {
+            selected.push_back(boid);
+            std::cout << " selected";
+        }
+        std::cout << std::endl;
+    }
+
+    int nextId = 0;
+    std::vector<BoidProps> mutated;
+    while (mutated.size() < population) {
+        for (auto& boid : selected) {
+            BoidProps props;
+            props.id = ++nextId;
+            props.generationIndex = boid->getGenerationIndex() + 1;
+            props.weights = mutateWeights(boid->getWeights());
+
+            mutated.push_back(props);
+
+            if (mutated.size() >= population) {
+                break;
+            }
+        }
+    }
+
+    simulation.setBoids(mutated);
+    simulation.resetFoodSources();
+}
+
+float MainVisualize::fitnessFunction(Boid& boid) {
+    return boid.getNumFoodsEaten();
+}
+
+std::vector<float> MainVisualize::mutateWeights(std::vector<float> weights) {
+    std::vector<float> results;
+    for (auto& w : weights) {
+        results.push_back(std::clamp(w + randf() * 0.1f, -1.f, 1.f));
+    }
+    return results;
+}
+
+
+float MainVisualize::randf() {
+    return 2.f * static_cast <float> (rand()) / static_cast <float> (RAND_MAX) - 1.f;
 }

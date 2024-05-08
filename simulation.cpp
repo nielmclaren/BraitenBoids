@@ -33,10 +33,15 @@ Simulation::~Simulation() {
 }
 
 void Simulation::init() {
-    initFoodSources();
+    resetFoodSources();
 }
 
-void Simulation::initFoodSources() {
+void Simulation::resetFoodSources() {
+    for (auto& foodSource : foodSources) {
+        foodSourceDeleted(foodSource);
+    }
+    foodSources.clear();
+
     int numFoodSources = 30;
     for (int i = 0; i < numFoodSources; i++) {
         FoodSource* foodSource = new FoodSource(Vector2f(randf() * size.x(), randf() * size.y()));
@@ -142,6 +147,20 @@ void Simulation::addBoid(BoidProps boidProps) {
     Boid* boid = new Boid(this, boidProps, Vector2f(randf() * size.x(), randf() * size.y()));
     boids.push_back(boid);
     boidCreated(boid);
+}
+
+void Simulation::clearBoids() {
+    for (auto& boid : boids) {
+        boidDeleted(boid);
+    }
+    boids.clear();
+}
+
+void Simulation::setBoids(std::vector<BoidProps> boidPropses) {
+    clearBoids();
+    for (auto& props : boidPropses) {
+        addBoid(props);
+    }
 }
 
 FoodSource* Simulation::getNearestFoodSource(Vector2f& point) {

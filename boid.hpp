@@ -43,6 +43,8 @@ public:
 	int getNumFoodsEaten();
 	std::vector<float> getWeights();
 
+	float fitnessScore;
+
 	void step(float timeDelta);
 
 	void handleCollision(ICollidable* collidable);

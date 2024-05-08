@@ -23,6 +23,11 @@ class MainVisualize {
     void handleEvent(sf::RenderWindow& window);
     void load(Simulation& simulation);
     void save(Simulation& simulation);
+    void selectAndMutate(Simulation& simulation);
+    float fitnessFunction(Boid& boid);
+    std::vector<float> mutateWeights(std::vector<float> input);
+
+    float randf();
 
 public:
     MainVisualize(int argc, char* argv[]);
