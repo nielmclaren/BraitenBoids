@@ -75,6 +75,10 @@ void MainVisualize::handleEvent(sf::RenderWindow& window) {
             if (event.key.scancode == sf::Keyboard::Scan::M) {
                 selectAndMutate(simulation);
             }
+            if (event.key.scancode == sf::Keyboard::Scan::F) {
+                fastForward(simulation);
+                selectAndMutate(simulation);
+            }
             break;
         }
 
@@ -211,6 +215,14 @@ std::vector<float> MainVisualize::mutateWeights(std::vector<float> weights) {
     return results;
 }
 
+void MainVisualize::fastForward(Simulation& simulation) {
+    for (int i = 0; i < 10000; i++) {
+        simulation.step(0.016f);
+        if (simulation.foodSources.size() < 7) {
+            break;
+        }
+    }
+}
 
 float MainVisualize::randf() {
     return 2.f * static_cast <float> (rand()) / static_cast <float> (RAND_MAX) - 1.f;

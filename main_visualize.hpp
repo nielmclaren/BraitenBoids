@@ -26,6 +26,7 @@ class MainVisualize {
     void selectAndMutate(Simulation& simulation);
     float fitnessFunction(Boid& boid);
     std::vector<float> mutateWeights(std::vector<float> input);
+    void fastForward(Simulation& simulation);
 
     float randf();
 
