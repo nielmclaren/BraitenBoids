@@ -1,9 +1,12 @@
+#include <algorithm>
 #include "main_visualize.hpp"
 
 MainVisualize::MainVisualize(int argc, char* argv[]) :
     window(sf::VideoMode(800, 800), "BraitenBoids"),
     simulation(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y)),
-    simRenderer(simulation, window)
+    simRenderer(simulation, window),
+    stepCount(0),
+    generationIndex(0)
 {
     std::cout << "visualize command" << std::endl;
 
@@ -27,6 +30,8 @@ MainVisualize::MainVisualize(int argc, char* argv[]) :
         simRenderer.draw();
 
         screenshot.frameChanged(window);
+
+        stepCount++;
     }
 }
 
@@ -73,10 +78,12 @@ void MainVisualize::handleEvent(sf::RenderWindow& window) {
                 save(simulation);
             }
             if (event.key.scancode == sf::Keyboard::Scan::M) {
+                reportGenerationFitness(simulation);
                 selectAndMutate(simulation);
             }
             if (event.key.scancode == sf::Keyboard::Scan::F) {
                 fastForward(simulation);
+                reportGenerationFitness(simulation);
                 selectAndMutate(simulation);
             }
             break;
@@ -115,6 +122,7 @@ void MainVisualize::load(Simulation& sim) {
         props.id = stoi(value);
         std::getline(ss, value, ',');
         props.generationIndex = stoi(value);
+        generationIndex = std::max(props.generationIndex, generationIndex);
         std::getline(ss, value, ',');
         int numFoodsEaten = stoi(value); // discard
         while (std::getline(ss, value, ',')) {
@@ -156,6 +164,42 @@ void MainVisualize::save(Simulation& sim) {
     file.close();
 }
 
+void MainVisualize::reportGenerationFitness(Simulation& simulation) {
+    /*
+    How many steps did it take to reach end conditions?
+    What's the fitness spread?
+    What's the highest and lowest fitness?
+    What's the nn weight spread?
+    */
+    std::cout << "Generation: " << generationIndex << std::endl;
+    std::cout << "\tSteps: " << stepCount << std::endl;
+
+    std::cout << "\tFitness scores, weights: " << std::endl;
+    std::vector<Boid*> boids = simulation.boids;
+    for (auto& boid : boids) {
+        boid->fitnessScore = fitnessFunction(*boid);
+    }
+    sort(boids.begin(), boids.end(), [](const auto& lhs, const auto& rhs) {
+        return lhs->fitnessScore > rhs->fitnessScore;
+    }); 
+    for (auto& boid : boids) {
+        std::cout << "\t\t" << boid->fitnessScore << "\t";
+        for (auto& w : boid->getWeights()) {
+            if (w >= 0) {
+                // Stay aligned with negative numbers (minus sign).
+                std:: cout << " ";
+            }
+            printf("%.2f", w);
+            std::cout << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+std::string MainVisualize::formatWeight(float weight) {
+    return "";
+}
+
 void MainVisualize::selectAndMutate(Simulation& simulation) {
     int population = 10;
     int selectNum = 4;
@@ -169,18 +213,7 @@ void MainVisualize::selectAndMutate(Simulation& simulation) {
         return lhs->fitnessScore > rhs->fitnessScore;
     }); 
 
-    std::vector<Boid*> selected;
-
-    std::cout << "Fitness scores:" << std::endl;
-    for (int i = 0; i < boids.size(); ++i) {
-        Boid* boid = boids[i];
-        std::cout << boid->fitnessScore;
-        if (i < selectNum) {
-            selected.push_back(boid);
-            std::cout << " selected";
-        }
-        std::cout << std::endl;
-    }
+    std::vector<Boid*> selected(boids.begin(), boids.begin() + selectNum);
 
     int nextId = 0;
     std::vector<BoidProps> mutated;
@@ -201,6 +234,9 @@ void MainVisualize::selectAndMutate(Simulation& simulation) {
 
     simulation.setBoids(mutated);
     simulation.resetFoodSources();
+
+    stepCount = 0;
+    generationIndex++;
 }
 
 float MainVisualize::fitnessFunction(Boid& boid) {
@@ -218,6 +254,8 @@ std::vector<float> MainVisualize::mutateWeights(std::vector<float> weights) {
 void MainVisualize::fastForward(Simulation& simulation) {
     for (int i = 0; i < 10000; i++) {
         simulation.step(0.016f);
+        stepCount++;
+
         if (simulation.foodSources.size() < 7) {
             break;
         }

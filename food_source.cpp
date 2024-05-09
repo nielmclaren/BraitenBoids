@@ -17,5 +17,5 @@ unsigned int FoodSource::getId() {
 }
 
 void FoodSource::handleCollision(ICollidable* collidable) {
-	std::cout << "Food source handle collision." << std::endl;
+	//std::cout << "Food source handle collision." << std::endl;
 }

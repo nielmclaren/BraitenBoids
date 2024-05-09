@@ -79,7 +79,7 @@ void Boid::step(float timeDelta) {
 
 void Boid::handleCollision(ICollidable* collidable) {
 	numFoodsEaten++;
-	std::cout << "Boid handle collision; numFoodsEaten=" << numFoodsEaten << std::endl;
+	//std::cout << "Boid handle collision; numFoodsEaten=" << numFoodsEaten << std::endl;
 }
 
 float Boid::linearInterp(float v, float inLow, float inHigh, float outLow, float outHigh) {

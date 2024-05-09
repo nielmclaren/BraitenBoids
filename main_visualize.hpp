@@ -16,6 +16,8 @@ class MainVisualize {
     sf::RenderWindow window;
     Simulation simulation;
     SimRenderer simRenderer;
+    unsigned int stepCount;
+    unsigned int generationIndex;
 
     Screenshot screenshot;
 
@@ -23,12 +25,14 @@ class MainVisualize {
     void handleEvent(sf::RenderWindow& window);
     void load(Simulation& simulation);
     void save(Simulation& simulation);
+    void reportGenerationFitness(Simulation& simulation);
     void selectAndMutate(Simulation& simulation);
     float fitnessFunction(Boid& boid);
     std::vector<float> mutateWeights(std::vector<float> input);
     void fastForward(Simulation& simulation);
 
     float randf();
+    std::string formatWeight(float weight);
 
 public:
     MainVisualize(int argc, char* argv[]);

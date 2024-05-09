@@ -6,8 +6,8 @@
 class BoidProps {
 public:
 	unsigned int id;
-	int generationIndex;
-	int numFoodsEaten;
+	unsigned int generationIndex;
+	unsigned int numFoodsEaten;
 
 	std::vector<float> weights;
 
