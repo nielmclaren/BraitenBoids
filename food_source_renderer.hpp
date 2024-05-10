@@ -1,19 +1,19 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include "food_source.hpp"
+#include <SFML/Graphics.hpp>
 
 class FoodSourceRenderer {
-	const float pi = std::acos(-1.0f);
+  const float pi = std::acos(-1.0f);
 
-	sf::Vector2f eigenToSfml(Eigen::Vector2f v);
+  sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:
-	FoodSource *foodSource;
-	sf::Shape *shape;
+  FoodSource *foodSource;
+  sf::Shape *shape;
 
-	FoodSourceRenderer(FoodSource* foodSource);
-	~FoodSourceRenderer();
+  FoodSourceRenderer(FoodSource *foodSource);
+  ~FoodSourceRenderer();
 
-	void draw(sf::RenderWindow& window);
+  void draw(sf::RenderWindow &window);
 };

@@ -5,12 +5,11 @@
 
 class BoidProps {
 public:
-	unsigned int id;
-	unsigned int generationIndex;
-	unsigned int numFoodsEaten;
+  unsigned int id;
+  unsigned int generationIndex;
+  unsigned int numFoodsEaten;
 
-	std::vector<float> weights;
+  std::vector<float> weights;
 
-	BoidProps();
+  BoidProps();
 };
-

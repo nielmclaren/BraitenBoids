@@ -1,33 +1,33 @@
 #pragma once
 
-#include <filesystem>
-#include <SFML/Graphics.hpp>
 #include "file_namer.hpp"
+#include <SFML/Graphics.hpp>
+#include <filesystem>
 
 class Screenshot {
-	FileNamer buildNamer;
-	FileNamer frameNamer;
+  FileNamer buildNamer;
+  FileNamer frameNamer;
 
-	bool isRecording = false;
-	bool isBuildDirectoryCreated = false;
+  bool isRecording = false;
+  bool isBuildDirectoryCreated = false;
 
-	// When recording, only capture one in every x frames.
-	int frameInterval;
-	int frameIntervalRemaining = 0;
+  // When recording, only capture one in every x frames.
+  int frameInterval;
+  int frameIntervalRemaining = 0;
 
-	std::vector<sf::Texture> recordingFrameTextures;
+  std::vector<sf::Texture> recordingFrameTextures;
 
-	std::string pad(int n);
-	std::string escapeRegex(std::string regex);
+  std::string pad(int n);
+  std::string escapeRegex(std::string regex);
 
 public:
-	Screenshot();
-	Screenshot(int frameInterval);
+  Screenshot();
+  Screenshot(int frameInterval);
 
-	void capture(sf::RenderWindow& window);
+  void capture(sf::RenderWindow &window);
 
-	void toggleRecording();
-	void startRecording();
-	void frameChanged(sf::RenderWindow& window);
-	void stopRecording();
+  void toggleRecording();
+  void startRecording();
+  void frameChanged(sf::RenderWindow &window);
+  void stopRecording();
 };

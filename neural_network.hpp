@@ -1,16 +1,15 @@
 #pragma once
 
+#include <Eigen/Dense>
 #include <iostream>
 #include <vector>
-#include <Eigen/Dense>
 
 class NeuralNetwork {
-    std::vector<float> weights;
+  std::vector<float> weights;
 
 public:
-    NeuralNetwork(std::vector<float> weights);
+  NeuralNetwork(std::vector<float> weights);
 
-    std::vector<float> getWeights();
-    std::vector<float> forward(std::vector<float> input);
+  std::vector<float> getWeights();
+  std::vector<float> forward(std::vector<float> input);
 };
-

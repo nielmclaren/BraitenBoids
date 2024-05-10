@@ -1,18 +1,19 @@
-#include <iostream>
 #include "avatar.hpp"
+#include <iostream>
 
 using Eigen::Vector2f;
 
-Avatar::Avatar(Simulation* sim) {
-	simulation = sim;
+Avatar::Avatar(Simulation *sim) {
+  simulation = sim;
 
-	numFoodsEaten = 0;
+  numFoodsEaten = 0;
 
-	radius = 7.f;
-	senseRadius = 100.f;
+  radius = 7.f;
+  senseRadius = 100.f;
 }
 
-void Avatar::handleCollision(ICollidable* collidable) {
-	numFoodsEaten++;
-	std::cout << "Avatar handle collision; numFoodsEaten=" << numFoodsEaten << std::endl;
+void Avatar::handleCollision(ICollidable *collidable) {
+  numFoodsEaten++;
+  std::cout << "Avatar handle collision; numFoodsEaten=" << numFoodsEaten
+            << std::endl;
 }
