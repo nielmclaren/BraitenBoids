@@ -23,6 +23,8 @@ class MainVisualize {
 
     Vector2f getPlayerInputDirection();
     void handleEvent(sf::RenderWindow& window);
+
+    void randomBoids(Simulation& simulation);
     void load(Simulation& simulation);
     void save(Simulation& simulation);
     void reportGenerationFitness(Simulation& simulation);

@@ -77,6 +77,9 @@ void MainVisualize::handleEvent(sf::RenderWindow& window) {
             if (event.key.scancode == sf::Keyboard::Scan::V) {
                 save(simulation);
             }
+            if (event.key.scancode == sf::Keyboard::Scan::N) {
+                randomBoids(simulation);
+            }
             if (event.key.scancode == sf::Keyboard::Scan::M) {
                 reportGenerationFitness(simulation);
                 selectAndMutate(simulation);
@@ -93,6 +96,29 @@ void MainVisualize::handleEvent(sf::RenderWindow& window) {
         }
         }
     }
+}
+
+void MainVisualize::randomBoids(Simulation& simulation) {
+    int numBoids = 10;
+    int numWeights = 6;
+
+    std::vector<BoidProps> boidPropses;
+    for (int i = 0; i < numBoids; ++i) {
+        BoidProps props;
+        props.id = i;
+        props.generationIndex = 0;
+        
+        for (int w = 0; w < numWeights; ++w) {
+            props.weights.push_back(randf());
+        }
+        boidPropses.push_back(props);
+    }
+
+    simulation.setBoids(boidPropses);
+    simulation.resetFoodSources();
+
+    stepCount = 0;
+    generationIndex = 0;
 }
 
 void MainVisualize::load(Simulation& sim) {
@@ -262,6 +288,7 @@ void MainVisualize::fastForward(Simulation& simulation) {
     }
 }
 
+// TODO: Rename to indicate that it's an (open) unit ball.
 float MainVisualize::randf() {
     return 2.f * static_cast <float> (rand()) / static_cast <float> (RAND_MAX) - 1.f;
 }
