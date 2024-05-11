@@ -12,7 +12,7 @@ FoodSource::FoodSource(Vector2f pos) {
   radius = 5.f;
 }
 
-unsigned int FoodSource::getId() { return id; }
+unsigned int FoodSource::getId() const { return id; }
 
 void FoodSource::handleCollision(const ICollidable &collidable) {
   // std::cout << "Food source handle collision." << std::endl;

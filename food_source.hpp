@@ -14,7 +14,7 @@ public:
   float radius;
 
   FoodSource(Vector2f pos);
-  unsigned int getId();
+  unsigned int getId() const;
 
   void handleCollision(const ICollidable &collidable);
 };
