@@ -38,7 +38,7 @@ public:
   float senseRadius;
 
   Boid(Simulation *sim, BoidProps &boidProps, Vector2f pos);
-  unsigned int getId();
+  unsigned int getId() const;
 
   int getGenerationIndex();
   int getNumFoodsEaten();

@@ -2,10 +2,8 @@
 #include "food_source.hpp"
 #include "simulation.hpp"
 
-BoidRenderer::BoidRenderer(Boid *b) {
-  boid = b;
-
-  float radius = boid->radius;
+BoidRenderer::BoidRenderer(const Boid &boid) : boid(boid) {
+  float radius = boid.radius;
 
   bodyShape = new sf::CircleShape(radius);
   bodyShape->setFillColor(sf::Color(0, 128, 0));
@@ -29,19 +27,19 @@ BoidRenderer::~BoidRenderer() {
 }
 
 void BoidRenderer::draw(sf::RenderWindow &window) {
-  Vector2f position = boid->position;
-  Vector2f direction = boid->direction;
+  Vector2f position = boid.position;
+  Vector2f direction = boid.direction;
 
   // Worth assuming the position changed every frame.
   transform.setPosition(eigenToSfml(position));
   transform.setRotation(atan2(direction.y(), direction.x()) * 180 / pi);
 
   FoodSource *nearestFoodSource =
-      boid->simulation->getNearestFoodSource(position);
+      boid.simulation->getNearestFoodSource(position);
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->position - position;
     float dist = toFoodSource.norm();
-    if (dist <= boid->senseRadius) {
+    if (dist <= boid.senseRadius) {
       toNearestFoodSourceShape->setPosition(eigenToSfml(position));
       toNearestFoodSourceShape->setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape->getSize().y));

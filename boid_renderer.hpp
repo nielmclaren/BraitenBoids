@@ -10,12 +10,12 @@ class BoidRenderer {
   sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:
-  Boid *boid;
+  const Boid &boid;
   sf::CircleShape *bodyShape;
   sf::ConvexShape *directionShape;
   sf::RectangleShape *toNearestFoodSourceShape;
 
-  BoidRenderer(Boid *boid);
+  BoidRenderer(const Boid &boid);
   ~BoidRenderer();
 
   void draw(sf::RenderWindow &window);

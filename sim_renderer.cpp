@@ -52,14 +52,14 @@ void SimRenderer::draw() {
 }
 
 void SimRenderer::boidCreated(Boid *boid) {
-  BoidRenderer *renderer = new BoidRenderer(boid);
+  BoidRenderer *renderer = new BoidRenderer(*boid);
   boidRenderers.push_back(renderer);
 }
 
 void SimRenderer::boidDeleted(Boid *boid) {
   for (std::vector<BoidRenderer *>::iterator it = begin(boidRenderers);
        it != end(boidRenderers); ++it) {
-    if ((*it)->boid->getId() == boid->getId()) {
+    if ((*it)->boid.getId() == boid->getId()) {
       delete (*it);
       boidRenderers.erase(it);
       break;

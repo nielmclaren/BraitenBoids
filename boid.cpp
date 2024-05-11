@@ -27,7 +27,7 @@ Boid::Boid(Simulation *sim, BoidProps &props, Vector2f pos)
   senseRadius = 200.f;
 }
 
-unsigned int Boid::getId() { return id; }
+unsigned int Boid::getId() const { return id; }
 
 std::vector<float> Boid::getWeights() { return neuralNetwork.getWeights(); }
 
