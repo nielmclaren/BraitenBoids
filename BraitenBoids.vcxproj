@@ -47,6 +47,7 @@
     <ClInclude Include="file_namer.hpp" />
     <ClInclude Include="food_source.hpp" />
     <ClInclude Include="food_source_renderer.hpp" />
+    <ClInclude Include="iboid_listener.hpp" />
     <ClInclude Include="icollidable.hpp" />
     <ClInclude Include="ifood_source_listener.hpp" />
     <ClInclude Include="main_evaluate.hpp" />
