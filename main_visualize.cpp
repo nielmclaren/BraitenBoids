@@ -177,7 +177,7 @@ void MainVisualize::save(Simulation &sim) {
   for (auto &boid : sim.boids) {
     file << boid->getId() << ", " << (boid->getGenerationIndex() + 1) << ", "
          << boid->getNumFoodsEaten() << ", ";
-    int numWeights = boid->getWeights().size();
+    int numWeights = static_cast<int>(boid->getWeights().size());
     for (int i = 0; i < numWeights; ++i) {
       file << boid->getWeights()[i];
       if (i < numWeights - 1) {
@@ -264,7 +264,7 @@ void MainVisualize::selectAndMutate(Simulation &simulation) {
 }
 
 float MainVisualize::fitnessFunction(Boid &boid) {
-  return boid.getNumFoodsEaten();
+  return static_cast<float>(boid.getNumFoodsEaten());
 }
 
 std::vector<float> MainVisualize::mutateWeights(std::vector<float> weights) {

@@ -16,5 +16,5 @@ public:
   FoodSource(Vector2f pos);
   unsigned int getId();
 
-  void handleCollision(ICollidable *collidable);
+  void handleCollision(const ICollidable &collidable);
 };

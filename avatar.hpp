@@ -18,5 +18,5 @@ public:
 
   Avatar(Simulation *simulation);
 
-  void handleCollision(ICollidable *collidable);
+  void handleCollision(const ICollidable &collidable);
 };

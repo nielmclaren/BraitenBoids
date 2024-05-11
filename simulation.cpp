@@ -111,8 +111,8 @@ void Simulation::handleCollisions() {
     if (CollisionDetection::detect(*avatar, **it)) {
       FoodSource *doomedFoodSource = *it;
 
-      doomedFoodSource->handleCollision(avatar);
-      avatar->handleCollision(doomedFoodSource);
+      doomedFoodSource->handleCollision(*avatar);
+      avatar->handleCollision(*doomedFoodSource);
 
       foodSourceDeleted(doomedFoodSource);
       delete doomedFoodSource;
@@ -131,8 +131,8 @@ void Simulation::handleCollisions() {
       FoodSource *foodSource = *foodIter;
 
       if (CollisionDetection::detect(*boid, *foodSource)) {
-        foodSource->handleCollision(boid);
-        boid->handleCollision(foodSource);
+        foodSource->handleCollision(*boid);
+        boid->handleCollision(*foodSource);
 
         foodSourceDeleted(foodSource);
         delete foodSource;

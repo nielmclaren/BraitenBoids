@@ -48,5 +48,5 @@ public:
 
   void step(float timeDelta);
 
-  void handleCollision(ICollidable *collidable);
+  void handleCollision(const ICollidable &collidable);
 };

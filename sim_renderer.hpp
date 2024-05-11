@@ -3,6 +3,7 @@
 #include "avatar_renderer.hpp"
 #include "boid_renderer.hpp"
 #include "food_source_renderer.hpp"
+#include "iboid_listener.hpp"
 #include "ifood_source_listener.hpp"
 #include <Eigen/Dense>
 #include <SFML/Graphics.hpp>

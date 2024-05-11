@@ -12,7 +12,7 @@ Avatar::Avatar(Simulation *sim) {
   senseRadius = 100.f;
 }
 
-void Avatar::handleCollision(ICollidable *collidable) {
+void Avatar::handleCollision(const ICollidable &collidable) {
   numFoodsEaten++;
   std::cout << "Avatar handle collision; numFoodsEaten=" << numFoodsEaten
             << std::endl;

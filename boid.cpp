@@ -72,7 +72,7 @@ void Boid::step(float timeDelta) {
   position += velocity;
 }
 
-void Boid::handleCollision(ICollidable *collidable) {
+void Boid::handleCollision(const ICollidable &collidable) {
   numFoodsEaten++;
   // std::cout << "Boid handle collision; numFoodsEaten=" << numFoodsEaten <<
   // std::endl;

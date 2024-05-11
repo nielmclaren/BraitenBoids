@@ -14,6 +14,6 @@ FoodSource::FoodSource(Vector2f pos) {
 
 unsigned int FoodSource::getId() { return id; }
 
-void FoodSource::handleCollision(ICollidable *collidable) {
+void FoodSource::handleCollision(const ICollidable &collidable) {
   // std::cout << "Food source handle collision." << std::endl;
 }
