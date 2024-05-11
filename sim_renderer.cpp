@@ -12,7 +12,7 @@ SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win) {
   simulation = &sim;
   window = &win;
 
-  avatarRenderer = new AvatarRenderer(simulation->avatar);
+  avatarRenderer = new AvatarRenderer(*(simulation->avatar));
 
   simulation->registerBoidListener(this);
   simulation->registerFoodSourceListener(this);

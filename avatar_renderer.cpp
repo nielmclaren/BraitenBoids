@@ -2,10 +2,8 @@
 #include "food_source.hpp"
 #include "simulation.hpp"
 
-AvatarRenderer::AvatarRenderer(Avatar *a) {
-  avatar = a;
-
-  float radius = avatar->radius;
+AvatarRenderer::AvatarRenderer(const Avatar &avatar) : avatar(avatar) {
+  float radius = avatar.radius;
   bodyShape = new sf::CircleShape(radius);
   bodyShape->setFillColor(sf::Color::Green);
   bodyShape->setOrigin(radius, radius);
@@ -26,18 +24,18 @@ AvatarRenderer::~AvatarRenderer() {
 }
 
 void AvatarRenderer::draw(sf::RenderWindow &window) {
-  Vector2f position = avatar->position;
-  Vector2f direction = avatar->direction;
+  Vector2f position = avatar.position;
+  Vector2f direction = avatar.direction;
   directionShape->setPosition(eigenToSfml(position));
   directionShape->setRotation(atan2(direction.y(), direction.x()) * 180 / pi);
   window.draw(*directionShape);
 
   FoodSource *nearestFoodSource =
-      avatar->simulation->getNearestFoodSource(position);
+      avatar.simulation->getNearestFoodSource(position);
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->position - position;
     float dist = (toFoodSource).norm();
-    if (dist <= avatar->senseRadius) {
+    if (dist <= avatar.senseRadius) {
       toNearestFoodSourceShape->setPosition(eigenToSfml(position));
       toNearestFoodSourceShape->setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape->getSize().y));

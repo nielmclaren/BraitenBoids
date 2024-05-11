@@ -13,13 +13,13 @@ class AvatarRenderer {
   sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:
-  Avatar *avatar;
+  const Avatar &avatar;
   sf::CircleShape *bodyShape;
   sf::RectangleShape *toNearestFoodSourceShape;
   sf::RectangleShape *directionShape;
   sf::RectangleShape *newDirectionShape;
 
-  AvatarRenderer(Avatar *avatar);
+  AvatarRenderer(const Avatar &avatar);
   ~AvatarRenderer();
 
   void draw(sf::RenderWindow &window);
