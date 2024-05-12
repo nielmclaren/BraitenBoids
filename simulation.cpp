@@ -36,7 +36,7 @@ void Simulation::init() { resetFoodSources(); }
 
 void Simulation::resetFoodSources() {
   for (auto &foodSource : foodSources) {
-    foodSourceDeleted(foodSource);
+    foodSourceDeleted(*foodSource);
   }
   foodSources.clear();
 
@@ -45,7 +45,7 @@ void Simulation::resetFoodSources() {
     FoodSource *foodSource =
         new FoodSource(Vector2f(randf() * size.x(), randf() * size.y()));
     foodSources.push_back(foodSource);
-    foodSourceCreated(foodSource);
+    foodSourceCreated(*foodSource);
   }
 }
 
@@ -114,7 +114,7 @@ void Simulation::handleCollisions() {
       doomedFoodSource->handleCollision(*avatar);
       avatar->handleCollision(*doomedFoodSource);
 
-      foodSourceDeleted(doomedFoodSource);
+      foodSourceDeleted(*doomedFoodSource);
       delete doomedFoodSource;
       it = foodSources.erase(it);
     } else {
@@ -134,7 +134,7 @@ void Simulation::handleCollisions() {
         foodSource->handleCollision(*boid);
         boid->handleCollision(*foodSource);
 
-        foodSourceDeleted(foodSource);
+        foodSourceDeleted(*foodSource);
         delete foodSource;
         foodIter = foodSources.erase(foodIter);
       } else {
@@ -148,12 +148,12 @@ void Simulation::addBoid(BoidProps boidProps) {
   Boid *boid = new Boid(this, boidProps,
                         Vector2f(randf() * size.x(), randf() * size.y()));
   boids.push_back(boid);
-  boidCreated(boid);
+  boidCreated(*boid);
 }
 
 void Simulation::clearBoids() {
   for (auto &boid : boids) {
-    boidDeleted(boid);
+    boidDeleted(*boid);
   }
   boids.clear();
 }
@@ -201,14 +201,14 @@ void Simulation::registerBoidListener(IBoidListener *listener) {
   boidListeners.push_back(listener);
 }
 
-void Simulation::boidCreated(Boid *boid) {
+void Simulation::boidCreated(Boid &boid) {
   for (std::vector<IBoidListener *>::iterator it = begin(boidListeners);
        it != end(boidListeners); ++it) {
     (*it)->boidCreated(boid);
   }
 }
 
-void Simulation::boidDeleted(Boid *boid) {
+void Simulation::boidDeleted(Boid &boid) {
   for (std::vector<IBoidListener *>::iterator it = begin(boidListeners);
        it != end(boidListeners); ++it) {
     (*it)->boidDeleted(boid);
@@ -219,7 +219,7 @@ void Simulation::registerFoodSourceListener(IFoodSourceListener *listener) {
   foodSourceListeners.push_back(listener);
 }
 
-void Simulation::foodSourceCreated(FoodSource *foodSource) {
+void Simulation::foodSourceCreated(FoodSource &foodSource) {
   for (std::vector<IFoodSourceListener *>::iterator it =
            begin(foodSourceListeners);
        it != end(foodSourceListeners); ++it) {
@@ -227,7 +227,7 @@ void Simulation::foodSourceCreated(FoodSource *foodSource) {
   }
 }
 
-void Simulation::foodSourceDeleted(FoodSource *foodSource) {
+void Simulation::foodSourceDeleted(FoodSource &foodSource) {
   for (std::vector<IFoodSourceListener *>::iterator it =
            begin(foodSourceListeners);
        it != end(foodSourceListeners); ++it) {

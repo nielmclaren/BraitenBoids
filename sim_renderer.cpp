@@ -51,15 +51,15 @@ void SimRenderer::draw() {
   window->display();
 }
 
-void SimRenderer::boidCreated(Boid *boid) {
-  BoidRenderer *renderer = new BoidRenderer(*boid);
+void SimRenderer::boidCreated(Boid &boid) {
+  BoidRenderer *renderer = new BoidRenderer(boid);
   boidRenderers.push_back(renderer);
 }
 
-void SimRenderer::boidDeleted(Boid *boid) {
+void SimRenderer::boidDeleted(Boid &boid) {
   for (std::vector<BoidRenderer *>::iterator it = begin(boidRenderers);
        it != end(boidRenderers); ++it) {
-    if ((*it)->boid.getId() == boid->getId()) {
+    if ((*it)->boid.getId() == boid.getId()) {
       delete (*it);
       boidRenderers.erase(it);
       break;
@@ -67,16 +67,16 @@ void SimRenderer::boidDeleted(Boid *boid) {
   }
 }
 
-void SimRenderer::foodSourceCreated(FoodSource *foodSource) {
-  FoodSourceRenderer *renderer = new FoodSourceRenderer(*foodSource);
+void SimRenderer::foodSourceCreated(FoodSource &foodSource) {
+  FoodSourceRenderer *renderer = new FoodSourceRenderer(foodSource);
   foodSourceRenderers.push_back(renderer);
 }
 
-void SimRenderer::foodSourceDeleted(FoodSource *foodSource) {
+void SimRenderer::foodSourceDeleted(FoodSource &foodSource) {
   for (std::vector<FoodSourceRenderer *>::iterator it =
            begin(foodSourceRenderers);
        it != end(foodSourceRenderers); ++it) {
-    if ((*it)->foodSource.getId() == foodSource->getId()) {
+    if ((*it)->foodSource.getId() == foodSource.getId()) {
       delete (*it);
       foodSourceRenderers.erase(it);
       break;

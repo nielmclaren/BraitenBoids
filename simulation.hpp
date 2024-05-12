@@ -20,11 +20,11 @@ class Simulation {
   void stepFoodSources(float timeDelta);
   void handleCollisions();
 
-  void boidCreated(Boid *boid);
-  void boidDeleted(Boid *boid);
+  void boidCreated(Boid &boid);
+  void boidDeleted(Boid &boid);
 
-  void foodSourceCreated(FoodSource *foodSource);
-  void foodSourceDeleted(FoodSource *foodSource);
+  void foodSourceCreated(FoodSource &foodSource);
+  void foodSourceDeleted(FoodSource &foodSource);
 
   float randf();
 
