@@ -14,13 +14,12 @@ class AvatarRenderer {
 
 public:
   const Avatar &avatar;
-  sf::CircleShape *bodyShape;
-  sf::RectangleShape *toNearestFoodSourceShape;
-  sf::RectangleShape *directionShape;
-  sf::RectangleShape *newDirectionShape;
+  sf::CircleShape bodyShape;
+  sf::RectangleShape toNearestFoodSourceShape;
+  sf::RectangleShape directionShape;
+  sf::RectangleShape newDirectionShape;
 
   AvatarRenderer(const Avatar &avatar);
-  ~AvatarRenderer();
 
   void draw(sf::RenderWindow &window);
 };
