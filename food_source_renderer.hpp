@@ -10,10 +10,9 @@ class FoodSourceRenderer {
 
 public:
   FoodSource &foodSource;
-  sf::Shape *shape;
+  sf::CircleShape shape;
 
   FoodSourceRenderer(FoodSource &foodSource);
-  ~FoodSourceRenderer();
 
   void draw(sf::RenderWindow &window);
 };
