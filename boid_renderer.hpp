@@ -11,12 +11,11 @@ class BoidRenderer {
 
 public:
   const Boid &boid;
-  sf::CircleShape *bodyShape;
-  sf::ConvexShape *directionShape;
-  sf::RectangleShape *toNearestFoodSourceShape;
+  sf::CircleShape bodyShape;
+  sf::ConvexShape directionShape;
+  sf::RectangleShape toNearestFoodSourceShape;
 
   BoidRenderer(const Boid &boid);
-  ~BoidRenderer();
 
   void draw(sf::RenderWindow &window);
 };
