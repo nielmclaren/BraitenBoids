@@ -55,6 +55,7 @@ public:
 
   FoodSource *getNearestFoodSource(Vector2f &point);
   float distanceToNearestFoodSource(Vector2f &point);
+  std::vector<FoodSource *> getNearbyFoodSources(Vector2f &point, float range);
 
   void registerBoidListener(IBoidListener *listener);
   void registerFoodSourceListener(IFoodSourceListener *listener);

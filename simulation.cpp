@@ -197,6 +197,20 @@ float Simulation::distanceToNearestFoodSource(Vector2f &point) {
   return nearestDist;
 }
 
+std::vector<FoodSource *> Simulation::getNearbyFoodSources(Vector2f &point,
+                                                           float range) {
+  std::vector<FoodSource *> result;
+  for (std::vector<FoodSource *>::iterator it = begin(foodSources);
+       it != end(foodSources); ++it) {
+    FoodSource *curr = *it;
+    float dist = (curr->position - point).norm();
+    if (dist < range) {
+      result.push_back(curr);
+    }
+  }
+  return result;
+}
+
 void Simulation::registerBoidListener(IBoidListener *listener) {
   boidListeners.push_back(listener);
 }
