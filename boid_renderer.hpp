@@ -6,6 +6,8 @@
 class BoidRenderer {
   const float pi = std::acos(-1.0f);
 
+  static const std::vector<unsigned int> palette;
+
   sf::Transformable transform;
   sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
