@@ -8,18 +8,21 @@ BoidRenderer::BoidRenderer(const Boid &boid)
   float radius = boid.radius;
 
   int n = static_cast<int>(boid.getId()) % BoidRenderer::colors.size();
-  bodyShape.setFillColor(sf::Color(BoidRenderer::lightColors[n]));
-  bodyShape.setOutlineColor(sf::Color(BoidRenderer::colors[n]));
+  sf::Color lightColor(BoidRenderer::lightColors[n]);
+  sf::Color normalColor(BoidRenderer::colors[n]);
+
+  bodyShape.setFillColor(lightColor);
+  bodyShape.setOutlineColor(normalColor);
   bodyShape.setOutlineThickness(2);
   bodyShape.setOrigin(radius, radius);
 
-  directionShape.setFillColor(sf::Color(BoidRenderer::colors[n]));
+  directionShape.setFillColor(normalColor);
   directionShape.setPointCount(3);
   directionShape.setPoint(0, sf::Vector2f(radius * 0.6f, 0));
   directionShape.setPoint(1, sf::Vector2f(-radius * 0.4f, -radius * 0.4f));
   directionShape.setPoint(2, sf::Vector2f(-radius * 0.4f, +radius * 0.4f));
 
-  toNearestFoodSourceShape.setFillColor(sf::Color(192, 192, 192));
+  toNearestFoodSourceShape.setFillColor(lightColor);
 }
 
 void BoidRenderer::draw(sf::RenderWindow &window) {
