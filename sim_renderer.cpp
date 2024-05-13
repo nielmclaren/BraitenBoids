@@ -33,7 +33,7 @@ SimRenderer::~SimRenderer() {
 }
 
 void SimRenderer::draw() {
-  window->clear();
+  window->clear(sf::Color::White);
 
   for (std::vector<BoidRenderer *>::iterator it = begin(boidRenderers);
        it != end(boidRenderers); ++it) {

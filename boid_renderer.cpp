@@ -7,17 +7,19 @@ BoidRenderer::BoidRenderer(const Boid &boid)
       toNearestFoodSourceShape(sf::Vector2f(15.f, 1.f)) {
   float radius = boid.radius;
 
-  int n = static_cast<int>(boid.getId()) % BoidRenderer::palette.size();
-  bodyShape.setFillColor(sf::Color(BoidRenderer::palette[n]));
+  int n = static_cast<int>(boid.getId()) % BoidRenderer::colors.size();
+  bodyShape.setFillColor(sf::Color(BoidRenderer::lightColors[n]));
+  bodyShape.setOutlineColor(sf::Color(BoidRenderer::colors[n]));
+  bodyShape.setOutlineThickness(2);
   bodyShape.setOrigin(radius, radius);
 
-  directionShape.setFillColor(sf::Color(33, 33, 33));
+  directionShape.setFillColor(sf::Color(BoidRenderer::colors[n]));
   directionShape.setPointCount(3);
   directionShape.setPoint(0, sf::Vector2f(radius * 0.6f, 0));
   directionShape.setPoint(1, sf::Vector2f(-radius * 0.4f, -radius * 0.4f));
   directionShape.setPoint(2, sf::Vector2f(-radius * 0.4f, +radius * 0.4f));
 
-  toNearestFoodSourceShape.setFillColor(sf::Color(64, 64, 64));
+  toNearestFoodSourceShape.setFillColor(sf::Color(192, 192, 192));
 }
 
 void BoidRenderer::draw(sf::RenderWindow &window) {
@@ -51,11 +53,19 @@ sf::Vector2f BoidRenderer::eigenToSfml(Eigen::Vector2f v) {
   return sf::Vector2f(v.x(), v.y());
 }
 
-const std::vector<unsigned int> BoidRenderer::palette{
-    0xe3cc6cff, // yellow
-    0x93b32cff, // green
-    0x4270abff, // blue
-    0xa15573ff, // pink
-    0x684a88ff, // purple
-    0x62afa9ff  // teal
+const std::vector<unsigned int> BoidRenderer::colors{
+    0x4698bcff, // blue
+    0x6bbb5dff, // green
+    0xe18731ff, // orange
+    0xa86cc5ff, // purple
+    0xdf5d99ff, // pink
+    0x48aa9fff, // teal
+};
+const std::vector<unsigned int> BoidRenderer::lightColors{
+    0x8bc8d3ff, // light blue
+    0xbcde85ff, // light green
+    0xf5ac91ff, // light orange
+    0xb4ace3ff, // light purple
+    0xdea1d1ff, // light pink
+    0x96d1b4ff, // light teal
 };
