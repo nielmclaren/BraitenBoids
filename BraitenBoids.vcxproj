@@ -25,6 +25,7 @@
     <ClCompile Include="boid_props.cpp" />
     <ClCompile Include="boid_renderer.cpp" />
     <ClCompile Include="collision_detection.cpp" />
+    <ClCompile Include="evolution_log.cpp" />
     <ClCompile Include="file_namer.cpp" />
     <ClCompile Include="food_source.cpp" />
     <ClCompile Include="food_source_renderer.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="boid_props.hpp" />
     <ClInclude Include="boid_renderer.hpp" />
     <ClInclude Include="collision_detection.hpp" />
+    <ClInclude Include="evolution_log.hpp" />
     <ClInclude Include="file_namer.hpp" />
     <ClInclude Include="food_source.hpp" />
     <ClInclude Include="food_source_renderer.hpp" />

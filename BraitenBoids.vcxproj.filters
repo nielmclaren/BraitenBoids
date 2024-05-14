@@ -66,6 +66,9 @@
     <ClCompile Include="boid_props.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="evolution_log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avatar.hpp">
@@ -123,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="iboid_listener.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="evolution_log.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -40,8 +40,7 @@ void Simulation::resetFoodSources() {
   }
   foodSources.clear();
 
-  int numFoodSources = 30;
-  for (int i = 0; i < numFoodSources; i++) {
+  for (int i = 0; i < Simulation::numInitialFoodSources; i++) {
     FoodSource *foodSource =
         new FoodSource(Vector2f(randf() * size.x(), randf() * size.y()));
     foodSources.push_back(foodSource);

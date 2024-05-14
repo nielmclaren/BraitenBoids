@@ -29,6 +29,8 @@ class Simulation {
   float randf();
 
 public:
+  static const unsigned int numInitialFoodSources = 30;
+
   Vector2f size;
 
   std::vector<Boid *> boids;

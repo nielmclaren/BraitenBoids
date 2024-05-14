@@ -74,17 +74,25 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
       }
       if (event.key.scancode == sf::Keyboard::Scan::V) {
         save(simulation);
+        evolutionLog.save("evolution_log.csv");
+      }
+      if (event.key.scancode == sf::Keyboard::Scan::L) {
+        load(simulation);
+        evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::N) {
         randomBoids(simulation);
+        evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::M) {
         reportGenerationFitness(simulation);
+        logGeneration(simulation);
         selectAndMutate(simulation);
       }
       if (event.key.scancode == sf::Keyboard::Scan::F) {
         fastForward(simulation);
         reportGenerationFitness(simulation);
+        logGeneration(simulation);
         selectAndMutate(simulation);
       }
       break;
@@ -222,7 +230,23 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
   }
 }
 
-std::string MainVisualize::formatWeight(float weight) { return ""; }
+void MainVisualize::logGeneration(Simulation &simulation) {
+  std::vector<Boid *> boids = simulation.boids;
+  for (auto &boid : boids) {
+    boid->fitnessScore = fitnessFunction(*boid);
+  }
+  sort(boids.begin(), boids.end(), [](const auto &lhs, const auto &rhs) {
+    return lhs->fitnessScore > rhs->fitnessScore;
+  });
+
+  int numFoodSourcesRemaining = simulation.foodSources.size();
+  float foodConsumedPerStep =
+      stepCount <= 0 ? 0
+                     : static_cast<float>(Simulation::numInitialFoodSources -
+                                          numFoodSourcesRemaining) /
+                           static_cast<float>(stepCount);
+  evolutionLog.addEntry(generationIndex, foodConsumedPerStep);
+}
 
 void MainVisualize::selectAndMutate(Simulation &simulation) {
   int population = 10;

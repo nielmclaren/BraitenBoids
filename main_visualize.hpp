@@ -1,5 +1,6 @@
 #pragma once
 
+#include "evolution_log.hpp"
 #include "screenshot.hpp"
 #include "sim_renderer.hpp"
 #include "simulation.hpp"
@@ -18,6 +19,7 @@ class MainVisualize {
   SimRenderer simRenderer;
   unsigned int stepCount;
   unsigned int generationIndex;
+  EvolutionLog evolutionLog;
 
   Screenshot screenshot;
 
@@ -28,13 +30,13 @@ class MainVisualize {
   void load(Simulation &simulation);
   void save(Simulation &simulation);
   void reportGenerationFitness(Simulation &simulation);
+  void logGeneration(Simulation &simulation);
   void selectAndMutate(Simulation &simulation);
   float fitnessFunction(Boid &boid);
   std::vector<float> mutateWeights(std::vector<float> input);
   void fastForward(Simulation &simulation);
 
   float randf();
-  std::string formatWeight(float weight);
 
 public:
   MainVisualize(int argc, char *argv[]);
