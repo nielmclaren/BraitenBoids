@@ -17,6 +17,7 @@ class MainVisualize {
   sf::RenderWindow window;
   Simulation simulation;
   SimRenderer simRenderer;
+
   unsigned int stepCount;
   unsigned int generationIndex;
   EvolutionLog evolutionLog;
@@ -27,8 +28,6 @@ class MainVisualize {
   void handleEvent(sf::RenderWindow &window);
 
   void randomBoids(Simulation &simulation);
-  void load(Simulation &simulation);
-  void save(Simulation &simulation);
   void reportGenerationFitness(Simulation &simulation);
   void logGeneration(Simulation &simulation);
   void selectAndMutate(Simulation &simulation);

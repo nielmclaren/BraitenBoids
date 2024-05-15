@@ -40,7 +40,7 @@ public:
   Boid(Simulation *sim, BoidProps &boidProps, Vector2f pos);
   unsigned int getId() const;
 
-  int getGenerationIndex();
+  unsigned int getGenerationIndex();
   int getNumFoodsEaten();
   std::vector<float> getWeights();
 

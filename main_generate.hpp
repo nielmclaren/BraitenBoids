@@ -21,7 +21,7 @@ public:
     int numBoids = 10;
     int numWeights = 6;
 
-    std::string filename = "boids.csv";
+    std::string filename = "output/boids.csv";
     std::ofstream file(filename);
 
     file << "id, generation, numFoodsEaten, w0, w1, w2, w3, w4, w5"

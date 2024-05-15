@@ -69,6 +69,9 @@
     <ClCompile Include="evolution_log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="boid_marshaller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avatar.hpp">
@@ -129,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="evolution_log.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boid_marshaller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

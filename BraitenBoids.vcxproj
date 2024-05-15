@@ -34,6 +34,7 @@
     <ClCompile Include="main_generate.cpp" />
     <ClCompile Include="main_visualize.cpp" />
     <ClCompile Include="neural_network.cpp" />
+    <ClCompile Include="boid_marshaller.cpp" />
     <ClCompile Include="screenshot.cpp" />
     <ClCompile Include="simulation.cpp" />
     <ClCompile Include="sim_renderer.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="main_generate.hpp" />
     <ClInclude Include="main_visualize.hpp" />
     <ClInclude Include="neural_network.hpp" />
+    <ClInclude Include="boid_marshaller.hpp" />
     <ClInclude Include="screenshot.hpp" />
     <ClInclude Include="simulation.hpp" />
     <ClInclude Include="sim_renderer.hpp" />
