@@ -74,7 +74,7 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         screenshot.toggleRecording();
       }
       if (event.key.scancode == sf::Keyboard::Scan::V) {
-        BoidMarshaller::save(simulation, "output/boids_out.csv");
+        BoidMarshaller::save(simulation, "output/boids.csv");
         evolutionLog.save("output/evolution_log.csv");
       }
       if (event.key.scancode == sf::Keyboard::Scan::L) {
