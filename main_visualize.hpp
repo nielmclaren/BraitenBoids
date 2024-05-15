@@ -27,7 +27,6 @@ class MainVisualize {
   Vector2f getPlayerInputDirection();
   void handleEvent(sf::RenderWindow &window);
 
-  void randomBoids(Simulation &simulation);
   void reportGenerationFitness(Simulation &simulation);
   void logGeneration(Simulation &simulation);
   void selectAndMutate(Simulation &simulation);

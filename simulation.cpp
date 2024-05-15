@@ -32,8 +32,6 @@ Simulation::~Simulation() {
   foodSourceListeners.clear();
 }
 
-void Simulation::init() { resetFoodSources(); }
-
 void Simulation::resetFoodSources() {
   for (auto &foodSource : foodSources) {
     foodSourceDeleted(*foodSource);

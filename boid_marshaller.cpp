@@ -1,4 +1,5 @@
 #include "boid_marshaller.hpp"
+#include "boid_props.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -66,4 +67,28 @@ void BoidMarshaller::save(Simulation &simulation, std::string filename) {
     }
     file << std::endl;
   }
+}
+
+void BoidMarshaller::loadRandomBoids(Simulation &simulation) {
+  int numBoids = 10;
+  int numWeights = 6;
+
+  std::vector<BoidProps> boidPropses;
+  for (int i = 0; i < numBoids; ++i) {
+    BoidProps props;
+    props.id = i;
+    props.generationIndex = 0;
+
+    for (int w = 0; w < numWeights; ++w) {
+      props.weights.push_back(BoidMarshaller::randf());
+    }
+    boidPropses.push_back(props);
+  }
+
+  simulation.setBoids(boidPropses);
+}
+
+// TODO: Rename to indicate that it's an (open) unit ball.
+float BoidMarshaller::randf() {
+  return 2.f * static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 1.f;
 }

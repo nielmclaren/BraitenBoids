@@ -15,12 +15,8 @@ MainVisualize::MainVisualize(int argc, char *argv[])
   window.setKeyRepeatEnabled(false);
   window.setFramerateLimit(60);
 
-  BoidMarshaller::load(simulation, "output/boids.csv");
-  generationIndex = 0;
-  for (auto &boid : simulation.boids) {
-    generationIndex = std::max(boid->getGenerationIndex(), generationIndex);
-  }
-  simulation.init();
+  BoidMarshaller::loadRandomBoids(simulation);
+  simulation.resetFoodSources();
 
   while (window.isOpen()) {
     sf::Time elapsed = clockwork.getElapsedTime();
@@ -92,7 +88,11 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::N) {
-        randomBoids(simulation);
+        BoidMarshaller::loadRandomBoids(simulation);
+        simulation.resetFoodSources();
+
+        stepCount = 0;
+        generationIndex = 0;
         evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::M) {
@@ -113,29 +113,6 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
     }
     }
   }
-}
-
-void MainVisualize::randomBoids(Simulation &simulation) {
-  int numBoids = 10;
-  int numWeights = 6;
-
-  std::vector<BoidProps> boidPropses;
-  for (int i = 0; i < numBoids; ++i) {
-    BoidProps props;
-    props.id = i;
-    props.generationIndex = 0;
-
-    for (int w = 0; w < numWeights; ++w) {
-      props.weights.push_back(randf());
-    }
-    boidPropses.push_back(props);
-  }
-
-  simulation.setBoids(boidPropses);
-  simulation.resetFoodSources();
-
-  stepCount = 0;
-  generationIndex = 0;
 }
 
 void MainVisualize::reportGenerationFitness(Simulation &simulation) {
@@ -179,7 +156,7 @@ void MainVisualize::logGeneration(Simulation &simulation) {
     return lhs->fitnessScore > rhs->fitnessScore;
   });
 
-  int numFoodSourcesRemaining = simulation.foodSources.size();
+  int numFoodSourcesRemaining = static_cast<int>(simulation.foodSources.size());
   float foodConsumedPerStep =
       stepCount <= 0 ? 0
                      : static_cast<float>(Simulation::numInitialFoodSources -
