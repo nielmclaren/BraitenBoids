@@ -41,7 +41,5 @@ public:
 
       file << std::endl;
     }
-
-    file.close();
   }
 };

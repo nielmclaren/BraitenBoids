@@ -45,8 +45,6 @@ void BoidMarshaller::load(Simulation &simulation, std::string filename) {
 
     simulation.addBoid(props);
   }
-
-  file.close();
 }
 
 void BoidMarshaller::save(Simulation &simulation, std::string filename) {
@@ -68,6 +66,4 @@ void BoidMarshaller::save(Simulation &simulation, std::string filename) {
     }
     file << std::endl;
   }
-
-  file.close();
 }

@@ -83,6 +83,7 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
       }
       if (event.key.scancode == sf::Keyboard::Scan::L) {
         BoidMarshaller::load(simulation, "output/boids.csv");
+        simulation.resetFoodSources();
         generationIndex = 0;
         for (auto &boid : simulation.boids) {
           generationIndex =

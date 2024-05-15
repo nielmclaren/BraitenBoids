@@ -1,7 +1,7 @@
 #include "evolution_log.hpp"
 
-#include<fstream>
-#include<iostream>
+#include <fstream>
+#include <iostream>
 
 void EvolutionLog::addEntry(unsigned int generationIndex, float score) {
   EvolutionLogEntry entry(generationIndex, score);
@@ -20,6 +20,4 @@ void EvolutionLog::save(std::string filename) {
   for (auto &entry : entries) {
     file << entry.generationIndex << ", " << entry.score << std::endl;
   }
-
-  file.close();
 }
