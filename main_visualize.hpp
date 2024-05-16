@@ -34,8 +34,6 @@ class MainVisualize {
   std::vector<float> mutateWeights(std::vector<float> input);
   void fastForward(Simulation &simulation);
 
-  float randf();
-
 public:
   MainVisualize(int argc, char *argv[]);
 };

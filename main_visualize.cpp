@@ -1,5 +1,6 @@
 #include "main_visualize.hpp"
 #include "boid_marshaller.hpp"
+#include "util.hpp"
 #include <algorithm>
 
 MainVisualize::MainVisualize(int argc, char *argv[])
@@ -211,7 +212,7 @@ float MainVisualize::fitnessFunction(Boid &boid) {
 std::vector<float> MainVisualize::mutateWeights(std::vector<float> weights) {
   std::vector<float> results;
   for (auto &w : weights) {
-    results.push_back(std::clamp(w + randf() * 0.1f, -1.f, 1.f));
+    results.push_back(std::clamp(w + Util::randf(-0.1f, 0.1f), -1.f, 1.f));
   }
   return results;
 }
@@ -225,9 +226,4 @@ void MainVisualize::fastForward(Simulation &simulation) {
       break;
     }
   }
-}
-
-// TODO: Rename to indicate that it's an (open) unit ball.
-float MainVisualize::randf() {
-  return 2.f * static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 1.f;
 }

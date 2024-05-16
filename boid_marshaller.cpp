@@ -1,5 +1,6 @@
 #include "boid_marshaller.hpp"
 #include "boid_props.hpp"
+#include "util.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -80,15 +81,10 @@ void BoidMarshaller::loadRandomBoids(Simulation &simulation) {
     props.generationIndex = 0;
 
     for (int w = 0; w < numWeights; ++w) {
-      props.weights.push_back(BoidMarshaller::randf());
+      props.weights.push_back(Util::randf(-1.f, 1.f));
     }
     boidPropses.push_back(props);
   }
 
   simulation.setBoids(boidPropses);
-}
-
-// TODO: Rename to indicate that it's an (open) unit ball.
-float BoidMarshaller::randf() {
-  return 2.f * static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 1.f;
 }

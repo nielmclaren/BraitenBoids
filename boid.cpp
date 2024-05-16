@@ -1,7 +1,9 @@
 #include "boid.hpp"
 #include "food_source.hpp"
 #include "simulation.hpp"
+#include "util.hpp"
 #include <Eigen/Dense>
+#include <algorithm>
 #include <iostream>
 
 using Eigen::Rotation2Df;
@@ -15,7 +17,7 @@ Boid::Boid(Simulation *sim, BoidProps &props, Vector2f pos)
   simulation = sim;
   position = pos;
   direction << 1, 0;
-  Rotation2Df rotation(randf() * 2 * pi);
+  Rotation2Df rotation(Util::randf(2.f * pi));
   direction = rotation.toRotationMatrix() * direction;
 
   speed = 0;
@@ -81,8 +83,4 @@ void Boid::handleCollision(const ICollidable &collidable) {
 float Boid::linearInterp(float v, float inLow, float inHigh, float outLow,
                          float outHigh) {
   return outLow + (v - inLow) * (outHigh - outLow) / (inHigh - inLow);
-}
-
-float Boid::randf() {
-  return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 }

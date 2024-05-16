@@ -14,12 +14,6 @@ class MainEvaluate {
   Simulation simulation;
   EvolutionLog evolutionLog;
 
-  // TODO: Rename to indicate that it's an (open) unit ball.
-  float randf() {
-    return 2.f * static_cast<float>(rand()) / static_cast<float>(RAND_MAX) -
-           1.f;
-  }
-
 public:
   MainEvaluate(int argc, char *argv[]);
 

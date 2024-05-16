@@ -1,8 +1,8 @@
 #include "simulation.hpp"
 #include "collision_detection.hpp"
+#include "util.hpp"
 #include <Eigen/Dense>
 #include <iostream>
-#include <limits>
 
 using Eigen::Vector2f;
 
@@ -40,7 +40,7 @@ void Simulation::resetFoodSources() {
 
   for (int i = 0; i < Simulation::numInitialFoodSources; i++) {
     FoodSource *foodSource =
-        new FoodSource(Vector2f(randf() * size.x(), randf() * size.y()));
+        new FoodSource(Vector2f(Util::randf(size.x()), Util::randf(size.y())));
     foodSources.push_back(foodSource);
     foodSourceCreated(*foodSource);
   }
@@ -143,7 +143,7 @@ void Simulation::handleCollisions() {
 
 void Simulation::addBoid(BoidProps boidProps) {
   Boid *boid = new Boid(this, boidProps,
-                        Vector2f(randf() * size.x(), randf() * size.y()));
+                        Vector2f(Util::randf(size.x()), Util::randf(size.y())));
   boids.push_back(boid);
   boidCreated(*boid);
 }
@@ -244,8 +244,4 @@ void Simulation::foodSourceDeleted(FoodSource &foodSource) {
        it != end(foodSourceListeners); ++it) {
     (*it)->foodSourceDeleted(foodSource);
   }
-}
-
-float Simulation::randf() {
-  return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 }

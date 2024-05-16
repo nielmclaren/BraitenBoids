@@ -1,5 +1,6 @@
 #include "main_evaluate.hpp"
 #include "boid_marshaller.hpp"
+#include "util.hpp"
 #include <format>
 
 MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
@@ -104,7 +105,7 @@ float MainEvaluate::fitnessFunction(Boid &boid) {
 std::vector<float> MainEvaluate::mutateWeights(std::vector<float> weights) {
   std::vector<float> results;
   for (auto &w : weights) {
-    results.push_back(std::clamp(w + randf() * 0.1f, -1.f, 1.f));
+    results.push_back(std::clamp(w + Util::randf(-0.1f, 0.1f), -1.f, 1.f));
   }
   std::cout << "\t"
             << "Mutation: ";

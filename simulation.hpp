@@ -26,8 +26,6 @@ class Simulation {
   void foodSourceCreated(FoodSource &foodSource);
   void foodSourceDeleted(FoodSource &foodSource);
 
-  float randf();
-
 public:
   static const unsigned int numInitialFoodSources = 30;
 

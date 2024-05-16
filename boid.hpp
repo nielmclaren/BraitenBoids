@@ -21,7 +21,6 @@ class Boid : public ICollidable {
 
   float linearInterp(float v, float inLow, float inHigh, float outLow,
                      float outHigh);
-  float randf();
 
 public:
   Simulation *simulation;
