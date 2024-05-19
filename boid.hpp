@@ -1,6 +1,7 @@
 #pragma once
 
 #include "boid_props.hpp"
+#include "iagent.hpp"
 #include "icollidable.hpp"
 #include "neural_network.hpp"
 #include <Eigen/Dense>
@@ -8,7 +9,7 @@
 using Eigen::Vector2f;
 
 class Simulation;
-class Boid : public ICollidable {
+class Boid : public IAgent, public ICollidable {
   const float pi = std::acos(-1.0f);
   const float MAX_SPEED = 2;
 
@@ -34,6 +35,8 @@ public:
   float senseRadius;
 
   Boid(Simulation *sim, BoidProps &boidProps, Vector2f pos);
+  ~Boid();
+
   unsigned int getId() const;
 
   unsigned int getGenerationIndex();

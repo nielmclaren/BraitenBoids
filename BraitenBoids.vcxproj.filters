@@ -143,5 +143,8 @@
     <ClInclude Include="util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="iagent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
