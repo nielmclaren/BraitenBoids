@@ -19,9 +19,6 @@ class Boid : public ICollidable {
 
   NeuralNetwork neuralNetwork;
 
-  float linearInterp(float v, float inLow, float inHigh, float outLow,
-                     float outHigh);
-
 public:
   Simulation *simulation;
 

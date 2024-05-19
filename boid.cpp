@@ -67,8 +67,9 @@ void Boid::step(float timeDelta) {
   Rotation2Df rotation(turn);
   direction = rotation.toRotationMatrix() * direction;
 
-  speed = std::clamp(speed + linearInterp(speedNeuron, -1.f, 1.f, -0.1f, 0.1f),
-                     0.f, MAX_SPEED);
+  speed = std::clamp(
+      speed + Util::linearInterp(speedNeuron, -1.f, 1.f, -0.1f, 0.1f), 0.f,
+      MAX_SPEED);
   velocity = direction * speed;
 
   position += velocity;
@@ -78,9 +79,4 @@ void Boid::handleCollision(const ICollidable &collidable) {
   numFoodsEaten++;
   // std::cout << "Boid handle collision; numFoodsEaten=" << numFoodsEaten <<
   // std::endl;
-}
-
-float Boid::linearInterp(float v, float inLow, float inHigh, float outLow,
-                         float outHigh) {
-  return outLow + (v - inLow) * (outHigh - outLow) / (inHigh - inLow);
 }

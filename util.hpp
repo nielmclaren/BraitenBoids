@@ -7,6 +7,8 @@
  */
 class Util {
 public:
+  static float linearInterp(float v, float inLow, float inHigh, float outLow,
+                            float outHigh);
   static float randf();
   static float randf(float high);
   static float randf(float low, float high);
