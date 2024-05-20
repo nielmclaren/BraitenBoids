@@ -19,9 +19,6 @@ Simulation::Simulation(float w, float h) {
 }
 
 Simulation::~Simulation() {
-  for (Boid *boid : boids) {
-    delete boid;
-  }
   boids.clear();
 
   for (FoodSource *foodSource : foodSources) {
@@ -80,9 +77,9 @@ void Simulation::stepAvatar(float timeDelta) {
 }
 
 void Simulation::stepBoids(float timeDelta) {
-  for (std::vector<Boid *>::iterator it = begin(boids); it != end(boids);
-       ++it) {
-    Boid *boid = *it;
+  for (std::vector<std::shared_ptr<Boid>>::iterator it = begin(boids);
+       it != end(boids); ++it) {
+    std::shared_ptr<Boid> boid = *it;
     boid->step(timeDelta);
 
     while (boid->position.x() < 0) {
@@ -119,9 +116,9 @@ void Simulation::handleCollisions() {
     }
   }
 
-  for (std::vector<Boid *>::iterator boidIter = begin(boids);
+  for (std::vector<std::shared_ptr<Boid>>::iterator boidIter = begin(boids);
        boidIter != end(boids); ++boidIter) {
-    Boid *boid = *boidIter;
+    std::shared_ptr<Boid> boid = *boidIter;
 
     for (std::vector<FoodSource *>::iterator foodIter = begin(foodSources);
          foodIter != end(foodSources);) {
@@ -142,8 +139,8 @@ void Simulation::handleCollisions() {
 }
 
 void Simulation::addBoid(BoidProps boidProps) {
-  Boid *boid = new Boid(this, boidProps,
-                        Vector2f(Util::randf(size.x()), Util::randf(size.y())));
+  std::shared_ptr<Boid> boid(new Boid(
+      this, boidProps, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
   boids.push_back(boid);
   boidCreated(*boid);
 }

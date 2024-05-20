@@ -31,7 +31,7 @@ public:
 
   Vector2f size;
 
-  std::vector<Boid *> boids;
+  std::vector<std::shared_ptr<Boid>> boids;
   std::vector<IBoidListener *> boidListeners;
 
   std::vector<FoodSource *> foodSources;

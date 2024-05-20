@@ -42,7 +42,7 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
 void MainEvaluate::logGeneration(Simulation &simulation,
                                  unsigned int generationIndex,
                                  unsigned int stepCount) {
-  std::vector<Boid *> boids = simulation.boids;
+  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
   for (auto &boid : boids) {
     boid->fitnessScore = fitnessFunction(*boid);
   }
@@ -64,7 +64,7 @@ void MainEvaluate::selectAndMutate(Simulation &simulation) {
   int population = 10;
   int selectNum = 4;
 
-  std::vector<Boid *> boids = simulation.boids;
+  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
   for (auto &boid : boids) {
     boid->fitnessScore = fitnessFunction(*boid);
   }
@@ -73,7 +73,8 @@ void MainEvaluate::selectAndMutate(Simulation &simulation) {
     return lhs->fitnessScore > rhs->fitnessScore;
   });
 
-  std::vector<Boid *> selected(boids.begin(), boids.begin() + selectNum);
+  std::vector<std::shared_ptr<Boid>> selected(boids.begin(),
+                                              boids.begin() + selectNum);
 
   int nextId = 0;
   std::vector<BoidProps> mutated;

@@ -127,7 +127,7 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
   std::cout << "\tSteps: " << stepCount << std::endl;
 
   std::cout << "\tFitness scores, weights: " << std::endl;
-  std::vector<Boid *> boids = simulation.boids;
+  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
   for (auto &boid : boids) {
     boid->fitnessScore = fitnessFunction(*boid);
   }
@@ -149,7 +149,7 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
 }
 
 void MainVisualize::logGeneration(Simulation &simulation) {
-  std::vector<Boid *> boids = simulation.boids;
+  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
   for (auto &boid : boids) {
     boid->fitnessScore = fitnessFunction(*boid);
   }
@@ -170,7 +170,7 @@ void MainVisualize::selectAndMutate(Simulation &simulation) {
   int population = 10;
   int selectNum = 4;
 
-  std::vector<Boid *> boids = simulation.boids;
+  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
   for (auto &boid : boids) {
     boid->fitnessScore = fitnessFunction(*boid);
   }
@@ -179,7 +179,8 @@ void MainVisualize::selectAndMutate(Simulation &simulation) {
     return lhs->fitnessScore > rhs->fitnessScore;
   });
 
-  std::vector<Boid *> selected(boids.begin(), boids.begin() + selectNum);
+  std::vector<std::shared_ptr<Boid>> selected(boids.begin(),
+                                              boids.begin() + selectNum);
 
   int nextId = 0;
   std::vector<BoidProps> mutated;
