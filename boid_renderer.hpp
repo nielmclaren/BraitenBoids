@@ -4,8 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 class BoidRenderer {
-  const float pi = std::acos(-1.0f);
-
   static const std::vector<unsigned int> colors;
   static const std::vector<unsigned int> lightColors;
 

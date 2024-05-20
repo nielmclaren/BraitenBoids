@@ -10,8 +10,6 @@
 #include <vector>
 
 class SimRenderer : public IBoidListener, public IFoodSourceListener {
-  const float pi = std::acos(-1.0f);
-
   Simulation *simulation;
   sf::RenderWindow *window;
 

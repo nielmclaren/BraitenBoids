@@ -10,7 +10,6 @@ using Eigen::Vector2f;
 
 class Simulation;
 class Boid : public IAgent, public ICollidable {
-  const float pi = std::acos(-1.0f);
   const float MAX_SPEED = 2;
 
   unsigned int id;

@@ -1,6 +1,7 @@
 #include "boid_renderer.hpp"
 #include "food_source.hpp"
 #include "simulation.hpp"
+#include "util.hpp"
 
 BoidRenderer::BoidRenderer(const Boid &boid)
     : boid(boid), bodyShape(boid.radius), directionShape(),
@@ -31,7 +32,7 @@ void BoidRenderer::draw(sf::RenderWindow &window) {
 
   // Worth assuming the position changed every frame.
   transform.setPosition(eigenToSfml(position));
-  transform.setRotation(atan2(direction.y(), direction.x()) * 180 / pi);
+  transform.setRotation(atan2(direction.y(), direction.x()) * 180 / Util::pi);
 
   FoodSource *nearestFoodSource =
       boid.simulation->getNearestFoodSource(position);
@@ -43,7 +44,7 @@ void BoidRenderer::draw(sf::RenderWindow &window) {
       toNearestFoodSourceShape.setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape.getSize().y));
       toNearestFoodSourceShape.setRotation(
-          atan2(toFoodSource.y(), toFoodSource.x()) * 180 / pi);
+          atan2(toFoodSource.y(), toFoodSource.x()) * 180 / Util::pi);
       window.draw(toNearestFoodSourceShape);
     }
   }

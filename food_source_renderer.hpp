@@ -4,8 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 class FoodSourceRenderer {
-  const float pi = std::acos(-1.0f);
-
   sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:

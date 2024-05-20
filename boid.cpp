@@ -17,7 +17,7 @@ Boid::Boid(Simulation *sim, BoidProps &props, Vector2f pos)
   simulation = sim;
   position = pos;
   direction << 1, 0;
-  Rotation2Df rotation(Util::randf(2.f * pi));
+  Rotation2Df rotation(Util::randf(2.f * Util::pi));
   direction = rotation.toRotationMatrix() * direction;
 
   speed = 0;
@@ -53,7 +53,7 @@ void Boid::step(float timeDelta) {
       float angleBetween = atan2(direction.x() * toFoodSource.y() -
                                      direction.y() * toFoodSource.x(),
                                  toFoodSource.dot(direction));
-      directionNeuron = angleBetween / pi;
+      directionNeuron = angleBetween / Util::pi;
     }
   }
 
@@ -63,7 +63,7 @@ void Boid::step(float timeDelta) {
   float turnNeuron = output[1];
 
   float maxTurnDegrees = 1;
-  float turnAmount = std::min(abs(turnNeuron), maxTurnDegrees * pi / 180);
+  float turnAmount = std::min(abs(turnNeuron), maxTurnDegrees * Util::pi / 180);
   float turn =
       turnAmount == 0 ? turnAmount : turnAmount * turnNeuron / abs(turnNeuron);
   Rotation2Df rotation(turn);

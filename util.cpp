@@ -1,7 +1,10 @@
 #include "util.hpp"
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <limits>
+
+const float Util::pi = std::acos(-1.0f);
 
 float Util::linearInterp(float v, float inLow, float inHigh, float outLow,
                          float outHigh) {

@@ -7,6 +7,8 @@
  */
 class Util {
 public:
+  static const float pi;
+
   static float linearInterp(float v, float inLow, float inHigh, float outLow,
                             float outHigh);
   static float randf();

@@ -1,6 +1,7 @@
 #include "avatar_renderer.hpp"
 #include "food_source.hpp"
 #include "simulation.hpp"
+#include "util.hpp"
 
 AvatarRenderer::AvatarRenderer(const Avatar &avatar)
     : avatar(avatar), bodyShape(avatar.radius),
@@ -20,7 +21,8 @@ void AvatarRenderer::draw(sf::RenderWindow &window) {
   Vector2f position = avatar.position;
   Vector2f direction = avatar.direction;
   directionShape.setPosition(eigenToSfml(position));
-  directionShape.setRotation(atan2(direction.y(), direction.x()) * 180 / pi);
+  directionShape.setRotation(atan2(direction.y(), direction.x()) * 180 /
+                             Util::pi);
   window.draw(directionShape);
 
   FoodSource *nearestFoodSource =
@@ -33,7 +35,7 @@ void AvatarRenderer::draw(sf::RenderWindow &window) {
       toNearestFoodSourceShape.setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape.getSize().y));
       toNearestFoodSourceShape.setRotation(
-          atan2(toFoodSource.y(), toFoodSource.x()) * 180 / pi);
+          atan2(toFoodSource.y(), toFoodSource.x()) * 180 / Util::pi);
       window.draw(toNearestFoodSourceShape);
 
       float angleBetween = atan2(direction.x() * toFoodSource.y() -
@@ -44,7 +46,7 @@ void AvatarRenderer::draw(sf::RenderWindow &window) {
 
       newDirectionShape.setPosition(eigenToSfml(position));
       newDirectionShape.setRotation(atan2(newDirection.y(), newDirection.x()) *
-                                    180 / pi);
+                                    180 / Util::pi);
       window.draw(newDirectionShape);
     }
   }
