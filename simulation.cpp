@@ -10,13 +10,11 @@ Simulation::Simulation(float w, float h) {
   size.x() = w;
   size.y() = h;
 
-  // TODO: Change to non-pointer value.
-  avatar = new Avatar();
-  avatar->position.x() = w / 2.f;
-  avatar->position.y() = h / 2.f;
+  avatar.position.x() = w / 2.f;
+  avatar.position.y() = h / 2.f;
 
-  avatar->direction.x() = 0;
-  avatar->direction.y() = -1;
+  avatar.direction.x() = 0;
+  avatar.direction.y() = -1;
 }
 
 Simulation::~Simulation() {
@@ -44,7 +42,7 @@ void Simulation::setPlayerDirection(Vector2f direction) {
   playerDirection = direction;
 
   if (direction.norm() > 0) {
-    avatar->direction = direction;
+    avatar.direction = direction;
   }
 }
 
@@ -56,20 +54,20 @@ void Simulation::step(float timeDelta) {
 }
 
 void Simulation::stepAvatar(float timeDelta) {
-  avatar->position.x() += playerDirection.x() * speed * timeDelta;
-  avatar->position.y() += playerDirection.y() * speed * timeDelta;
+  avatar.position.x() += playerDirection.x() * speed * timeDelta;
+  avatar.position.y() += playerDirection.y() * speed * timeDelta;
 
-  while (avatar->position.x() < 0) {
-    avatar->position.x() += size.x();
+  while (avatar.position.x() < 0) {
+    avatar.position.x() += size.x();
   }
-  while (avatar->position.x() > size.x()) {
-    avatar->position.x() -= size.x();
+  while (avatar.position.x() > size.x()) {
+    avatar.position.x() -= size.x();
   }
-  while (avatar->position.y() < 0) {
-    avatar->position.y() += size.y();
+  while (avatar.position.y() < 0) {
+    avatar.position.y() += size.y();
   }
-  while (avatar->position.y() > size.y()) {
-    avatar->position.y() -= size.y();
+  while (avatar.position.y() > size.y()) {
+    avatar.position.y() -= size.y();
   }
 }
 
@@ -100,11 +98,11 @@ void Simulation::handleCollisions() {
   for (std::vector<std::shared_ptr<FoodSource>>::iterator it =
            begin(foodSources);
        it != end(foodSources);) {
-    if (CollisionDetection::detect(*avatar, **it)) {
+    if (CollisionDetection::detect(avatar, **it)) {
       std::shared_ptr<FoodSource> doomedFoodSource = *it;
 
-      doomedFoodSource->handleCollision(*avatar);
-      avatar->handleCollision(*doomedFoodSource);
+      doomedFoodSource->handleCollision(avatar);
+      avatar.handleCollision(*doomedFoodSource);
 
       foodSourceDeleted(*doomedFoodSource);
       it = foodSources.erase(it);

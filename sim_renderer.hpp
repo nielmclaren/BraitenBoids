@@ -12,7 +12,7 @@
 
 class SimRenderer : public IBoidListener, public IFoodSourceListener {
   Simulation &simulation;
-  sf::RenderWindow *window;
+  sf::RenderWindow &window;
 
   AvatarRenderer *avatarRenderer;
   std::vector<BoidRenderer *> boidRenderers;
