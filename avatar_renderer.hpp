@@ -1,10 +1,10 @@
 #pragma once
 
 #include "avatar.hpp"
+#include "iworld_state.hpp"
 #include <Eigen/Dense>
 #include <SFML/Graphics.hpp>
 
-using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
 class AvatarRenderer {
@@ -19,5 +19,5 @@ public:
 
   AvatarRenderer(const Avatar &avatar);
 
-  void draw(sf::RenderWindow &window);
+  void draw(IWorldState &worldState, sf::RenderWindow &window);
 };

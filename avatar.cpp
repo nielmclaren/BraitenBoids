@@ -3,9 +3,7 @@
 
 using Eigen::Vector2f;
 
-Avatar::Avatar(Simulation *sim) {
-  simulation = sim;
-
+Avatar::Avatar() {
   numFoodsEaten = 0;
 
   radius = 7.f;

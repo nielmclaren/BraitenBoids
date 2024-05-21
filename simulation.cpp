@@ -10,7 +10,8 @@ Simulation::Simulation(float w, float h) {
   size.x() = w;
   size.y() = h;
 
-  avatar = new Avatar(this);
+  // TODO: Change to non-pointer value.
+  avatar = new Avatar();
   avatar->position.x() = w / 2.f;
   avatar->position.y() = h / 2.f;
 
@@ -76,7 +77,7 @@ void Simulation::stepBoids(float timeDelta) {
   for (std::vector<std::shared_ptr<Boid>>::iterator it = begin(boids);
        it != end(boids); ++it) {
     std::shared_ptr<Boid> boid = *it;
-    boid->step(timeDelta);
+    boid->step(*this, timeDelta);
 
     while (boid->position.x() < 0) {
       boid->position.x() += size.x();
@@ -136,7 +137,7 @@ void Simulation::handleCollisions() {
 
 void Simulation::addBoid(BoidProps boidProps) {
   std::shared_ptr<Boid> boid(new Boid(
-      this, boidProps, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
+      boidProps, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
   boids.push_back(boid);
   boidCreated(*boid);
 }

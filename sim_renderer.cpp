@@ -8,14 +8,13 @@
 using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
-SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win) {
-  simulation = &sim;
-  window = &win;
+SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win)
+    : simulation(sim), window(&win) {
 
-  avatarRenderer = new AvatarRenderer(*(simulation->avatar));
+  avatarRenderer = new AvatarRenderer(*(simulation.avatar));
 
-  simulation->registerBoidListener(this);
-  simulation->registerFoodSourceListener(this);
+  simulation.registerBoidListener(this);
+  simulation.registerFoodSourceListener(this);
 }
 
 SimRenderer::~SimRenderer() {
@@ -37,7 +36,7 @@ void SimRenderer::draw() {
 
   for (std::vector<BoidRenderer *>::iterator it = begin(boidRenderers);
        it != end(boidRenderers); ++it) {
-    (*it)->draw(*window);
+    (*it)->draw(simulation, *window);
   }
 
   for (std::vector<FoodSourceRenderer *>::iterator it =
@@ -46,7 +45,7 @@ void SimRenderer::draw() {
     (*it)->draw(*window);
   }
 
-  avatarRenderer->draw(*window);
+  avatarRenderer->draw(simulation, *window);
 
   window->display();
 }

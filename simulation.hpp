@@ -5,12 +5,13 @@
 #include "food_source.hpp"
 #include "iboid_listener.hpp"
 #include "ifood_source_listener.hpp"
+#include "iworld_state.hpp"
 #include <Eigen/Dense>
 #include <vector>
 
 using Eigen::Vector2f;
 
-class Simulation {
+class Simulation : public IWorldState {
   // Pixels per second.
   float speed = 200;
   Vector2f playerDirection;

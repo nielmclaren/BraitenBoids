@@ -5,12 +5,13 @@
 #include "food_source_renderer.hpp"
 #include "iboid_listener.hpp"
 #include "ifood_source_listener.hpp"
+#include "simulation.hpp"
 #include <Eigen/Dense>
 #include <SFML/Graphics.hpp>
 #include <vector>
 
 class SimRenderer : public IBoidListener, public IFoodSourceListener {
-  Simulation *simulation;
+  Simulation &simulation;
   sf::RenderWindow *window;
 
   AvatarRenderer *avatarRenderer;

@@ -1,6 +1,5 @@
 #include "boid.hpp"
 #include "food_source.hpp"
-#include "simulation.hpp"
 #include "util.hpp"
 #include <Eigen/Dense>
 #include <algorithm>
@@ -9,12 +8,10 @@
 using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
-Boid::Boid(Simulation *sim, BoidProps &props, Vector2f pos)
-    : neuralNetwork(props.weights) {
+Boid::Boid(BoidProps &props, Vector2f pos) : neuralNetwork(props.weights) {
   id = props.id;
   generationIndex = props.generationIndex;
 
-  simulation = sim;
   position = pos;
   direction << 1, 0;
   Rotation2Df rotation(Util::randf(2.f * Util::pi));
@@ -39,12 +36,12 @@ unsigned int Boid::getGenerationIndex() { return generationIndex; }
 
 int Boid::getNumFoodsEaten() { return numFoodsEaten; }
 
-void Boid::step(float timeDelta) {
+void Boid::step(IWorldState &worldState, float timeDelta) {
   float detectionNeuron = 0;
   float directionNeuron = 0;
 
   std::shared_ptr<FoodSource> foodSource =
-      simulation->getNearestFoodSource(position);
+      worldState.getNearestFoodSource(position);
   if (foodSource != nullptr) {
     Vector2f toFoodSource = foodSource->position - position;
     float dist = toFoodSource.norm();

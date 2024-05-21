@@ -1,6 +1,7 @@
 #pragma once
 
 #include "boid.hpp"
+#include "iworld_state.hpp"
 #include <SFML/Graphics.hpp>
 
 class BoidRenderer {
@@ -18,5 +19,5 @@ public:
 
   BoidRenderer(const Boid &boid);
 
-  void draw(sf::RenderWindow &window);
+  void draw(IWorldState &worldState, sf::RenderWindow &window);
 };

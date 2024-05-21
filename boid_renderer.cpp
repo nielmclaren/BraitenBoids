@@ -1,6 +1,5 @@
 #include "boid_renderer.hpp"
 #include "food_source.hpp"
-#include "simulation.hpp"
 #include "util.hpp"
 
 BoidRenderer::BoidRenderer(const Boid &boid)
@@ -26,7 +25,7 @@ BoidRenderer::BoidRenderer(const Boid &boid)
   toNearestFoodSourceShape.setFillColor(lightColor);
 }
 
-void BoidRenderer::draw(sf::RenderWindow &window) {
+void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   Vector2f position = boid.position;
   Vector2f direction = boid.direction;
 
@@ -35,7 +34,7 @@ void BoidRenderer::draw(sf::RenderWindow &window) {
   transform.setRotation(atan2(direction.y(), direction.x()) * 180 / Util::pi);
 
   std::shared_ptr<FoodSource> nearestFoodSource =
-      boid.simulation->getNearestFoodSource(position);
+      worldState.getNearestFoodSource(position);
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->position - position;
     float dist = toFoodSource.norm();

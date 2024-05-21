@@ -3,12 +3,12 @@
 #include "boid_props.hpp"
 #include "iagent.hpp"
 #include "icollidable.hpp"
+#include "iworld_state.hpp"
 #include "neural_network.hpp"
 #include <Eigen/Dense>
 
 using Eigen::Vector2f;
 
-class Simulation;
 class Boid : public IAgent, public ICollidable {
   const float MAX_SPEED = 2;
 
@@ -20,8 +20,6 @@ class Boid : public IAgent, public ICollidable {
   NeuralNetwork neuralNetwork;
 
 public:
-  Simulation *simulation;
-
   Vector2f position;
   Vector2f velocity;
 
@@ -33,7 +31,7 @@ public:
   float radius;
   float senseRadius;
 
-  Boid(Simulation *sim, BoidProps &boidProps, Vector2f pos);
+  Boid(BoidProps &boidProps, Vector2f pos);
   ~Boid();
 
   unsigned int getId() const;
@@ -44,7 +42,7 @@ public:
 
   float fitnessScore;
 
-  void step(float timeDelta);
+  void step(IWorldState &worldState, float timeDelta);
 
   void handleCollision(const ICollidable &collidable);
 };

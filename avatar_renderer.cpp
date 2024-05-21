@@ -1,7 +1,8 @@
 #include "avatar_renderer.hpp"
 #include "food_source.hpp"
-#include "simulation.hpp"
 #include "util.hpp"
+
+using Eigen::Rotation2Df;
 
 AvatarRenderer::AvatarRenderer(const Avatar &avatar)
     : avatar(avatar), bodyShape(avatar.radius),
@@ -17,7 +18,7 @@ AvatarRenderer::AvatarRenderer(const Avatar &avatar)
   toNearestFoodSourceShape.setFillColor(sf::Color::Green);
 }
 
-void AvatarRenderer::draw(sf::RenderWindow &window) {
+void AvatarRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   Vector2f position = avatar.position;
   Vector2f direction = avatar.direction;
   directionShape.setPosition(eigenToSfml(position));
@@ -26,7 +27,7 @@ void AvatarRenderer::draw(sf::RenderWindow &window) {
   window.draw(directionShape);
 
   std::shared_ptr<FoodSource> nearestFoodSource =
-      avatar.simulation->getNearestFoodSource(position);
+      worldState.getNearestFoodSource(position);
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->position - position;
     float dist = (toFoodSource).norm();
