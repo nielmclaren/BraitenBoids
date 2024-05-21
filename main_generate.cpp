@@ -12,7 +12,7 @@ MainGenerate::MainGenerate(int argc, char *argv[]) {
   int numBoids = 10;
   int numWeights = 6;
 
-  std::string filename = "output/boids.csv";
+  std::string filename = "output/boids.json";
   std::ofstream file(filename);
 
   file << "id, generation, numFoodsEaten, w0, w1, w2, w3, w4, w5" << std::endl;

@@ -8,6 +8,27 @@
 using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
+Boid::Boid() {
+  id = NULL;
+  generationIndex = 0;
+
+  position << 0, 0;
+
+  direction << 1, 0;
+  Rotation2Df rotation(Util::randf(2.f * Util::pi));
+  direction = rotation.toRotationMatrix() * direction;
+
+  speed = 0;
+  velocity = direction * speed;
+
+  numFoodsEaten = 0;
+
+  radius = 8.f;
+  senseRadius = 200.f;
+
+  fitnessScore = 0.f;
+}
+
 Boid::Boid(BoidProps &props, Vector2f pos) : neuralNetwork(props.weights) {
   id = props.id;
   generationIndex = props.generationIndex;
@@ -24,6 +45,8 @@ Boid::Boid(BoidProps &props, Vector2f pos) : neuralNetwork(props.weights) {
 
   radius = 8.f;
   senseRadius = 200.f;
+
+  fitnessScore = 0.f;
 }
 
 Boid::~Boid() {}

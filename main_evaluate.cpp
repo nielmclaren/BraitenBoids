@@ -36,7 +36,7 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation() {
   sf::Time elapsed = totalStopwatch.getElapsedTime();
   std::cout << "Total time: " << elapsed.asSeconds() << "s" << std::endl;
 
-  BoidMarshaller::save(simulation, "output/boids.csv");
+  BoidMarshaller::save(simulation, "output/boids.json");
   evolutionLog.save("output/evolution_log.csv");
 }
 

@@ -76,11 +76,11 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         screenshot.toggleRecording();
       }
       if (event.key.scancode == sf::Keyboard::Scan::V) {
-        BoidMarshaller::save(simulation, "output/boids.csv");
+        BoidMarshaller::save(simulation, "output/boids.json");
         evolutionLog.save("output/evolution_log.csv");
       }
       if (event.key.scancode == sf::Keyboard::Scan::L) {
-        BoidMarshaller::load(simulation, "output/boids.csv");
+        BoidMarshaller::load(simulation, "output/boids.json");
         simulation.resetFoodSources();
         generationIndex = 0;
         for (auto &boid : simulation.boids) {

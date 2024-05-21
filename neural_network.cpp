@@ -1,5 +1,7 @@
 #include "neural_network.hpp"
 
+NeuralNetwork::NeuralNetwork() {}
+
 NeuralNetwork::NeuralNetwork(std::vector<float> weights) : weights(weights) {}
 //	weights({ -0.2, 1, 0, 0, 0, 1 }) {}
 

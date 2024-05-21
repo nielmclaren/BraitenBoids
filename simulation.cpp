@@ -23,13 +23,22 @@ void Simulation::init(float w, float h) {
 
   avatar.position.x() = w / 2.f;
   avatar.position.y() = h / 2.f;
+
+  for (auto &boid : boids) {
+    boid->position.x() = Util::randf(size.x());
+    boid->position.y() = Util::randf(size.y());
+  }
 }
 
-void Simulation::resetFoodSources() {
+void Simulation::clearFoodSources() {
   for (auto &foodSource : foodSources) {
     foodSourceDeleted(*foodSource);
   }
   foodSources.clear();
+}
+
+void Simulation::resetFoodSources() {
+  clearFoodSources();
 
   for (int i = 0; i < Simulation::numInitialFoodSources; i++) {
     std::shared_ptr<FoodSource> foodSource(
@@ -152,6 +161,15 @@ void Simulation::setBoids(std::vector<BoidProps> boidPropses) {
   clearBoids();
   for (auto &props : boidPropses) {
     addBoid(props);
+  }
+}
+
+void Simulation::boidsCreated() {
+  for (auto &boid : boids) {
+    for (std::vector<IBoidListener *>::iterator it = begin(boidListeners);
+         it != end(boidListeners); ++it) {
+      (*it)->boidCreated(*boid);
+    }
   }
 }
 
