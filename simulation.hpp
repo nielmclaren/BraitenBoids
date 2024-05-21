@@ -34,7 +34,7 @@ public:
   std::vector<std::shared_ptr<Boid>> boids;
   std::vector<IBoidListener *> boidListeners;
 
-  std::vector<FoodSource *> foodSources;
+  std::vector<std::shared_ptr<FoodSource>> foodSources;
   std::vector<IFoodSourceListener *> foodSourceListeners;
 
   Avatar *avatar;
@@ -53,9 +53,10 @@ public:
   void clearBoids();
   void setBoids(std::vector<BoidProps> boidPropses);
 
-  FoodSource *getNearestFoodSource(Vector2f &point);
+  std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point);
   float distanceToNearestFoodSource(Vector2f &point);
-  std::vector<FoodSource *> getNearbyFoodSources(Vector2f &point, float range);
+  std::vector<std::shared_ptr<FoodSource>> getNearbyFoodSources(Vector2f &point,
+                                                                float range);
 
   void registerBoidListener(IBoidListener *listener);
   void registerFoodSourceListener(IFoodSourceListener *listener);

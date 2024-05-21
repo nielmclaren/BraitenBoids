@@ -25,7 +25,7 @@ void AvatarRenderer::draw(sf::RenderWindow &window) {
                              Util::pi);
   window.draw(directionShape);
 
-  FoodSource *nearestFoodSource =
+  std::shared_ptr<FoodSource> nearestFoodSource =
       avatar.simulation->getNearestFoodSource(position);
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->position - position;

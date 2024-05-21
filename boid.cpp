@@ -43,7 +43,8 @@ void Boid::step(float timeDelta) {
   float detectionNeuron = 0;
   float directionNeuron = 0;
 
-  FoodSource *foodSource = simulation->getNearestFoodSource(position);
+  std::shared_ptr<FoodSource> foodSource =
+      simulation->getNearestFoodSource(position);
   if (foodSource != nullptr) {
     Vector2f toFoodSource = foodSource->position - position;
     float dist = toFoodSource.norm();

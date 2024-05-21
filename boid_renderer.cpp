@@ -34,7 +34,7 @@ void BoidRenderer::draw(sf::RenderWindow &window) {
   transform.setPosition(eigenToSfml(position));
   transform.setRotation(atan2(direction.y(), direction.x()) * 180 / Util::pi);
 
-  FoodSource *nearestFoodSource =
+  std::shared_ptr<FoodSource> nearestFoodSource =
       boid.simulation->getNearestFoodSource(position);
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->position - position;

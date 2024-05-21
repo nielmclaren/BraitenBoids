@@ -20,10 +20,6 @@ Simulation::Simulation(float w, float h) {
 
 Simulation::~Simulation() {
   boids.clear();
-
-  for (FoodSource *foodSource : foodSources) {
-    delete foodSource;
-  }
   foodSources.clear();
 
   foodSourceListeners.clear();
@@ -36,8 +32,8 @@ void Simulation::resetFoodSources() {
   foodSources.clear();
 
   for (int i = 0; i < Simulation::numInitialFoodSources; i++) {
-    FoodSource *foodSource =
-        new FoodSource(Vector2f(Util::randf(size.x()), Util::randf(size.y())));
+    std::shared_ptr<FoodSource> foodSource(
+        new FoodSource(Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
     foodSources.push_back(foodSource);
     foodSourceCreated(*foodSource);
   }
@@ -100,16 +96,16 @@ void Simulation::stepBoids(float timeDelta) {
 void Simulation::stepFoodSources(float timeDelta) {}
 
 void Simulation::handleCollisions() {
-  for (std::vector<FoodSource *>::iterator it = begin(foodSources);
+  for (std::vector<std::shared_ptr<FoodSource>>::iterator it =
+           begin(foodSources);
        it != end(foodSources);) {
     if (CollisionDetection::detect(*avatar, **it)) {
-      FoodSource *doomedFoodSource = *it;
+      std::shared_ptr<FoodSource> doomedFoodSource = *it;
 
       doomedFoodSource->handleCollision(*avatar);
       avatar->handleCollision(*doomedFoodSource);
 
       foodSourceDeleted(*doomedFoodSource);
-      delete doomedFoodSource;
       it = foodSources.erase(it);
     } else {
       it++;
@@ -120,16 +116,16 @@ void Simulation::handleCollisions() {
        boidIter != end(boids); ++boidIter) {
     std::shared_ptr<Boid> boid = *boidIter;
 
-    for (std::vector<FoodSource *>::iterator foodIter = begin(foodSources);
+    for (std::vector<std::shared_ptr<FoodSource>>::iterator foodIter =
+             begin(foodSources);
          foodIter != end(foodSources);) {
-      FoodSource *foodSource = *foodIter;
+      std::shared_ptr<FoodSource> foodSource = *foodIter;
 
       if (CollisionDetection::detect(*boid, *foodSource)) {
         foodSource->handleCollision(*boid);
         boid->handleCollision(*foodSource);
 
         foodSourceDeleted(*foodSource);
-        delete foodSource;
         foodIter = foodSources.erase(foodIter);
       } else {
         foodIter++;
@@ -159,12 +155,13 @@ void Simulation::setBoids(std::vector<BoidProps> boidPropses) {
   }
 }
 
-FoodSource *Simulation::getNearestFoodSource(Vector2f &point) {
-  FoodSource *nearest = nullptr;
+std::shared_ptr<FoodSource> Simulation::getNearestFoodSource(Vector2f &point) {
+  std::shared_ptr<FoodSource> nearest = nullptr;
   float nearestDist = std::numeric_limits<float>::max();
-  for (std::vector<FoodSource *>::iterator it = begin(foodSources);
+  for (std::vector<std::shared_ptr<FoodSource>>::iterator it =
+           begin(foodSources);
        it != end(foodSources); ++it) {
-    FoodSource *curr = *it;
+    std::shared_ptr<FoodSource> curr = *it;
     float dist = (curr->position - point).norm();
     if (dist < nearestDist) {
       nearest = curr;
@@ -180,9 +177,10 @@ float Simulation::distanceToNearestFoodSource(Vector2f &point) {
   }
 
   float nearestDist = std::numeric_limits<float>::max();
-  for (std::vector<FoodSource *>::iterator it = begin(foodSources);
+  for (std::vector<std::shared_ptr<FoodSource>>::iterator it =
+           begin(foodSources);
        it != end(foodSources); ++it) {
-    FoodSource *curr = *it;
+    std::shared_ptr<FoodSource> curr = *it;
     float dist = (curr->position - point).norm();
     if (dist < nearestDist) {
       nearestDist = dist;
@@ -191,12 +189,13 @@ float Simulation::distanceToNearestFoodSource(Vector2f &point) {
   return nearestDist;
 }
 
-std::vector<FoodSource *> Simulation::getNearbyFoodSources(Vector2f &point,
-                                                           float range) {
-  std::vector<FoodSource *> result;
-  for (std::vector<FoodSource *>::iterator it = begin(foodSources);
+std::vector<std::shared_ptr<FoodSource>>
+Simulation::getNearbyFoodSources(Vector2f &point, float range) {
+  std::vector<std::shared_ptr<FoodSource>> result;
+  for (std::vector<std::shared_ptr<FoodSource>>::iterator it =
+           begin(foodSources);
        it != end(foodSources); ++it) {
-    FoodSource *curr = *it;
+    std::shared_ptr<FoodSource> curr = *it;
     float dist = (curr->position - point).norm();
     if (dist < range) {
       result.push_back(curr);
