@@ -3,11 +3,13 @@
 #include "util.hpp"
 #include <format>
 
-MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
+MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation() {
+  std::cout << "evaluate command" << std::endl;
+
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
 
-  std::cout << "evaluate command" << std::endl;
+  simulation.init(800, 800);
 
   BoidMarshaller::loadRandomBoids(simulation);
 

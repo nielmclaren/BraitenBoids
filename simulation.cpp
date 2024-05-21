@@ -6,13 +6,7 @@
 
 using Eigen::Vector2f;
 
-Simulation::Simulation(float w, float h) {
-  size.x() = w;
-  size.y() = h;
-
-  avatar.position.x() = w / 2.f;
-  avatar.position.y() = h / 2.f;
-
+Simulation::Simulation() {
   avatar.direction.x() = 0;
   avatar.direction.y() = -1;
 }
@@ -20,8 +14,15 @@ Simulation::Simulation(float w, float h) {
 Simulation::~Simulation() {
   boids.clear();
   foodSources.clear();
-
   foodSourceListeners.clear();
+}
+
+void Simulation::init(float w, float h) {
+  size.x() = w;
+  size.y() = h;
+
+  avatar.position.x() = w / 2.f;
+  avatar.position.y() = h / 2.f;
 }
 
 void Simulation::resetFoodSources() {

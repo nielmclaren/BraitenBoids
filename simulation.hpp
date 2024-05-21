@@ -40,10 +40,10 @@ public:
 
   Avatar avatar;
 
-  Simulation(float w, float h);
+  Simulation();
   ~Simulation();
 
-  void init();
+  void init(float w, float h);
 
   void resetFoodSources();
 

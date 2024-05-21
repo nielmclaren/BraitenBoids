@@ -5,13 +5,14 @@
 
 MainVisualize::MainVisualize(int argc, char *argv[])
     : window(sf::VideoMode(800, 800), "BraitenBoids"),
-      simulation(static_cast<float>(window.getSize().x),
-                 static_cast<float>(window.getSize().y)),
       simRenderer(simulation, window), stepCount(0), generationIndex(0) {
   std::cout << "visualize command" << std::endl;
 
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
+
+  simulation.init(static_cast<float>(window.getSize().x),
+                  static_cast<float>(window.getSize().y));
 
   window.setKeyRepeatEnabled(false);
   window.setFramerateLimit(60);
