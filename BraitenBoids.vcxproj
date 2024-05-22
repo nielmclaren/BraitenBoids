@@ -54,6 +54,7 @@
     <ClInclude Include="iagent.hpp" />
     <ClInclude Include="iboid_listener.hpp" />
     <ClInclude Include="icollidable.hpp" />
+    <ClInclude Include="ientity.hpp" />
     <ClInclude Include="ifood_source_listener.hpp" />
     <ClInclude Include="iworld_state.hpp" />
     <ClInclude Include="main_evaluate.hpp" />

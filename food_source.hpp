@@ -1,11 +1,12 @@
 #pragma once
 
 #include "icollidable.hpp"
+#include "ientity.hpp"
 #include <Eigen/Dense>
 
 using Eigen::Vector2f;
 
-class FoodSource : public ICollidable {
+class FoodSource : public IEntity, public ICollidable {
   static unsigned int nextId;
   unsigned int id;
 

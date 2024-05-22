@@ -1,6 +1,5 @@
 #include "boid_marshaller.hpp"
 #include "boid_props.hpp"
-#include "util.hpp"
 #include <cereal/archives/json.hpp>
 #include <cereal/cereal.hpp>
 #include <cereal/types/memory.hpp>

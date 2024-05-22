@@ -1,10 +1,11 @@
 #pragma once
 
+#include "ientity.hpp"
 #include "iworld_state.hpp"
 
-class IAgent {
+// Actors in the simulation which can perform actions during a step.
+class IAgent : IEntity {
 public:
   virtual ~IAgent() {}
-  virtual unsigned int getId() const = 0;
   virtual void step(IWorldState &worldState, float timeDelta) = 0;
 };
