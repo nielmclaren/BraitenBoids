@@ -9,7 +9,7 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
 
-  simulation.setInitialBoids();
+  simulation.resetBoids();
   simulation.resetFoodSources();
 
   totalStopwatch.restart();

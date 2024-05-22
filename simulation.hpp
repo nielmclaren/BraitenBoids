@@ -47,7 +47,7 @@ public:
   void clearBoids();
   std::vector<BoidProps> getBoids();
   void setBoids(std::vector<BoidProps> boidPropses);
-  void setInitialBoids();
+  void resetBoids();
 
   std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point);
   float distanceToNearestFoodSource(Vector2f &point);

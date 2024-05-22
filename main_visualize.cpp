@@ -20,7 +20,7 @@ MainVisualize::MainVisualize(int argc, char *argv[])
       SimRenderer::create(simulation, window);
   simulation.registerEntityListener(simRenderer);
 
-  simulation.setInitialBoids();
+  simulation.resetBoids();
   simulation.resetFoodSources();
 
   while (window.isOpen()) {
@@ -93,7 +93,7 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::N) {
-        simulation.setInitialBoids();
+        simulation.resetBoids();
         simulation.resetFoodSources();
 
         stepCount = 0;

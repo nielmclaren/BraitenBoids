@@ -165,7 +165,7 @@ void Simulation::setBoids(std::vector<BoidProps> boidPropses) {
   }
 }
 
-void Simulation::setInitialBoids() {
+void Simulation::resetBoids() {
   clearBoids();
 
   int numBoids = 10;
