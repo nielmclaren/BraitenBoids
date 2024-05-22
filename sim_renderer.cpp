@@ -8,12 +8,9 @@
 using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
-SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win)
+SimRenderer::SimRenderer(Private p, Simulation &sim, sf::RenderWindow &win)
     : simulation(sim), window(win) {
-
   avatarRenderer = new AvatarRenderer(simulation.avatar);
-
-  simulation.registerEntityListener(this);
 }
 
 SimRenderer::~SimRenderer() {

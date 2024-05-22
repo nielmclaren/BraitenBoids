@@ -7,7 +7,7 @@ MainVisualize::MainVisualize(int argc, char *argv[])
     : window(sf::VideoMode(800, 800), "BraitenBoids"),
       simulation(static_cast<float>(window.getSize().x),
                  static_cast<float>(window.getSize().y)),
-      simRenderer(simulation, window), stepCount(0), generationIndex(0) {
+      stepCount(0), generationIndex(0) {
   std::cout << "visualize command" << std::endl;
 
   // Seed the random number generator.
@@ -15,6 +15,10 @@ MainVisualize::MainVisualize(int argc, char *argv[])
 
   window.setKeyRepeatEnabled(false);
   window.setFramerateLimit(60);
+
+  std::shared_ptr<SimRenderer> simRenderer =
+      SimRenderer::create(simulation, window);
+  simulation.registerEntityListener(simRenderer);
 
   simulation.setInitialBoids();
   simulation.resetFoodSources();
@@ -27,7 +31,7 @@ MainVisualize::MainVisualize(int argc, char *argv[])
     handleEvent(window);
     simulation.setPlayerDirection(getPlayerInputDirection());
     simulation.step(elapsedSeconds);
-    simRenderer.draw();
+    simRenderer->draw();
 
     screenshot.frameChanged(window);
 

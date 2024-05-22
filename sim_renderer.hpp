@@ -9,7 +9,10 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-class SimRenderer : public IEntityListener {
+class SimRenderer : public IEntityListener,
+                    std::enable_shared_from_this<SimRenderer> {
+  struct Private {};
+
   Simulation &simulation;
   sf::RenderWindow &window;
 
@@ -25,8 +28,13 @@ class SimRenderer : public IEntityListener {
   sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:
-  SimRenderer(Simulation &sim, sf::RenderWindow &win);
+  SimRenderer(Private p, Simulation &sim, sf::RenderWindow &win);
   ~SimRenderer();
+  static std::shared_ptr<SimRenderer> create(Simulation &sim,
+                                             sf::RenderWindow &win) {
+    return std::make_shared<SimRenderer>(Private(), sim, win);
+  }
+
   void draw();
 
   void entityCreated(IEntity &entity);

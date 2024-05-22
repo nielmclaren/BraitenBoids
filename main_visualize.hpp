@@ -16,7 +16,6 @@ class MainVisualize {
 
   sf::RenderWindow window;
   Simulation simulation;
-  SimRenderer simRenderer;
 
   unsigned int stepCount;
   unsigned int generationIndex;

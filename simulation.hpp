@@ -30,7 +30,7 @@ public:
 
   std::vector<std::shared_ptr<Boid>> boids;
   std::vector<std::shared_ptr<FoodSource>> foodSources;
-  std::vector<IEntityListener *> entityListeners;
+  std::vector<std::weak_ptr<IEntityListener>> entityListeners;
 
   Avatar avatar;
 
@@ -54,5 +54,5 @@ public:
   std::vector<std::shared_ptr<FoodSource>> getNearbyFoodSources(Vector2f &point,
                                                                 float range);
 
-  void registerEntityListener(IEntityListener *listener);
+  void registerEntityListener(std::shared_ptr<IEntityListener> listener);
 };

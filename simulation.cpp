@@ -229,20 +229,31 @@ Simulation::getNearbyFoodSources(Vector2f &point, float range) {
   return result;
 }
 
-void Simulation::registerEntityListener(IEntityListener *listener) {
+void Simulation::registerEntityListener(
+    std::shared_ptr<IEntityListener> listener) {
   entityListeners.push_back(listener);
 }
 
 void Simulation::entityCreated(IEntity &entity) {
-  for (std::vector<IEntityListener *>::iterator it = begin(entityListeners);
+  for (std::vector<std::weak_ptr<IEntityListener>>::iterator it =
+           begin(entityListeners);
        it != end(entityListeners); ++it) {
-    (*it)->entityCreated(entity);
+    if (std::shared_ptr<IEntityListener> listener = it->lock()) {
+      listener->entityCreated(entity);
+    } else {
+      it = entityListeners.erase(it);
+    }
   }
 }
 
 void Simulation::entityDeleted(IEntity &entity) {
-  for (std::vector<IEntityListener *>::iterator it = begin(entityListeners);
+  for (std::vector<std::weak_ptr<IEntityListener>>::iterator it =
+           begin(entityListeners);
        it != end(entityListeners); ++it) {
-    (*it)->entityDeleted(entity);
+    if (std::shared_ptr<IEntityListener> listener = it->lock()) {
+      listener->entityDeleted(entity);
+    } else {
+      it = entityListeners.erase(it);
+    }
   }
 }
