@@ -53,7 +53,6 @@ void SimRenderer::entityCreated(IEntity &entity) {
   EntityType entityType = entity.getEntityType();
   switch (entityType) {
   case EntityType::Boid:
-    // TODO: Is this actually doing what I think it is?
     boidCreated(*(dynamic_cast<Boid *>(&entity)));
     break;
   case EntityType::FoodSource:
