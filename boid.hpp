@@ -1,5 +1,6 @@
 #pragma once
 #include "boid_props.hpp"
+#include "constants.hpp"
 #include "iagent.hpp"
 #include "icollidable.hpp"
 #include "iworld_state.hpp"
@@ -36,6 +37,8 @@ public:
   ~Boid();
 
   unsigned int getId() const;
+  EntityType getEntityType() const;
+  AgentType getAgentType() const;
 
   unsigned int getGenerationIndex();
   int getNumFoodsEaten();

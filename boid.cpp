@@ -31,6 +31,8 @@ Boid::Boid(BoidProps &props, Vector2f pos) : neuralNetwork(props.weights) {
 Boid::~Boid() {}
 
 unsigned int Boid::getId() const { return id; }
+EntityType Boid::getEntityType() const { return EntityType::Boid; }
+AgentType Boid::getAgentType() const { return AgentType::Boid; }
 
 std::vector<float> Boid::getWeights() { return neuralNetwork.getWeights(); }
 

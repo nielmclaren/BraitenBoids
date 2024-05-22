@@ -1,5 +1,6 @@
 #pragma once
 
+#include "constants.hpp"
 #include "ientity.hpp"
 #include "iworld_state.hpp"
 
@@ -8,4 +9,5 @@ class IAgent : IEntity {
 public:
   virtual ~IAgent() {}
   virtual void step(IWorldState &worldState, float timeDelta) = 0;
+  virtual AgentType getAgentType() const = 0;
 };

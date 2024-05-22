@@ -13,6 +13,7 @@ FoodSource::FoodSource(Vector2f pos) {
 }
 
 unsigned int FoodSource::getId() const { return id; }
+EntityType FoodSource::getEntityType() const { return EntityType::FoodSource; }
 
 void FoodSource::handleCollision(const ICollidable &collidable) {
   // std::cout << "Food source handle collision." << std::endl;

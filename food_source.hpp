@@ -1,5 +1,6 @@
 #pragma once
 
+#include "constants.hpp"
 #include "icollidable.hpp"
 #include "ientity.hpp"
 #include <Eigen/Dense>
@@ -16,6 +17,7 @@ public:
 
   FoodSource(Vector2f pos);
   unsigned int getId() const;
+  EntityType getEntityType() const;
 
   void handleCollision(const ICollidable &collidable);
 };
