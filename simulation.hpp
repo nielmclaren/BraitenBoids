@@ -3,7 +3,7 @@
 #include "avatar.hpp"
 #include "boid.hpp"
 #include "food_source.hpp"
-#include "iboid_listener.hpp"
+#include "ientity_listener.hpp"
 #include "ifood_source_listener.hpp"
 #include "iworld_state.hpp"
 #include <Eigen/Dense>
@@ -21,8 +21,8 @@ class Simulation : public IWorldState {
   void stepFoodSources(float timeDelta);
   void handleCollisions();
 
-  void boidCreated(Boid &boid);
-  void boidDeleted(Boid &boid);
+  void entityCreated(IEntity &entity);
+  void entityDeleted(IEntity &entity);
 
   void foodSourceCreated(FoodSource &foodSource);
   void foodSourceDeleted(FoodSource &foodSource);
@@ -33,10 +33,11 @@ public:
   Vector2f size;
 
   std::vector<std::shared_ptr<Boid>> boids;
-  std::vector<IBoidListener *> boidListeners;
 
   std::vector<std::shared_ptr<FoodSource>> foodSources;
   std::vector<IFoodSourceListener *> foodSourceListeners;
+
+  std::vector<IEntityListener *> entityListeners;
 
   Avatar avatar;
 
@@ -60,6 +61,6 @@ public:
   std::vector<std::shared_ptr<FoodSource>> getNearbyFoodSources(Vector2f &point,
                                                                 float range);
 
-  void registerBoidListener(IBoidListener *listener);
+  void registerEntityListener(IEntityListener *listener);
   void registerFoodSourceListener(IFoodSourceListener *listener);
 };

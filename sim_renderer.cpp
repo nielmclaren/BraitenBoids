@@ -13,7 +13,7 @@ SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win)
 
   avatarRenderer = new AvatarRenderer(simulation.avatar);
 
-  simulation.registerBoidListener(this);
+  simulation.registerEntityListener(this);
   simulation.registerFoodSourceListener(this);
 }
 
@@ -50,9 +50,40 @@ void SimRenderer::draw() {
   window.display();
 }
 
+void SimRenderer::entityCreated(IEntity &entity) {
+  EntityType entityType = entity.getEntityType();
+  switch (entityType) {
+  case EntityType::Boid:
+    // TODO: Is this actually doing what I think it is?
+    boidCreated(*(dynamic_cast<Boid *>(&entity)));
+    break;
+  case EntityType::FoodSource:
+    break;
+  default:
+
+    // TODO: Never throw a string literal. Convert to exception class.
+    throw "Unexpected entity type.";
+  }
+}
+
 void SimRenderer::boidCreated(Boid &boid) {
   BoidRenderer *renderer = new BoidRenderer(boid);
   boidRenderers.push_back(renderer);
+}
+
+void SimRenderer::entityDeleted(IEntity &entity) {
+  EntityType entityType = entity.getEntityType();
+  switch (entityType) {
+  case EntityType::Boid:
+    // TODO: Is this actually doing what I think it is?
+    boidDeleted(*(dynamic_cast<Boid *>(&entity)));
+    break;
+  case EntityType::FoodSource:
+    break;
+  default:
+    // TODO: Never throw a string literal. Convert to exception class.
+    throw "Unexpected entity type.";
+  }
 }
 
 void SimRenderer::boidDeleted(Boid &boid) {

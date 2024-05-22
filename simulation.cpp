@@ -140,12 +140,12 @@ void Simulation::addBoid(BoidProps boidProps) {
   std::shared_ptr<Boid> boid(new Boid(
       boidProps, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
   boids.push_back(boid);
-  boidCreated(*boid);
+  entityCreated(*boid);
 }
 
 void Simulation::clearBoids() {
   for (auto &boid : boids) {
-    boidDeleted(*boid);
+    entityDeleted(*boid);
   }
   boids.clear();
 }
@@ -229,21 +229,21 @@ Simulation::getNearbyFoodSources(Vector2f &point, float range) {
   return result;
 }
 
-void Simulation::registerBoidListener(IBoidListener *listener) {
-  boidListeners.push_back(listener);
+void Simulation::registerEntityListener(IEntityListener *listener) {
+  entityListeners.push_back(listener);
 }
 
-void Simulation::boidCreated(Boid &boid) {
-  for (std::vector<IBoidListener *>::iterator it = begin(boidListeners);
-       it != end(boidListeners); ++it) {
-    (*it)->boidCreated(boid);
+void Simulation::entityCreated(IEntity &entity) {
+  for (std::vector<IEntityListener *>::iterator it = begin(entityListeners);
+       it != end(entityListeners); ++it) {
+    (*it)->entityCreated(entity);
   }
 }
 
-void Simulation::boidDeleted(Boid &boid) {
-  for (std::vector<IBoidListener *>::iterator it = begin(boidListeners);
-       it != end(boidListeners); ++it) {
-    (*it)->boidDeleted(boid);
+void Simulation::entityDeleted(IEntity &entity) {
+  for (std::vector<IEntityListener *>::iterator it = begin(entityListeners);
+       it != end(entityListeners); ++it) {
+    (*it)->entityDeleted(entity);
   }
 }
 
