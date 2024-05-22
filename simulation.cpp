@@ -6,7 +6,13 @@
 
 using Eigen::Vector2f;
 
-Simulation::Simulation() {
+Simulation::Simulation(float w, float h) {
+  size.x() = w;
+  size.y() = h;
+
+  avatar.position.x() = w / 2.f;
+  avatar.position.y() = h / 2.f;
+
   avatar.direction.x() = 0;
   avatar.direction.y() = -1;
 }
@@ -15,19 +21,6 @@ Simulation::~Simulation() {
   boids.clear();
   foodSources.clear();
   foodSourceListeners.clear();
-}
-
-void Simulation::init(float w, float h) {
-  size.x() = w;
-  size.y() = h;
-
-  avatar.position.x() = w / 2.f;
-  avatar.position.y() = h / 2.f;
-
-  for (auto &boid : boids) {
-    boid->position.x() = Util::randf(size.x());
-    boid->position.y() = Util::randf(size.y());
-  }
 }
 
 void Simulation::clearFoodSources() {
@@ -157,6 +150,14 @@ void Simulation::clearBoids() {
   boids.clear();
 }
 
+std::vector<BoidProps> Simulation::getBoids() {
+  std::vector<BoidProps> result;
+  for (auto &boid : boids) {
+    result.push_back(boid->toBoidProps());
+  }
+  return result;
+}
+
 void Simulation::setBoids(std::vector<BoidProps> boidPropses) {
   clearBoids();
   for (auto &props : boidPropses) {
@@ -164,12 +165,18 @@ void Simulation::setBoids(std::vector<BoidProps> boidPropses) {
   }
 }
 
-void Simulation::boidsCreated() {
-  for (auto &boid : boids) {
-    for (std::vector<IBoidListener *>::iterator it = begin(boidListeners);
-         it != end(boidListeners); ++it) {
-      (*it)->boidCreated(*boid);
+void Simulation::setInitialBoids() {
+  clearBoids();
+
+  int numBoids = 10;
+  int numWeights = 6;
+
+  for (int i = 0; i < numBoids; ++i) {
+    BoidProps props(i, 0, 0);
+    for (int w = 0; w < numWeights; ++w) {
+      props.weights.push_back(Util::randf(-1.f, 1.f));
     }
+    addBoid(props);
   }
 }
 

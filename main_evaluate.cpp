@@ -3,15 +3,14 @@
 #include "util.hpp"
 #include <format>
 
-MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation() {
+MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
   std::cout << "evaluate command" << std::endl;
 
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
 
-  simulation.init(800, 800);
-
-  BoidMarshaller::loadRandomBoids(simulation);
+  simulation.setInitialBoids();
+  simulation.resetFoodSources();
 
   totalStopwatch.restart();
   generationStopwatch.restart();
