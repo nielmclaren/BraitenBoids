@@ -14,7 +14,6 @@ SimRenderer::SimRenderer(Simulation &sim, sf::RenderWindow &win)
   avatarRenderer = new AvatarRenderer(simulation.avatar);
 
   simulation.registerEntityListener(this);
-  simulation.registerFoodSourceListener(this);
 }
 
 SimRenderer::~SimRenderer() {
@@ -58,6 +57,7 @@ void SimRenderer::entityCreated(IEntity &entity) {
     boidCreated(*(dynamic_cast<Boid *>(&entity)));
     break;
   case EntityType::FoodSource:
+    foodSourceCreated(*(dynamic_cast<FoodSource *>(&entity)));
     break;
   default:
 
@@ -75,10 +75,10 @@ void SimRenderer::entityDeleted(IEntity &entity) {
   EntityType entityType = entity.getEntityType();
   switch (entityType) {
   case EntityType::Boid:
-    // TODO: Is this actually doing what I think it is?
     boidDeleted(*(dynamic_cast<Boid *>(&entity)));
     break;
   case EntityType::FoodSource:
+    foodSourceDeleted(*(dynamic_cast<FoodSource *>(&entity)));
     break;
   default:
     // TODO: Never throw a string literal. Convert to exception class.

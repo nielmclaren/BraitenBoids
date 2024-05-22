@@ -4,7 +4,6 @@
 #include "boid.hpp"
 #include "food_source.hpp"
 #include "ientity_listener.hpp"
-#include "ifood_source_listener.hpp"
 #include "iworld_state.hpp"
 #include <Eigen/Dense>
 #include <vector>
@@ -24,19 +23,13 @@ class Simulation : public IWorldState {
   void entityCreated(IEntity &entity);
   void entityDeleted(IEntity &entity);
 
-  void foodSourceCreated(FoodSource &foodSource);
-  void foodSourceDeleted(FoodSource &foodSource);
-
 public:
   static const unsigned int numInitialFoodSources = 30;
 
   Vector2f size;
 
   std::vector<std::shared_ptr<Boid>> boids;
-
   std::vector<std::shared_ptr<FoodSource>> foodSources;
-  std::vector<IFoodSourceListener *> foodSourceListeners;
-
   std::vector<IEntityListener *> entityListeners;
 
   Avatar avatar;
@@ -62,5 +55,4 @@ public:
                                                                 float range);
 
   void registerEntityListener(IEntityListener *listener);
-  void registerFoodSourceListener(IFoodSourceListener *listener);
 };

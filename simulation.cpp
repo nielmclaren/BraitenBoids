@@ -20,12 +20,12 @@ Simulation::Simulation(float w, float h) {
 Simulation::~Simulation() {
   boids.clear();
   foodSources.clear();
-  foodSourceListeners.clear();
+  entityListeners.clear();
 }
 
 void Simulation::clearFoodSources() {
   for (auto &foodSource : foodSources) {
-    foodSourceDeleted(*foodSource);
+    entityDeleted(*foodSource);
   }
   foodSources.clear();
 }
@@ -37,7 +37,7 @@ void Simulation::resetFoodSources() {
     std::shared_ptr<FoodSource> foodSource(
         new FoodSource(Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
     foodSources.push_back(foodSource);
-    foodSourceCreated(*foodSource);
+    entityCreated(*foodSource);
   }
 }
 
@@ -107,7 +107,7 @@ void Simulation::handleCollisions() {
       doomedFoodSource->handleCollision(avatar);
       avatar.handleCollision(*doomedFoodSource);
 
-      foodSourceDeleted(*doomedFoodSource);
+      entityDeleted(*doomedFoodSource);
       it = foodSources.erase(it);
     } else {
       it++;
@@ -127,7 +127,7 @@ void Simulation::handleCollisions() {
         foodSource->handleCollision(*boid);
         boid->handleCollision(*foodSource);
 
-        foodSourceDeleted(*foodSource);
+        entityDeleted(*foodSource);
         foodIter = foodSources.erase(foodIter);
       } else {
         foodIter++;
@@ -244,25 +244,5 @@ void Simulation::entityDeleted(IEntity &entity) {
   for (std::vector<IEntityListener *>::iterator it = begin(entityListeners);
        it != end(entityListeners); ++it) {
     (*it)->entityDeleted(entity);
-  }
-}
-
-void Simulation::registerFoodSourceListener(IFoodSourceListener *listener) {
-  foodSourceListeners.push_back(listener);
-}
-
-void Simulation::foodSourceCreated(FoodSource &foodSource) {
-  for (std::vector<IFoodSourceListener *>::iterator it =
-           begin(foodSourceListeners);
-       it != end(foodSourceListeners); ++it) {
-    (*it)->foodSourceCreated(foodSource);
-  }
-}
-
-void Simulation::foodSourceDeleted(FoodSource &foodSource) {
-  for (std::vector<IFoodSourceListener *>::iterator it =
-           begin(foodSourceListeners);
-       it != end(foodSourceListeners); ++it) {
-    (*it)->foodSourceDeleted(foodSource);
   }
 }
