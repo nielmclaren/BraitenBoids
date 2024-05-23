@@ -14,6 +14,6 @@ bool CollisionDetection::detect(Avatar &avatar, FoodSource &foodSource) {
 bool CollisionDetection::detect(Boid &boid, FoodSource &foodSource) {
   Vector2d a(boid.position.x(), boid.position.y());
   Vector2d b(foodSource.position.x(), foodSource.position.y());
-  float r = boid.radius + foodSource.radius;
+  float r = Boid::radius + foodSource.radius;
   return (b - a).norm() < r;
 }

@@ -8,6 +8,10 @@
 using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
+const float Boid::maxSpeed = 2.f;
+const float Boid::radius = 8.f;
+const float Boid::senseRadius = 200.f;
+
 Boid::Boid(BoidProps &props, Vector2f pos) : neuralNetwork(props.weights) {
   id = props.id;
   generationIndex = props.generationIndex;
@@ -22,9 +26,6 @@ Boid::Boid(BoidProps &props, Vector2f pos) : neuralNetwork(props.weights) {
 
   numFoodsEaten = 0;
 
-  radius = 8.f;
-  senseRadius = 200.f;
-
   fitnessScore = 0.f;
 }
 
@@ -34,11 +35,13 @@ unsigned int Boid::getId() const { return id; }
 EntityType Boid::getEntityType() const { return EntityType::Boid; }
 AgentType Boid::getAgentType() const { return AgentType::Boid; }
 
-std::vector<float> Boid::getWeights() { return neuralNetwork.getWeights(); }
+std::vector<float> Boid::getWeights() const {
+  return neuralNetwork.getWeights();
+}
 
-unsigned int Boid::getGenerationIndex() { return generationIndex; }
+unsigned int Boid::getGenerationIndex() const { return generationIndex; }
 
-int Boid::getNumFoodsEaten() { return numFoodsEaten; }
+int Boid::getNumFoodsEaten() const { return numFoodsEaten; }
 
 void Boid::step(IWorldState &worldState, float timeDelta) {
   float detectionNeuron = 0;
@@ -49,8 +52,8 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
   if (foodSource != nullptr) {
     Vector2f toFoodSource = foodSource->position - position;
     float dist = toFoodSource.norm();
-    if (dist <= senseRadius) {
-      detectionNeuron = (senseRadius - dist) / senseRadius;
+    if (dist <= Boid::senseRadius) {
+      detectionNeuron = (Boid::senseRadius - dist) / Boid::senseRadius;
 
       float angleBetween = atan2(direction.x() * toFoodSource.y() -
                                      direction.y() * toFoodSource.x(),
@@ -73,7 +76,7 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
 
   speed = std::clamp(
       speed + Util::linearInterp(speedNeuron, -1.f, 1.f, -0.1f, 0.1f), 0.f,
-      MAX_SPEED);
+      maxSpeed);
   velocity = direction * speed;
 
   position += velocity;
@@ -85,7 +88,7 @@ void Boid::handleCollision(const ICollidable &collidable) {
   // std::endl;
 }
 
-BoidProps Boid::toBoidProps() {
+BoidProps Boid::toBoidProps() const {
   BoidProps props;
   props.id = getId();
   props.generationIndex = getGenerationIndex();

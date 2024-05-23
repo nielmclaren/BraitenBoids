@@ -3,9 +3,9 @@
 #include "util.hpp"
 
 BoidRenderer::BoidRenderer(const Boid &boid)
-    : boid(boid), bodyShape(boid.radius), directionShape(),
+    : boid(boid), bodyShape(Boid::radius), directionShape(),
       toNearestFoodSourceShape(sf::Vector2f(15.f, 1.f)) {
-  float radius = boid.radius;
+  float radius = Boid::radius;
 
   int n = static_cast<int>(boid.getId()) % BoidRenderer::colors.size();
   sf::Color lightColor(BoidRenderer::lightColors[n]);
@@ -38,7 +38,7 @@ void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->position - position;
     float dist = toFoodSource.norm();
-    if (dist <= boid.senseRadius) {
+    if (dist <= Boid::senseRadius) {
       toNearestFoodSourceShape.setPosition(eigenToSfml(position));
       toNearestFoodSourceShape.setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape.getSize().y));

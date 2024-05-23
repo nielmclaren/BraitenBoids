@@ -5,9 +5,9 @@ NeuralNetwork::NeuralNetwork() {}
 NeuralNetwork::NeuralNetwork(std::vector<float> weights) : weights(weights) {}
 //	weights({ -0.2, 1, 0, 0, 0, 1 }) {}
 
-std::vector<float> NeuralNetwork::getWeights() { return weights; }
+std::vector<float> NeuralNetwork::getWeights() const { return weights; }
 
-std::vector<float> NeuralNetwork::forward(std::vector<float> input) {
+std::vector<float> NeuralNetwork::forward(std::vector<float> input) const {
   assert(input.size() == 2);
   assert(input[0] >= -1 && input[0] <= 1);
   assert(input[1] >= -1 && input[1] <= 1);

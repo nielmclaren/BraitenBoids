@@ -12,7 +12,8 @@ using Eigen::Vector2f;
 
 class Simulation : public IWorldState {
   // Pixels per second.
-  float speed = 200;
+  static const float playerSpeed;
+
   Vector2f playerDirection;
 
   void stepAvatar(float timeDelta);
@@ -45,14 +46,14 @@ public:
 
   void addBoid(BoidProps boidProps);
   void clearBoids();
-  std::vector<BoidProps> getBoids();
+  std::vector<BoidProps> getBoids() const;
   void setBoids(std::vector<BoidProps> boidPropses);
   void resetBoids();
 
-  std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point);
-  float distanceToNearestFoodSource(Vector2f &point);
-  std::vector<std::shared_ptr<FoodSource>> getNearbyFoodSources(Vector2f &point,
-                                                                float range);
+  std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point) const;
+  float distanceToNearestFoodSource(Vector2f &point) const;
+  std::vector<std::shared_ptr<FoodSource>>
+  getNearbyFoodSources(Vector2f &point, float range) const;
 
   void registerEntityListener(std::shared_ptr<IEntityListener> listener);
 };

@@ -10,7 +10,7 @@
 using Eigen::Vector2f;
 
 class Boid : public IAgent, public ICollidable {
-  const float MAX_SPEED = 2;
+  static const float maxSpeed;
 
   unsigned int id;
   unsigned int generationIndex;
@@ -22,6 +22,9 @@ class Boid : public IAgent, public ICollidable {
   NeuralNetwork neuralNetwork;
 
 public:
+  static const float radius;
+  static const float senseRadius;
+
   Vector2f position;
   Vector2f velocity;
 
@@ -30,9 +33,6 @@ public:
 
   float speed;
 
-  float radius;
-  float senseRadius;
-
   Boid(BoidProps &boidProps, Vector2f pos);
   ~Boid();
 
@@ -40,9 +40,9 @@ public:
   EntityType getEntityType() const;
   AgentType getAgentType() const;
 
-  unsigned int getGenerationIndex();
-  int getNumFoodsEaten();
-  std::vector<float> getWeights();
+  unsigned int getGenerationIndex() const;
+  int getNumFoodsEaten() const;
+  std::vector<float> getWeights() const;
 
   float fitnessScore;
 
@@ -50,5 +50,5 @@ public:
 
   void handleCollision(const ICollidable &collidable);
 
-  BoidProps toBoidProps();
+  BoidProps toBoidProps() const;
 };

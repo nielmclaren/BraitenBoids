@@ -6,6 +6,8 @@
 
 using Eigen::Vector2f;
 
+const float Simulation::playerSpeed = 200.f;
+
 Simulation::Simulation(float w, float h) {
   size.x() = w;
   size.y() = h;
@@ -57,8 +59,8 @@ void Simulation::step(float timeDelta) {
 }
 
 void Simulation::stepAvatar(float timeDelta) {
-  avatar.position.x() += playerDirection.x() * speed * timeDelta;
-  avatar.position.y() += playerDirection.y() * speed * timeDelta;
+  avatar.position.x() += playerDirection.x() * playerSpeed * timeDelta;
+  avatar.position.y() += playerDirection.y() * playerSpeed * timeDelta;
 
   while (avatar.position.x() < 0) {
     avatar.position.x() += size.x();
@@ -150,7 +152,7 @@ void Simulation::clearBoids() {
   boids.clear();
 }
 
-std::vector<BoidProps> Simulation::getBoids() {
+std::vector<BoidProps> Simulation::getBoids() const {
   std::vector<BoidProps> result;
   for (auto &boid : boids) {
     result.push_back(boid->toBoidProps());
@@ -180,10 +182,11 @@ void Simulation::resetBoids() {
   }
 }
 
-std::shared_ptr<FoodSource> Simulation::getNearestFoodSource(Vector2f &point) {
+std::shared_ptr<FoodSource>
+Simulation::getNearestFoodSource(Vector2f &point) const {
   std::shared_ptr<FoodSource> nearest = nullptr;
   float nearestDist = std::numeric_limits<float>::max();
-  for (std::vector<std::shared_ptr<FoodSource>>::iterator it =
+  for (std::vector<std::shared_ptr<FoodSource>>::const_iterator it =
            begin(foodSources);
        it != end(foodSources); ++it) {
     std::shared_ptr<FoodSource> curr = *it;
@@ -196,13 +199,13 @@ std::shared_ptr<FoodSource> Simulation::getNearestFoodSource(Vector2f &point) {
   return nearest;
 }
 
-float Simulation::distanceToNearestFoodSource(Vector2f &point) {
+float Simulation::distanceToNearestFoodSource(Vector2f &point) const {
   if (foodSources.size() <= 0) {
     return -1;
   }
 
   float nearestDist = std::numeric_limits<float>::max();
-  for (std::vector<std::shared_ptr<FoodSource>>::iterator it =
+  for (std::vector<std::shared_ptr<FoodSource>>::const_iterator it =
            begin(foodSources);
        it != end(foodSources); ++it) {
     std::shared_ptr<FoodSource> curr = *it;
@@ -215,9 +218,9 @@ float Simulation::distanceToNearestFoodSource(Vector2f &point) {
 }
 
 std::vector<std::shared_ptr<FoodSource>>
-Simulation::getNearbyFoodSources(Vector2f &point, float range) {
+Simulation::getNearbyFoodSources(Vector2f &point, float range) const {
   std::vector<std::shared_ptr<FoodSource>> result;
-  for (std::vector<std::shared_ptr<FoodSource>>::iterator it =
+  for (std::vector<std::shared_ptr<FoodSource>>::const_iterator it =
            begin(foodSources);
        it != end(foodSources); ++it) {
     std::shared_ptr<FoodSource> curr = *it;

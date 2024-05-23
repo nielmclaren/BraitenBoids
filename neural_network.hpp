@@ -6,7 +6,6 @@
 #include <iostream>
 #include <vector>
 
-
 class NeuralNetwork {
   friend class cereal::access;
 
@@ -20,6 +19,6 @@ public:
   NeuralNetwork();
   NeuralNetwork(std::vector<float> weights);
 
-  std::vector<float> getWeights();
-  std::vector<float> forward(std::vector<float> input);
+  std::vector<float> getWeights() const;
+  std::vector<float> forward(std::vector<float> input) const;
 };

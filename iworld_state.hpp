@@ -9,8 +9,9 @@ using Eigen::Vector2f;
 class IWorldState {
 public:
   virtual ~IWorldState() {}
-  virtual std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point) = 0;
-  virtual float distanceToNearestFoodSource(Vector2f &point) = 0;
+  virtual std::shared_ptr<FoodSource>
+  getNearestFoodSource(Vector2f &point) const = 0;
+  virtual float distanceToNearestFoodSource(Vector2f &point) const = 0;
   virtual std::vector<std::shared_ptr<FoodSource>>
-  getNearbyFoodSources(Vector2f &point, float range) = 0;
+  getNearbyFoodSources(Vector2f &point, float range) const = 0;
 };
