@@ -44,10 +44,10 @@ public:
   void setPlayerDirection(Vector2f direction);
   void step(float timeDelta);
 
-  void addBoid(BoidProps boidProps);
+  void addBoid(AgentProps agentProps);
   void clearBoids();
-  std::vector<BoidProps> getBoids() const;
-  void setBoids(std::vector<BoidProps> boidPropses);
+  std::vector<AgentProps> getBoids() const;
+  void setBoids(std::vector<AgentProps> agentPropses);
   void resetBoids();
 
   std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point) const;

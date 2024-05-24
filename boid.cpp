@@ -12,7 +12,7 @@ const float Boid::maxSpeed = 2.f;
 const float Boid::radius = 8.f;
 const float Boid::senseRadius = 200.f;
 
-Boid::Boid(BoidProps &props, Vector2f pos) : neuralNetwork(props.weights) {
+Boid::Boid(AgentProps &props, Vector2f pos) : neuralNetwork(props.weights) {
   id = props.id;
   generationIndex = props.generationIndex;
 
@@ -88,8 +88,8 @@ void Boid::handleCollision(const ICollidable &collidable) {
   // std::endl;
 }
 
-BoidProps Boid::toBoidProps() const {
-  BoidProps props;
+AgentProps Boid::toAgentProps() const {
+  AgentProps props;
   props.id = getId();
   props.generationIndex = getGenerationIndex();
   props.numFoodsEaten = getNumFoodsEaten();

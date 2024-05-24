@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-class BoidProps {
+class AgentProps {
   friend class cereal::access;
 
   template <class Archive> void serialize(Archive &archive) {
@@ -20,7 +20,7 @@ public:
 
   std::vector<float> weights;
 
-  BoidProps();
-  BoidProps(unsigned int id, unsigned int generationIndex,
-            unsigned int numFoodsEaten);
+  AgentProps();
+  AgentProps(unsigned int id, unsigned int generationIndex,
+             unsigned int numFoodsEaten);
 };

@@ -1,5 +1,5 @@
 #include "boid_marshaller.hpp"
-#include "boid_props.hpp"
+#include "agent_props.hpp"
 #include <cereal/archives/json.hpp>
 #include <cereal/cereal.hpp>
 #include <cereal/types/memory.hpp>
@@ -14,9 +14,9 @@ void BoidMarshaller::load(Simulation &simulation, std::string filename) {
   }
 
   cereal::JSONInputArchive archiveIn(file);
-  std::vector<BoidProps> boidProps;
-  archiveIn(boidProps);
-  simulation.setBoids(boidProps);
+  std::vector<AgentProps> props;
+  archiveIn(props);
+  simulation.setBoids(props);
 }
 
 void BoidMarshaller::save(Simulation &simulation, std::string filename) {
@@ -24,6 +24,6 @@ void BoidMarshaller::save(Simulation &simulation, std::string filename) {
 
   std::ofstream file(filename);
   cereal::JSONOutputArchive archiveOut(file);
-  std::vector<BoidProps> boidProps = simulation.getBoids();
-  archiveOut(boidProps);
+  std::vector<AgentProps> props = simulation.getBoids();
+  archiveOut(props);
 }

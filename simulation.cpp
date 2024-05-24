@@ -138,9 +138,9 @@ void Simulation::handleCollisions() {
   }
 }
 
-void Simulation::addBoid(BoidProps boidProps) {
-  std::shared_ptr<Boid> boid(new Boid(
-      boidProps, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
+void Simulation::addBoid(AgentProps props) {
+  std::shared_ptr<Boid> boid(
+      new Boid(props, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
   boids.push_back(boid);
   entityCreated(*boid);
 }
@@ -152,17 +152,17 @@ void Simulation::clearBoids() {
   boids.clear();
 }
 
-std::vector<BoidProps> Simulation::getBoids() const {
-  std::vector<BoidProps> result;
+std::vector<AgentProps> Simulation::getBoids() const {
+  std::vector<AgentProps> result;
   for (auto &boid : boids) {
-    result.push_back(boid->toBoidProps());
+    result.push_back(boid->toAgentProps());
   }
   return result;
 }
 
-void Simulation::setBoids(std::vector<BoidProps> boidPropses) {
+void Simulation::setBoids(std::vector<AgentProps> propses) {
   clearBoids();
-  for (auto &props : boidPropses) {
+  for (auto &props : propses) {
     addBoid(props);
   }
 }
@@ -174,7 +174,7 @@ void Simulation::resetBoids() {
   int numWeights = 6;
 
   for (int i = 0; i < numBoids; ++i) {
-    BoidProps props(i, 0, 0);
+    AgentProps props(i, 0, 0);
     for (int w = 0; w < numWeights; ++w) {
       props.weights.push_back(Util::randf(-1.f, 1.f));
     }

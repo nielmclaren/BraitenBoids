@@ -1,5 +1,5 @@
 #pragma once
-#include "boid_props.hpp"
+#include "agent_props.hpp"
 #include "constants.hpp"
 #include "iagent.hpp"
 #include "icollidable.hpp"
@@ -33,7 +33,7 @@ public:
 
   float speed;
 
-  Boid(BoidProps &boidProps, Vector2f pos);
+  Boid(AgentProps &agentProps, Vector2f pos);
   ~Boid();
 
   unsigned int getId() const;
@@ -50,5 +50,5 @@ public:
 
   void handleCollision(const ICollidable &collidable);
 
-  BoidProps toBoidProps() const;
+  AgentProps toAgentProps() const;
 };

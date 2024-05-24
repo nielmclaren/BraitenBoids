@@ -78,10 +78,10 @@ void MainEvaluate::selectAndMutate(Simulation &simulation) {
                                               boids.begin() + selectNum);
 
   int nextId = 0;
-  std::vector<BoidProps> mutated;
+  std::vector<AgentProps> mutated;
   while (mutated.size() < population) {
     for (auto &boid : selected) {
-      BoidProps props;
+      AgentProps props;
       props.id = ++nextId;
       props.generationIndex = boid->getGenerationIndex() + 1;
       props.weights = mutateWeights(boid->getWeights());
