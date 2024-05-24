@@ -18,7 +18,6 @@ class MainVisualize {
   Simulation simulation;
 
   unsigned int stepCount;
-  unsigned int generationIndex;
   EvolutionLog evolutionLog;
 
   Screenshot screenshot;
@@ -26,6 +25,7 @@ class MainVisualize {
   Vector2f getPlayerInputDirection();
   void handleEvent(sf::RenderWindow &window);
 
+  unsigned int getGenerationIndex(Simulation &simulation);
   void reportGenerationFitness(Simulation &simulation);
   void logGeneration(Simulation &simulation);
   void selectAndMutate(Simulation &simulation);

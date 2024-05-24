@@ -7,7 +7,7 @@ MainVisualize::MainVisualize(int argc, char *argv[])
     : window(sf::VideoMode(800, 800), "BraitenBoids"),
       simulation(static_cast<float>(window.getSize().x),
                  static_cast<float>(window.getSize().y)),
-      stepCount(0), generationIndex(0) {
+      stepCount(0) {
   std::cout << "visualize command" << std::endl;
 
   // Seed the random number generator.
@@ -85,11 +85,6 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
       if (event.key.scancode == sf::Keyboard::Scan::L) {
         BoidMarshaller::load(simulation, "output/boids.json");
         simulation.resetFoodSources();
-        generationIndex = 0;
-        for (auto &boid : simulation.boids) {
-          generationIndex =
-              std::max(boid->getGenerationIndex(), generationIndex);
-        }
         evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::N) {
@@ -97,7 +92,6 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         simulation.resetFoodSources();
 
         stepCount = 0;
-        generationIndex = 0;
         evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::M) {
@@ -120,6 +114,14 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
   }
 }
 
+unsigned int MainVisualize::getGenerationIndex(Simulation &simulation) {
+  unsigned int result = 0;
+  for (auto &boid : simulation.boids) {
+    result = std::max(boid->getGenerationIndex(), result);
+  }
+  return result;
+}
+
 void MainVisualize::reportGenerationFitness(Simulation &simulation) {
   /*
   How many steps did it take to reach end conditions?
@@ -127,7 +129,8 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
   What's the highest and lowest fitness?
   What's the nn weight spread?
   */
-  std::cout << "Generation: " << generationIndex << std::endl;
+
+  std::cout << "Generation: " << getGenerationIndex(simulation) << std::endl;
   std::cout << "\tSteps: " << stepCount << std::endl;
 
   std::cout << "\tFitness scores, weights: " << std::endl;
@@ -167,7 +170,7 @@ void MainVisualize::logGeneration(Simulation &simulation) {
                      : static_cast<float>(Simulation::numInitialFoodSources -
                                           numFoodSourcesRemaining) /
                            static_cast<float>(stepCount);
-  evolutionLog.addEntry(generationIndex, foodConsumedPerStep);
+  evolutionLog.addEntry(getGenerationIndex(simulation), foodConsumedPerStep);
 }
 
 void MainVisualize::selectAndMutate(Simulation &simulation) {
@@ -207,7 +210,6 @@ void MainVisualize::selectAndMutate(Simulation &simulation) {
   simulation.resetFoodSources();
 
   stepCount = 0;
-  generationIndex++;
 }
 
 float MainVisualize::fitnessFunction(Boid &boid) {
