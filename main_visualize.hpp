@@ -27,10 +27,6 @@ class MainVisualize {
 
   unsigned int getGenerationIndex(Simulation &simulation);
   void reportGenerationFitness(Simulation &simulation);
-  void logGeneration(Simulation &simulation);
-  void selectAndMutate(Simulation &simulation);
-  float fitnessFunction(Boid &boid);
-  std::vector<float> mutateWeights(std::vector<float> input);
   void fastForward(Simulation &simulation);
 
 public:

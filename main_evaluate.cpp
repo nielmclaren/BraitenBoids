@@ -1,5 +1,6 @@
 #include "main_evaluate.hpp"
 #include "boid_marshaller.hpp"
+#include "evolution.hpp"
 #include "util.hpp"
 #include <format>
 
@@ -28,8 +29,8 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
               << stepCount << " steps)" << std::endl;
     generationStopwatch.restart();
 
-    logGeneration(simulation, generationIndex, stepCount);
-    selectAndMutate(simulation);
+    evolutionLog.addEntry(simulation, generationIndex, stepCount);
+    Evolution::selectAndMutate(simulation);
   }
 
   sf::Time elapsed = totalStopwatch.getElapsedTime();
@@ -37,91 +38,6 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
 
   BoidMarshaller::save(simulation, "output/boids.json");
   evolutionLog.save("output/evolution_log.csv");
-}
-
-// TODO: DRY this code (MainVisualize).
-void MainEvaluate::logGeneration(Simulation &simulation,
-                                 unsigned int generationIndex,
-                                 unsigned int stepCount) {
-  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
-  for (auto &boid : boids) {
-    boid->fitnessScore = fitnessFunction(*boid);
-  }
-  sort(boids.begin(), boids.end(), [](const auto &lhs, const auto &rhs) {
-    return lhs->fitnessScore > rhs->fitnessScore;
-  });
-
-  int numFoodSourcesRemaining = static_cast<int>(simulation.foodSources.size());
-  float foodConsumedPerStep =
-      stepCount <= 0 ? 0
-                     : static_cast<float>(Simulation::numInitialFoodSources -
-                                          numFoodSourcesRemaining) /
-                           static_cast<float>(stepCount);
-  evolutionLog.addEntry(generationIndex, foodConsumedPerStep);
-}
-
-// TODO: DRY this code (MainVisualize).
-void MainEvaluate::selectAndMutate(Simulation &simulation) {
-  int population = 10;
-  int selectNum = 4;
-
-  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
-  for (auto &boid : boids) {
-    boid->fitnessScore = fitnessFunction(*boid);
-  }
-
-  sort(boids.begin(), boids.end(), [](const auto &lhs, const auto &rhs) {
-    return lhs->fitnessScore > rhs->fitnessScore;
-  });
-
-  std::vector<std::shared_ptr<Boid>> selected(boids.begin(),
-                                              boids.begin() + selectNum);
-
-  int nextId = 0;
-  std::vector<AgentProps> mutated;
-  while (mutated.size() < population) {
-    for (auto &boid : selected) {
-      AgentProps props;
-      props.id = ++nextId;
-      props.generationIndex = boid->getGenerationIndex() + 1;
-      props.weights = mutateWeights(boid->getWeights());
-
-      mutated.push_back(props);
-
-      if (mutated.size() >= population) {
-        break;
-      }
-    }
-  }
-
-  simulation.setBoids(mutated);
-  simulation.resetFoodSources();
-}
-
-// TODO: DRY this code (MainVisualize).
-float MainEvaluate::fitnessFunction(Boid &boid) {
-  return static_cast<float>(boid.getNumFoodsEaten());
-}
-
-// TODO: DRY this code (MainVisualize).
-std::vector<float> MainEvaluate::mutateWeights(std::vector<float> weights) {
-  std::vector<float> results;
-  for (auto &w : weights) {
-    results.push_back(std::clamp(w + Util::randf(-0.1f, 0.1f), -1.f, 1.f));
-  }
-  std::cout << "\t"
-            << "Mutation: ";
-  for (int i = 0; i < weights.size(); ++i) {
-    std::cout << (weights[i] >= 0 ? " " : "")
-              << std::format("{:.1f}", weights[i]) << " ";
-  }
-  std::cout << " --> ";
-  for (int i = 0; i < results.size(); ++i) {
-    std::cout << (results[i] >= 0 ? " " : "")
-              << std::format("{:.1f}", results[i]) << " ";
-  }
-  std::cout << std::endl;
-  return results;
 }
 
 // TODO: DRY this code (MainVisualize).

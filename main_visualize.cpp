@@ -1,6 +1,6 @@
 #include "main_visualize.hpp"
 #include "boid_marshaller.hpp"
-#include "util.hpp"
+#include "evolution.hpp"
 #include <algorithm>
 
 MainVisualize::MainVisualize(int argc, char *argv[])
@@ -96,14 +96,20 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
       }
       if (event.key.scancode == sf::Keyboard::Scan::M) {
         reportGenerationFitness(simulation);
-        logGeneration(simulation);
-        selectAndMutate(simulation);
+        evolutionLog.addEntry(simulation, getGenerationIndex(simulation),
+                              stepCount);
+        Evolution::selectAndMutate(simulation);
+
+        stepCount = 0;
       }
       if (event.key.scancode == sf::Keyboard::Scan::F) {
         fastForward(simulation);
         reportGenerationFitness(simulation);
-        logGeneration(simulation);
-        selectAndMutate(simulation);
+        evolutionLog.addEntry(simulation, getGenerationIndex(simulation),
+                              stepCount);
+        Evolution::selectAndMutate(simulation);
+
+        stepCount = 0;
       }
       break;
     }
@@ -136,7 +142,7 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
   std::cout << "\tFitness scores, weights: " << std::endl;
   std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
   for (auto &boid : boids) {
-    boid->fitnessScore = fitnessFunction(*boid);
+    boid->fitnessScore = Evolution::fitnessFunction(*boid);
   }
   sort(boids.begin(), boids.end(), [](const auto &lhs, const auto &rhs) {
     return lhs->fitnessScore > rhs->fitnessScore;
@@ -153,75 +159,6 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
     }
     std::cout << std::endl;
   }
-}
-
-void MainVisualize::logGeneration(Simulation &simulation) {
-  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
-  for (auto &boid : boids) {
-    boid->fitnessScore = fitnessFunction(*boid);
-  }
-  sort(boids.begin(), boids.end(), [](const auto &lhs, const auto &rhs) {
-    return lhs->fitnessScore > rhs->fitnessScore;
-  });
-
-  int numFoodSourcesRemaining = static_cast<int>(simulation.foodSources.size());
-  float foodConsumedPerStep =
-      stepCount <= 0 ? 0
-                     : static_cast<float>(Simulation::numInitialFoodSources -
-                                          numFoodSourcesRemaining) /
-                           static_cast<float>(stepCount);
-  evolutionLog.addEntry(getGenerationIndex(simulation), foodConsumedPerStep);
-}
-
-void MainVisualize::selectAndMutate(Simulation &simulation) {
-  int population = 10;
-  int selectNum = 4;
-
-  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
-  for (auto &boid : boids) {
-    boid->fitnessScore = fitnessFunction(*boid);
-  }
-
-  sort(boids.begin(), boids.end(), [](const auto &lhs, const auto &rhs) {
-    return lhs->fitnessScore > rhs->fitnessScore;
-  });
-
-  std::vector<std::shared_ptr<Boid>> selected(boids.begin(),
-                                              boids.begin() + selectNum);
-
-  int nextId = 0;
-  std::vector<AgentProps> mutated;
-  while (mutated.size() < population) {
-    for (auto &boid : selected) {
-      AgentProps props;
-      props.id = ++nextId;
-      props.generationIndex = boid->getGenerationIndex() + 1;
-      props.weights = mutateWeights(boid->getWeights());
-
-      mutated.push_back(props);
-
-      if (mutated.size() >= population) {
-        break;
-      }
-    }
-  }
-
-  simulation.setBoids(mutated);
-  simulation.resetFoodSources();
-
-  stepCount = 0;
-}
-
-float MainVisualize::fitnessFunction(Boid &boid) {
-  return static_cast<float>(boid.getNumFoodsEaten());
-}
-
-std::vector<float> MainVisualize::mutateWeights(std::vector<float> weights) {
-  std::vector<float> results;
-  for (auto &w : weights) {
-    results.push_back(std::clamp(w + Util::randf(-0.1f, 0.1f), -1.f, 1.f));
-  }
-  return results;
 }
 
 void MainVisualize::fastForward(Simulation &simulation) {

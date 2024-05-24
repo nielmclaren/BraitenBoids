@@ -17,10 +17,5 @@ class MainEvaluate {
 public:
   MainEvaluate(int argc, char *argv[]);
 
-  void logGeneration(Simulation &simulation, unsigned int generationIndex,
-                     unsigned int stepCount);
-  void selectAndMutate(Simulation &simulation);
-  float fitnessFunction(Boid &boid);
-  std::vector<float> mutateWeights(std::vector<float> input);
   unsigned int fastForward(Simulation &simulation);
 };

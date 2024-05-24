@@ -8,6 +8,18 @@ void EvolutionLog::addEntry(unsigned int generationIndex, float score) {
   entries.push_back(entry);
 }
 
+void EvolutionLog::addEntry(Simulation &simulation,
+                            unsigned int generationIndex,
+                            unsigned int stepCount) {
+  int numFoodSourcesRemaining = static_cast<int>(simulation.foodSources.size());
+  float foodConsumedPerStep =
+      stepCount <= 0 ? 0
+                     : static_cast<float>(Simulation::numInitialFoodSources -
+                                          numFoodSourcesRemaining) /
+                           static_cast<float>(stepCount);
+  addEntry(generationIndex, foodConsumedPerStep);
+}
+
 void EvolutionLog::clear() { entries.clear(); }
 
 void EvolutionLog::save(std::string filename) {

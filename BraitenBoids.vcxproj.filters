@@ -75,6 +75,9 @@
     <ClCompile Include="agent_props.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="evolution.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="avatar.hpp">
@@ -147,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="agent_props.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="evolution.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "evolution.hpp"
+#include "simulation.hpp"
 #include <string>
 #include <vector>
 
@@ -13,6 +15,8 @@ class EvolutionLog {
 
 public:
   void addEntry(unsigned int generationIndex, float score);
+  void addEntry(Simulation &simulation, unsigned int generationIndex,
+                unsigned int stepCount);
   void clear();
   void save(std::string filename);
 };
