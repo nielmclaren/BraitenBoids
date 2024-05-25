@@ -1,12 +1,12 @@
 #include "food_source_renderer.hpp"
 #include <SFML/Graphics.hpp>
 
-FoodSourceRenderer::FoodSourceRenderer(FoodSource &foodSource)
+FoodSourceRenderer::FoodSourceRenderer(const FoodSource &foodSource)
     : foodSource(foodSource), shape(foodSource.radius) {
   float radius = foodSource.radius;
   shape.setFillColor(sf::Color(0, 128, 0));
   shape.setOrigin(radius, radius);
-  shape.setPosition(eigenToSfml(foodSource.position));
+  shape.setPosition(eigenToSfml(foodSource.getPosition()));
 }
 
 void FoodSourceRenderer::draw(sf::RenderWindow &window) { window.draw(shape); }

@@ -9,7 +9,7 @@
 
 using Eigen::Vector2f;
 
-class Boid : public IAgent, public ICollidable {
+class Boid : public IAgent {
   static const float maxSpeed;
 
   unsigned int id;
@@ -17,35 +17,39 @@ class Boid : public IAgent, public ICollidable {
 
   unsigned int numFoodsEaten;
 
+  NeuralNetwork neuralNetwork;
   std::vector<float> weights;
 
-  NeuralNetwork neuralNetwork;
-
-public:
-  static const float radius;
-  static const float senseRadius;
-
-  Vector2f position;
+  float speed;
+  Vector2f pos;
   Vector2f velocity;
 
   // Remember direction even when velocity is zero.
   Vector2f direction;
 
-  float speed;
+public:
+  static const float radius;
+  static const float senseRadius;
 
-  Boid(AgentProps &agentProps, Vector2f pos);
+  Boid(AgentProps &agentProps, Vector2f position);
   ~Boid();
 
   unsigned int getId() const;
   EntityType getEntityType() const;
+  Vector2f &position();
+  Vector2f getPosition() const;
+  Vector2f getDirection() const;
+  float getSpeed() const;
+
   AgentType getAgentType() const;
 
   unsigned int getGenerationIndex() const;
   int getNumFoodsEaten() const;
   std::vector<float> getWeights() const;
 
-  void step(IWorldState &worldState, float timeDelta);
+  float getBoundingRadius() const;
 
+  void step(IWorldState &worldState, float timeDelta);
   void handleCollision(const ICollidable &collidable);
 
   AgentProps toAgentProps() const;

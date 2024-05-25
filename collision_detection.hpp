@@ -7,5 +7,5 @@
 class CollisionDetection {
 public:
   static bool detect(Avatar &avatar, FoodSource &foodSource);
-  static bool detect(Boid &boid, FoodSource &foodSource);
+  static bool detect(IAgent &agent, FoodSource &foodSource);
 };

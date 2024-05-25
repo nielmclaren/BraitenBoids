@@ -7,10 +7,10 @@ class FoodSourceRenderer {
   sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:
-  FoodSource &foodSource;
+  const FoodSource &foodSource;
   sf::CircleShape shape;
 
-  FoodSourceRenderer(FoodSource &foodSource);
+  FoodSourceRenderer(const FoodSource &foodSource);
 
   void draw(sf::RenderWindow &window);
 };

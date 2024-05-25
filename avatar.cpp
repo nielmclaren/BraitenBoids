@@ -12,6 +12,6 @@ Avatar::Avatar() {
 
 void Avatar::handleCollision(const ICollidable &collidable) {
   numFoodsEaten++;
-  std::cout << "Avatar handle collision; numFoodsEaten=" << numFoodsEaten
-            << std::endl;
+  // std::cout << "Avatar handle collision; numFoodsEaten=" << numFoodsEaten
+  //           << std::endl;
 }

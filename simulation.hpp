@@ -17,7 +17,7 @@ class Simulation : public IWorldState {
 
   Vector2f playerDirection;
 
-  std::vector<std::shared_ptr<Boid>> boids;
+  std::vector<std::shared_ptr<IAgent>> agents;
   std::vector<std::shared_ptr<FoodSource>> foodSources;
   std::vector<std::weak_ptr<IEntityListener>> entityListeners;
 

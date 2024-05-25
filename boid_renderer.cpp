@@ -26,8 +26,8 @@ BoidRenderer::BoidRenderer(const Boid &boid)
 }
 
 void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
-  Vector2f position = boid.position;
-  Vector2f direction = boid.direction;
+  Vector2f position = boid.getPosition();
+  Vector2f direction = boid.getDirection();
 
   // Worth assuming the position changed every frame.
   transform.setPosition(eigenToSfml(position));
@@ -36,7 +36,7 @@ void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   std::shared_ptr<FoodSource> nearestFoodSource =
       worldState.getNearestFoodSource(position);
   if (nearestFoodSource != nullptr) {
-    Vector2f toFoodSource = nearestFoodSource->position - position;
+    Vector2f toFoodSource = nearestFoodSource->getPosition() - position;
     float dist = toFoodSource.norm();
     if (dist <= Boid::senseRadius) {
       toNearestFoodSourceShape.setPosition(eigenToSfml(position));

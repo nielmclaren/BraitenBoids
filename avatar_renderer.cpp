@@ -29,7 +29,7 @@ void AvatarRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   std::shared_ptr<FoodSource> nearestFoodSource =
       worldState.getNearestFoodSource(position);
   if (nearestFoodSource != nullptr) {
-    Vector2f toFoodSource = nearestFoodSource->position - position;
+    Vector2f toFoodSource = nearestFoodSource->position() - position;
     float dist = (toFoodSource).norm();
     if (dist <= avatar.senseRadius) {
       toNearestFoodSourceShape.setPosition(eigenToSfml(position));

@@ -11,13 +11,16 @@ class FoodSource : public IEntity, public ICollidable {
   static unsigned int nextId;
   unsigned int id;
 
+  Vector2f pos;
+
 public:
-  Vector2f position;
   float radius;
 
-  FoodSource(Vector2f pos);
+  FoodSource(Vector2f position);
   unsigned int getId() const;
   EntityType getEntityType() const;
+  Vector2f &position();
+  Vector2f getPosition() const;
 
   void handleCollision(const ICollidable &collidable);
 };

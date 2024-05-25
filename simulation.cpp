@@ -20,7 +20,7 @@ Simulation::Simulation(float w, float h) {
 }
 
 Simulation::~Simulation() {
-  boids.clear();
+  agents.clear();
   foodSources.clear();
   entityListeners.clear();
 }
@@ -96,22 +96,22 @@ void Simulation::stepAvatar(float timeDelta) {
 }
 
 void Simulation::stepBoids(float timeDelta) {
-  for (std::vector<std::shared_ptr<Boid>>::iterator it = begin(boids);
-       it != end(boids); ++it) {
-    std::shared_ptr<Boid> boid = *it;
-    boid->step(*this, timeDelta);
+  for (std::vector<std::shared_ptr<IAgent>>::iterator it = begin(agents);
+       it != end(agents); ++it) {
+    std::shared_ptr<IAgent> agent = *it;
+    agent->step(*this, timeDelta);
 
-    while (boid->position.x() < 0) {
-      boid->position.x() += size.x();
+    while (agent->position().x() < 0) {
+      agent->position().x() += size.x();
     }
-    while (boid->position.x() > size.x()) {
-      boid->position.x() -= size.x();
+    while (agent->position().x() > size.x()) {
+      agent->position().x() -= size.x();
     }
-    while (boid->position.y() < 0) {
-      boid->position.y() += size.y();
+    while (agent->position().y() < 0) {
+      agent->position().y() += size.y();
     }
-    while (boid->position.y() > size.y()) {
-      boid->position.y() -= size.y();
+    while (agent->position().y() > size.y()) {
+      agent->position().y() -= size.y();
     }
   }
 }
@@ -135,18 +135,18 @@ void Simulation::handleCollisions() {
     }
   }
 
-  for (std::vector<std::shared_ptr<Boid>>::iterator boidIter = begin(boids);
-       boidIter != end(boids); ++boidIter) {
-    std::shared_ptr<Boid> boid = *boidIter;
+  for (std::vector<std::shared_ptr<IAgent>>::iterator agentIter = begin(agents);
+       agentIter != end(agents); ++agentIter) {
+    std::shared_ptr<IAgent> agent = *agentIter;
 
     for (std::vector<std::shared_ptr<FoodSource>>::iterator foodIter =
              begin(foodSources);
          foodIter != end(foodSources);) {
       std::shared_ptr<FoodSource> foodSource = *foodIter;
 
-      if (CollisionDetection::detect(*boid, *foodSource)) {
-        foodSource->handleCollision(*boid);
-        boid->handleCollision(*foodSource);
+      if (CollisionDetection::detect(*agent, *foodSource)) {
+        foodSource->handleCollision(*agent);
+        agent->handleCollision(*foodSource);
 
         entityDeleted(*foodSource);
         foodIter = foodSources.erase(foodIter);
@@ -158,23 +158,23 @@ void Simulation::handleCollisions() {
 }
 
 void Simulation::addBoid(AgentProps props) {
-  std::shared_ptr<Boid> boid(
+  std::shared_ptr<IAgent> boid(
       new Boid(props, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
-  boids.push_back(boid);
+  agents.push_back(boid);
   entityCreated(*boid);
 }
 
 void Simulation::clearBoids() {
-  for (auto &boid : boids) {
-    entityDeleted(*boid);
+  for (auto &agent : agents) {
+    entityDeleted(*agent);
   }
-  boids.clear();
+  agents.clear();
 }
 
 std::vector<AgentProps> Simulation::getBoids() const {
   std::vector<AgentProps> result;
-  for (auto &boid : boids) {
-    result.push_back(boid->toAgentProps());
+  for (auto &agent : agents) {
+    result.push_back(agent->toAgentProps());
   }
   return result;
 }
@@ -189,10 +189,10 @@ void Simulation::setBoids(std::vector<AgentProps> propses) {
 void Simulation::resetBoids() {
   clearBoids();
 
-  int numBoids = 10;
+  int numAgents = 10;
   int numWeights = 6;
 
-  for (int i = 0; i < numBoids; ++i) {
+  for (int i = 0; i < numAgents; ++i) {
     AgentProps props(i, 0, 0);
     for (int w = 0; w < numWeights; ++w) {
       props.weights.push_back(Util::randf(-1.f, 1.f));
@@ -213,7 +213,7 @@ Simulation::getNearestFoodSource(Vector2f &point) const {
            begin(foodSources);
        it != end(foodSources); ++it) {
     std::shared_ptr<FoodSource> curr = *it;
-    float dist = (curr->position - point).norm();
+    float dist = (curr->position() - point).norm();
     if (dist < nearestDist) {
       nearest = curr;
       nearestDist = dist;
@@ -232,7 +232,7 @@ float Simulation::distanceToNearestFoodSource(Vector2f &point) const {
            begin(foodSources);
        it != end(foodSources); ++it) {
     std::shared_ptr<FoodSource> curr = *it;
-    float dist = (curr->position - point).norm();
+    float dist = (curr->position() - point).norm();
     if (dist < nearestDist) {
       nearestDist = dist;
     }
@@ -247,7 +247,7 @@ Simulation::getNearbyFoodSources(Vector2f &point, float range) const {
            begin(foodSources);
        it != end(foodSources); ++it) {
     std::shared_ptr<FoodSource> curr = *it;
-    float dist = (curr->position - point).norm();
+    float dist = (curr->position() - point).norm();
     if (dist < range) {
       result.push_back(curr);
     }
