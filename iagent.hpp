@@ -1,6 +1,7 @@
 #pragma once
 
 #include "constants.hpp"
+#include "agent_props.hpp"
 #include "ientity.hpp"
 #include "iworld_state.hpp"
 

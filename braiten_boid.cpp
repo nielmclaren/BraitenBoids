@@ -1,4 +1,4 @@
-#include "boid.hpp"
+#include "braiten_boid.hpp"
 #include "food_source.hpp"
 #include "util.hpp"
 #include <Eigen/Dense>
@@ -8,11 +8,11 @@
 using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
-const float Boid::maxSpeed = 2.f;
-const float Boid::radius = 8.f;
-const float Boid::senseRadius = 200.f;
+const float BraitenBoid::maxSpeed = 2.f;
+const float BraitenBoid::radius = 8.f;
+const float BraitenBoid::senseRadius = 200.f;
 
-Boid::Boid(AgentProps &props, Vector2f pos)
+BraitenBoid::BraitenBoid(AgentProps &props, Vector2f pos)
     : id(props.id), generationIndex(props.generationIndex), numFoodsEaten(0),
       neuralNetwork(props.weights), speed(0), pos(pos) {
   dir << 1, 0;
@@ -21,31 +21,33 @@ Boid::Boid(AgentProps &props, Vector2f pos)
   vel = dir * speed;
 }
 
-Boid::~Boid() {}
+BraitenBoid::~BraitenBoid() {}
 
-unsigned int Boid::getId() const { return id; }
-EntityType Boid::getEntityType() const { return EntityType::Boid; }
-AgentType Boid::getAgentType() const { return AgentType::Boid; }
+unsigned int BraitenBoid::getId() const { return id; }
+EntityType BraitenBoid::getEntityType() const {
+  return EntityType::BraitenBoid;
+}
+AgentType BraitenBoid::getAgentType() const { return AgentType::BraitenBoid; }
 
-Vector2f &Boid::position() { return pos; };
-Vector2f Boid::getPosition() const { return pos; };
-Vector2f &Boid::velocity() { return vel; };
-Vector2f Boid::getVelocity() const { return vel; };
-Vector2f &Boid::direction() { return dir; };
-Vector2f Boid::getDirection() const { return dir; };
-float Boid::getSpeed() const { return speed; };
+Vector2f &BraitenBoid::position() { return pos; };
+Vector2f BraitenBoid::getPosition() const { return pos; };
+Vector2f &BraitenBoid::velocity() { return vel; };
+Vector2f BraitenBoid::getVelocity() const { return vel; };
+Vector2f &BraitenBoid::direction() { return dir; };
+Vector2f BraitenBoid::getDirection() const { return dir; };
+float BraitenBoid::getSpeed() const { return speed; };
 
-std::vector<float> Boid::getWeights() const {
+std::vector<float> BraitenBoid::getWeights() const {
   return neuralNetwork.getWeights();
 }
 
-float Boid::getBoundingRadius() const { return radius; }
+float BraitenBoid::getBoundingRadius() const { return radius; }
 
-unsigned int Boid::getGenerationIndex() const { return generationIndex; }
+unsigned int BraitenBoid::getGenerationIndex() const { return generationIndex; }
 
-int Boid::getNumFoodsEaten() const { return numFoodsEaten; }
+int BraitenBoid::getNumFoodsEaten() const { return numFoodsEaten; }
 
-void Boid::step(IWorldState &worldState, float timeDelta) {
+void BraitenBoid::step(IWorldState &worldState, float timeDelta) {
   float detectionNeuron = 0;
   float directionNeuron = 0;
 
@@ -53,8 +55,9 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
   if (foodSource != nullptr) {
     Vector2f toFoodSource = foodSource->position() - pos;
     float dist = toFoodSource.norm();
-    if (dist <= Boid::senseRadius) {
-      detectionNeuron = (Boid::senseRadius - dist) / Boid::senseRadius;
+    if (dist <= BraitenBoid::senseRadius) {
+      detectionNeuron =
+          (BraitenBoid::senseRadius - dist) / BraitenBoid::senseRadius;
 
       float angleBetween =
           atan2(dir.x() * toFoodSource.y() - dir.y() * toFoodSource.x(),
@@ -83,13 +86,14 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
   pos += vel;
 }
 
-void Boid::handleCollision(const ICollidable &collidable) {
+void BraitenBoid::handleCollision(const ICollidable &collidable) {
   numFoodsEaten++;
-  // std::cout << "Boid handle collision; numFoodsEaten=" << numFoodsEaten
+  // std::cout << "BraitenBoid handle collision; numFoodsEaten=" <<
+  // numFoodsEaten
   //           << std::endl;
 }
 
-AgentProps Boid::toAgentProps() const {
+AgentProps BraitenBoid::toAgentProps() const {
   AgentProps props;
   props.id = getId();
   props.generationIndex = getGenerationIndex();

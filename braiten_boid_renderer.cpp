@@ -1,15 +1,15 @@
-#include "boid_renderer.hpp"
+#include "braiten_boid_renderer.hpp"
 #include "food_source.hpp"
 #include "util.hpp"
 
-BoidRenderer::BoidRenderer(const Boid &boid)
-    : boid(boid), bodyShape(Boid::radius), directionShape(),
+BraitenBoidRenderer::BraitenBoidRenderer(const BraitenBoid &boid)
+    : boid(boid), bodyShape(BraitenBoid::radius), directionShape(),
       toNearestFoodSourceShape(sf::Vector2f(15.f, 1.f)) {
-  float radius = Boid::radius;
+  float radius = BraitenBoid::radius;
 
-  int n = static_cast<int>(boid.getId()) % BoidRenderer::colors.size();
-  sf::Color lightColor(BoidRenderer::lightColors[n]);
-  sf::Color normalColor(BoidRenderer::colors[n]);
+  int n = static_cast<int>(boid.getId()) % BraitenBoidRenderer::colors.size();
+  sf::Color lightColor(BraitenBoidRenderer::lightColors[n]);
+  sf::Color normalColor(BraitenBoidRenderer::colors[n]);
 
   bodyShape.setFillColor(lightColor);
   bodyShape.setOutlineColor(normalColor);
@@ -25,9 +25,10 @@ BoidRenderer::BoidRenderer(const Boid &boid)
   toNearestFoodSourceShape.setFillColor(lightColor);
 }
 
-unsigned int BoidRenderer::getBoidId() const { return boid.getId(); }
+unsigned int BraitenBoidRenderer::getBoidId() const { return boid.getId(); }
 
-void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
+void BraitenBoidRenderer::draw(IWorldState &worldState,
+                               sf::RenderWindow &window) {
   Vector2f position = boid.getPosition();
   Vector2f direction = boid.getDirection();
 
@@ -40,7 +41,7 @@ void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->getPosition() - position;
     float dist = toFoodSource.norm();
-    if (dist <= Boid::senseRadius) {
+    if (dist <= BraitenBoid::senseRadius) {
       toNearestFoodSourceShape.setPosition(eigenToSfml(position));
       toNearestFoodSourceShape.setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape.getSize().y));
@@ -54,11 +55,11 @@ void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   window.draw(directionShape, transform.getTransform());
 }
 
-sf::Vector2f BoidRenderer::eigenToSfml(Eigen::Vector2f v) {
+sf::Vector2f BraitenBoidRenderer::eigenToSfml(Eigen::Vector2f v) {
   return sf::Vector2f(v.x(), v.y());
 }
 
-const std::vector<unsigned int> BoidRenderer::colors{
+const std::vector<unsigned int> BraitenBoidRenderer::colors{
     0x4698bcff, // blue
     0x6bbb5dff, // green
     0xe18731ff, // orange
@@ -66,7 +67,7 @@ const std::vector<unsigned int> BoidRenderer::colors{
     0xdf5d99ff, // pink
     0x48aa9fff, // teal
 };
-const std::vector<unsigned int> BoidRenderer::lightColors{
+const std::vector<unsigned int> BraitenBoidRenderer::lightColors{
     0x8bc8d3ff, // light blue
     0xbcde85ff, // light green
     0xf5ac91ff, // light orange

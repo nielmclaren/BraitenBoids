@@ -1,8 +1,8 @@
 #pragma once
 
 #include "avatar_renderer.hpp"
-#include "boid_renderer.hpp"
 #include "food_source_renderer.hpp"
+#include "iboid_renderer.hpp"
 #include "ientity_listener.hpp"
 #include "simulation.hpp"
 #include <Eigen/Dense>
@@ -17,11 +17,13 @@ class SimRenderer : public IEntityListener,
   sf::RenderWindow &window;
 
   AvatarRenderer *avatarRenderer;
-  std::vector<BoidRenderer *> boidRenderers;
+  std::vector<IBoidRenderer *> boidRenderers;
   std::vector<FoodSourceRenderer *> foodSourceRenderers;
 
   void boidCreated(Boid &boid);
   void boidDeleted(Boid &boid);
+  void braitenBoidCreated(BraitenBoid &bBoid);
+  void braitenBoidDeleted(BraitenBoid &bBoid);
   void foodSourceCreated(FoodSource &foodSource);
   void foodSourceDeleted(FoodSource &foodSource);
 

@@ -9,7 +9,7 @@
 
 using Eigen::Vector2f;
 
-class Boid : public IAgent {
+class BraitenBoid : public IAgent {
   static const float maxSpeed;
 
   unsigned int id;
@@ -31,8 +31,8 @@ public:
   static const float radius;
   static const float senseRadius;
 
-  Boid(AgentProps &agentProps, Vector2f position);
-  ~Boid();
+  BraitenBoid(AgentProps &agentProps, Vector2f position);
+  ~BraitenBoid();
 
   unsigned int getId() const;
   EntityType getEntityType() const;

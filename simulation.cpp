@@ -158,8 +158,8 @@ void Simulation::handleCollisions() {
 }
 
 void Simulation::addBoid(AgentProps props) {
-  std::shared_ptr<IAgent> boid(
-      new Boid(props, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
+  std::shared_ptr<IAgent> boid(new BraitenBoid(
+      props, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
   agents.push_back(boid);
   entityCreated(*boid);
 }

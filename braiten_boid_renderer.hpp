@@ -1,11 +1,11 @@
 #pragma once
 
-#include "boid.hpp"
+#include "braiten_boid.hpp"
 #include "iboid_renderer.hpp"
 #include "iworld_state.hpp"
 #include <SFML/Graphics.hpp>
 
-class BoidRenderer : public IBoidRenderer {
+class BraitenBoidRenderer : public IBoidRenderer {
   static const std::vector<unsigned int> colors;
   static const std::vector<unsigned int> lightColors;
 
@@ -13,14 +13,13 @@ class BoidRenderer : public IBoidRenderer {
   sf::Vector2f eigenToSfml(Eigen::Vector2f v);
 
 public:
-  const Boid &boid;
+  const BraitenBoid &boid;
   sf::CircleShape bodyShape;
   sf::ConvexShape directionShape;
   sf::RectangleShape toNearestFoodSourceShape;
 
-  BoidRenderer(const Boid &boid);
+  BraitenBoidRenderer(const BraitenBoid &boid);
 
   unsigned int getBoidId() const;
-
   void draw(IWorldState &worldState, sf::RenderWindow &window);
 };

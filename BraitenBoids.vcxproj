@@ -24,6 +24,8 @@
     <ClCompile Include="avatar_renderer.cpp" />
     <ClCompile Include="boid.cpp" />
     <ClCompile Include="boid_renderer.cpp" />
+    <ClCompile Include="braiten_boid.cpp" />
+    <ClCompile Include="braiten_boid_renderer.cpp" />
     <ClCompile Include="collision_detection.cpp" />
     <ClCompile Include="evolution.cpp" />
     <ClCompile Include="evolution_log.cpp" />
@@ -47,6 +49,8 @@
     <ClInclude Include="avatar_renderer.hpp" />
     <ClInclude Include="boid.hpp" />
     <ClInclude Include="boid_renderer.hpp" />
+    <ClInclude Include="braiten_boid.hpp" />
+    <ClInclude Include="braiten_boid_renderer.hpp" />
     <ClInclude Include="collision_detection.hpp" />
     <ClInclude Include="evolution.hpp" />
     <ClInclude Include="evolution_log.hpp" />
