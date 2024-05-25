@@ -44,8 +44,6 @@ public:
   int getNumFoodsEaten() const;
   std::vector<float> getWeights() const;
 
-  float fitnessScore;
-
   void step(IWorldState &worldState, float timeDelta);
 
   void handleCollision(const ICollidable &collidable);

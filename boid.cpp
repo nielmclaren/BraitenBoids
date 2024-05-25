@@ -25,8 +25,6 @@ Boid::Boid(AgentProps &props, Vector2f pos) : neuralNetwork(props.weights) {
   velocity = direction * speed;
 
   numFoodsEaten = 0;
-
-  fitnessScore = 0.f;
 }
 
 Boid::~Boid() {}
