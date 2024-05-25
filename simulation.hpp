@@ -6,7 +6,7 @@
 #include "ientity_listener.hpp"
 #include "iworld_state.hpp"
 #include <Eigen/Dense>
-#include <functional> 
+#include <functional>
 #include <vector>
 
 using Eigen::Vector2f;
@@ -16,6 +16,10 @@ class Simulation : public IWorldState {
   static const float playerSpeed;
 
   Vector2f playerDirection;
+
+  std::vector<std::shared_ptr<Boid>> boids;
+  std::vector<std::shared_ptr<FoodSource>> foodSources;
+  std::vector<std::weak_ptr<IEntityListener>> entityListeners;
 
   void stepAvatar(float timeDelta);
   void stepBoids(float timeDelta);
@@ -29,10 +33,6 @@ public:
   static const unsigned int numInitialFoodSources = 30;
 
   Vector2f size;
-
-  std::vector<std::shared_ptr<Boid>> boids;
-  std::vector<std::shared_ptr<FoodSource>> foodSources;
-  std::vector<std::weak_ptr<IEntityListener>> entityListeners;
 
   Avatar avatar;
 
@@ -54,6 +54,8 @@ public:
   std::vector<AgentProps> getBoids() const;
   void setBoids(std::vector<AgentProps> agentPropses);
   void resetBoids();
+
+  unsigned int getNumFoodSources() const;
 
   std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point) const;
   float distanceToNearestFoodSource(Vector2f &point) const;

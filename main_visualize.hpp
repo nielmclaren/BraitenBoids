@@ -27,7 +27,7 @@ class MainVisualize {
 
   unsigned int getGenerationIndex(Simulation &simulation);
   void reportGenerationFitness(Simulation &simulation);
-  void fastForward(Simulation &simulation);
+  unsigned int fastForward(Simulation &simulation);
 
 public:
   MainVisualize(int argc, char *argv[]);

@@ -103,7 +103,7 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         stepCount = 0;
       }
       if (event.key.scancode == sf::Keyboard::Scan::F) {
-        fastForward(simulation);
+        stepCount += fastForward(simulation);
         reportGenerationFitness(simulation);
         evolutionLog.addEntry(simulation, getGenerationIndex(simulation),
                               stepCount);
@@ -122,8 +122,9 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
 
 unsigned int MainVisualize::getGenerationIndex(Simulation &simulation) {
   unsigned int result = 0;
-  for (auto &boid : simulation.boids) {
-    result = std::max(boid->getGenerationIndex(), result);
+  std::vector<AgentProps> propses = simulation.getBoids();
+  for (auto &props : propses) {
+    result = std::max(props.generationIndex, result);
   }
   return result;
 }
@@ -138,32 +139,13 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
 
   std::cout << "Generation: " << getGenerationIndex(simulation) << std::endl;
   std::cout << "\tSteps: " << stepCount << std::endl;
-
-  std::cout << "\tFitness scores, weights: " << std::endl;
-  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
-  for (auto &boid : boids) {
-    boid->fitnessScore = Evolution::fitnessFunction(*boid);
-  }
-  sort(boids.begin(), boids.end(), [](const auto &lhs, const auto &rhs) {
-    return lhs->fitnessScore > rhs->fitnessScore;
-  });
-  for (auto &boid : boids) {
-    std::cout << "\t\t" << boid->fitnessScore << "\t";
-    for (auto &w : boid->getWeights()) {
-      if (w >= 0) {
-        // Stay aligned with negative numbers (minus sign).
-        std::cout << " ";
-      }
-      printf("%.2f", w);
-      std::cout << " ";
-    }
-    std::cout << std::endl;
-  }
+  Evolution::reportGenerationFitness(simulation);
 }
 
-void MainVisualize::fastForward(Simulation &simulation) {
+unsigned int MainVisualize::fastForward(Simulation &simulation) {
   unsigned int stepCount =
       simulation.fastForward(0.016f, 10000, [](Simulation &simulation) {
-        return simulation.foodSources.size() < 7;
+        return simulation.getNumFoodSources() < 7;
       });
+  return stepCount;
 }

@@ -1,32 +1,46 @@
 #include "evolution.hpp"
 #include "util.hpp"
 
+void Evolution::reportGenerationFitness(Simulation &simulation) {
+  std::vector<AgentProps> boids = simulation.getBoids();
+  std::vector<AgentFitness> scores = getAgentFitnessScores(boids);
+
+  std::cout << "\tFitness scores, weights: " << std::endl;
+  for (auto &score : scores) {
+    std::cout << "\t\t" << score.fitness << "\t";
+    for (auto &w : score.agent.weights) {
+      if (w >= 0) {
+        // Stay aligned with negative numbers (minus sign).
+        std::cout << " ";
+      }
+      printf("%.2f", w);
+      std::cout << " ";
+    }
+    std::cout << std::endl;
+  }
+}
+
 void Evolution::selectAndMutate(Simulation &simulation) {
   int population = 10;
   int selectNum = 4;
 
-  std::vector<std::shared_ptr<Boid>> boids = simulation.boids;
-  for (auto &boid : boids) {
-    boid->fitnessScore = fitnessFunction(*boid);
-  }
+  std::vector<AgentProps> boids = simulation.getBoids();
+  std::vector<AgentFitness> scores = getAgentFitnessScores(boids);
 
-  sort(boids.begin(), boids.end(), [](const auto &lhs, const auto &rhs) {
-    return lhs->fitnessScore > rhs->fitnessScore;
-  });
-
-  std::vector<std::shared_ptr<Boid>> selected(boids.begin(),
-                                              boids.begin() + selectNum);
+  std::vector<AgentProps> selected;
+  std::transform(scores.begin(), scores.begin() + selectNum,
+                 std::back_inserter(selected),
+                 [](const AgentFitness &score) { return score.agent; });
 
   int nextId = 0;
   std::vector<AgentProps> mutated;
   while (mutated.size() < population) {
-    for (auto &boid : selected) {
-      AgentProps props;
-      props.id = ++nextId;
-      props.generationIndex = boid->getGenerationIndex() + 1;
-      props.weights = mutateWeights(boid->getWeights());
-
-      mutated.push_back(props);
+    for (auto &selectedProps : selected) {
+      AgentProps mutatedProps;
+      mutatedProps.id = ++nextId;
+      mutatedProps.generationIndex = selectedProps.generationIndex + 1;
+      mutatedProps.weights = mutateWeights(selectedProps.weights);
+      mutated.push_back(mutatedProps);
 
       if (mutated.size() >= population) {
         break;
@@ -38,8 +52,8 @@ void Evolution::selectAndMutate(Simulation &simulation) {
   simulation.resetFoodSources();
 }
 
-float Evolution::fitnessFunction(Boid &boid) {
-  return static_cast<float>(boid.getNumFoodsEaten());
+float Evolution::fitnessFunction(AgentProps props) {
+  return static_cast<float>(props.numFoodsEaten);
 }
 
 std::vector<float> Evolution::mutateWeights(std::vector<float> weights) {
@@ -48,4 +62,20 @@ std::vector<float> Evolution::mutateWeights(std::vector<float> weights) {
     results.push_back(std::clamp(w + Util::randf(-0.1f, 0.1f), -1.f, 1.f));
   }
   return results;
+}
+
+std::vector<Evolution::AgentFitness>
+Evolution::getAgentFitnessScores(std::vector<AgentProps> propses) {
+  std::vector<AgentFitness> scores;
+  std::transform(propses.begin(), propses.end(), std::back_inserter(scores),
+                 [](const AgentProps &props) {
+                   AgentFitness score(props, fitnessFunction(props));
+                   return score;
+                 });
+
+  sort(scores.begin(), scores.end(), [](const auto &lhs, const auto &rhs) {
+    return lhs.fitness > rhs.fitness;
+  });
+
+  return scores;
 }

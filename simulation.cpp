@@ -60,8 +60,12 @@ void Simulation::step(float timeDelta) {
 
 unsigned int Simulation::fastForward(
     float timeDelta, unsigned int numSteps,
-    std::function<bool (Simulation &)> earlyTerminationCondition) {
+    std::function<bool(Simulation &)> earlyTerminationCondition) {
   int stepCount = 0;
+  if (earlyTerminationCondition(*this)) {
+    return stepCount;
+  }
+
   for (int i = 0; i < 10000; i++) {
     step(0.016f);
     stepCount++;
@@ -195,6 +199,10 @@ void Simulation::resetBoids() {
     }
     addBoid(props);
   }
+}
+
+unsigned int Simulation::getNumFoodSources() const {
+  return static_cast<unsigned int>(foodSources.size());
 }
 
 std::shared_ptr<FoodSource>

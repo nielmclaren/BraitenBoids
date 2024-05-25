@@ -43,7 +43,7 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
 unsigned int MainEvaluate::fastForward(Simulation &simulation) {
   unsigned int stepCount =
       simulation.fastForward(0.016f, 10000, [](Simulation &simulation) {
-        return simulation.foodSources.size() < 7;
+        return simulation.getNumFoodSources() < 7;
       });
   return stepCount;
 }
