@@ -58,6 +58,21 @@ void Simulation::step(float timeDelta) {
   handleCollisions();
 }
 
+unsigned int Simulation::fastForward(
+    float timeDelta, unsigned int numSteps,
+    std::function<bool (Simulation &)> earlyTerminationCondition) {
+  int stepCount = 0;
+  for (int i = 0; i < 10000; i++) {
+    step(0.016f);
+    stepCount++;
+
+    if (earlyTerminationCondition(*this)) {
+      break;
+    }
+  }
+  return stepCount;
+}
+
 void Simulation::stepAvatar(float timeDelta) {
   avatar.position.x() += playerDirection.x() * playerSpeed * timeDelta;
   avatar.position.y() += playerDirection.y() * playerSpeed * timeDelta;

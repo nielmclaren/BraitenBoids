@@ -40,16 +40,10 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
   evolutionLog.save("output/evolution_log.csv");
 }
 
-// TODO: DRY this code (MainVisualize).
 unsigned int MainEvaluate::fastForward(Simulation &simulation) {
-  int stepCount = 0;
-  for (int i = 0; i < 10000; i++) {
-    simulation.step(0.016f);
-    stepCount++;
-
-    if (simulation.foodSources.size() < 7) {
-      break;
-    }
-  }
+  unsigned int stepCount =
+      simulation.fastForward(0.016f, 10000, [](Simulation &simulation) {
+        return simulation.foodSources.size() < 7;
+      });
   return stepCount;
 }

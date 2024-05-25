@@ -162,12 +162,8 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
 }
 
 void MainVisualize::fastForward(Simulation &simulation) {
-  for (int i = 0; i < 10000; i++) {
-    simulation.step(0.016f);
-    stepCount++;
-
-    if (simulation.foodSources.size() < 7) {
-      break;
-    }
-  }
+  unsigned int stepCount =
+      simulation.fastForward(0.016f, 10000, [](Simulation &simulation) {
+        return simulation.foodSources.size() < 7;
+      });
 }

@@ -6,6 +6,7 @@
 #include "ientity_listener.hpp"
 #include "iworld_state.hpp"
 #include <Eigen/Dense>
+#include <functional> 
 #include <vector>
 
 using Eigen::Vector2f;
@@ -43,6 +44,10 @@ public:
 
   void setPlayerDirection(Vector2f direction);
   void step(float timeDelta);
+
+  unsigned int
+  fastForward(float timeDelta, unsigned int numSteps,
+              std::function<bool(Simulation &)> earlyTerminationCondition);
 
   void addBoid(AgentProps agentProps);
   void clearBoids();
