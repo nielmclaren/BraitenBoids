@@ -35,9 +35,17 @@ void Simulation::clearFoodSources() {
 void Simulation::resetFoodSources() {
   clearFoodSources();
 
-  for (int i = 0; i < Simulation::numInitialFoodSources; i++) {
-    std::shared_ptr<FoodSource> foodSource(
-        new FoodSource(Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
+  Vector2f center(size.x() / 2, size.y() / 2);
+  float noFoodZoneRadius = 110;
+  for (unsigned int i = 0; i < Simulation::numInitialFoodSources; i++) {
+    Vector2f point(Util::randf(size.x()), Util::randf(size.y()));
+    while ((point - center).norm() < noFoodZoneRadius) {
+      // TODO Set the point in one line. (Eigen docs offline right now.)
+      point(0) = Util::randf(size.x());
+      point(1) = Util::randf(size.y());
+    }
+
+    std::shared_ptr<FoodSource> foodSource(new FoodSource(point));
     foodSources.push_back(foodSource);
     entityCreated(*foodSource);
   }
@@ -158,8 +166,11 @@ void Simulation::handleCollisions() {
 }
 
 void Simulation::addBoid(AgentProps props) {
-  std::shared_ptr<IAgent> boid(new BraitenBoid(
-      props, Vector2f(Util::randf(size.x()), Util::randf(size.y()))));
+  Vector2f center(size.x() / 2, size.y() / 2);
+  float jitter = 20;
+  std::shared_ptr<IAgent> boid(
+      new Boid(props, center + Vector2f(Util::randf(-jitter, jitter),
+                                        Util::randf(-jitter, jitter))));
   agents.push_back(boid);
   entityCreated(*boid);
 }
