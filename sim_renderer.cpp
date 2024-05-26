@@ -1,7 +1,6 @@
 
 #include "sim_renderer.hpp"
 #include "boid_renderer.hpp"
-#include "braiten_boid_renderer.hpp"
 #include "food_source_renderer.hpp"
 #include "simulation.hpp"
 #include <SFML/Graphics.hpp>
@@ -54,9 +53,6 @@ void SimRenderer::entityCreated(IEntity &entity) {
   case EntityType::Boid:
     boidCreated(*(dynamic_cast<Boid *>(&entity)));
     break;
-  case EntityType::BraitenBoid:
-    braitenBoidCreated(*(dynamic_cast<BraitenBoid *>(&entity)));
-    break;
   case EntityType::FoodSource:
     foodSourceCreated(*(dynamic_cast<FoodSource *>(&entity)));
     break;
@@ -72,19 +68,11 @@ void SimRenderer::boidCreated(Boid &boid) {
   boidRenderers.push_back(renderer);
 }
 
-void SimRenderer::braitenBoidCreated(BraitenBoid &bBoid) {
-  BraitenBoidRenderer *renderer = new BraitenBoidRenderer(bBoid);
-  boidRenderers.push_back(renderer);
-}
-
 void SimRenderer::entityDeleted(IEntity &entity) {
   EntityType entityType = entity.getEntityType();
   switch (entityType) {
   case EntityType::Boid:
     boidDeleted(*(dynamic_cast<Boid *>(&entity)));
-    break;
-  case EntityType::BraitenBoid:
-    braitenBoidDeleted(*(dynamic_cast<BraitenBoid *>(&entity)));
     break;
   case EntityType::FoodSource:
     foodSourceDeleted(*(dynamic_cast<FoodSource *>(&entity)));
@@ -99,17 +87,6 @@ void SimRenderer::boidDeleted(Boid &boid) {
   for (std::vector<IBoidRenderer *>::iterator it = begin(boidRenderers);
        it != end(boidRenderers); ++it) {
     if ((*it)->getBoidId() == boid.getId()) {
-      delete (*it);
-      boidRenderers.erase(it);
-      break;
-    }
-  }
-}
-
-void SimRenderer::braitenBoidDeleted(BraitenBoid &bBoid) {
-  for (std::vector<IBoidRenderer *>::iterator it = begin(boidRenderers);
-       it != end(boidRenderers); ++it) {
-    if ((*it)->getBoidId() == bBoid.getId()) {
       delete (*it);
       boidRenderers.erase(it);
       break;

@@ -16,9 +16,13 @@ class NeuralNetwork {
   }
 
 public:
-  NeuralNetwork();
-  NeuralNetwork(std::vector<float> weights);
+  std::vector<float> input;
+  std::vector<float> output;
+
+  NeuralNetwork(unsigned int numInputs, unsigned int numOutputs,
+                std::vector<float> weights);
 
   std::vector<float> getWeights() const;
-  std::vector<float> forward(std::vector<float> input) const;
+  void forward();
+  void reset();
 };

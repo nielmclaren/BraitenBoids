@@ -22,8 +22,6 @@ class SimRenderer : public IEntityListener,
 
   void boidCreated(Boid &boid);
   void boidDeleted(Boid &boid);
-  void braitenBoidCreated(BraitenBoid &bBoid);
-  void braitenBoidDeleted(BraitenBoid &bBoid);
   void foodSourceCreated(FoodSource &foodSource);
   void foodSourceDeleted(FoodSource &foodSource);
 

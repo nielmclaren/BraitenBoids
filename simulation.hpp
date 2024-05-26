@@ -2,7 +2,6 @@
 
 #include "avatar.hpp"
 #include "boid.hpp"
-#include "braiten_boid.hpp"
 #include "food_source.hpp"
 #include "ientity_listener.hpp"
 #include "iworld_state.hpp"

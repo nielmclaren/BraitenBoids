@@ -14,7 +14,7 @@ const float Boid::sensorRange = 100.f;
 
 Boid::Boid(AgentProps &props, Vector2f pos)
     : id(props.id), generationIndex(props.generationIndex), numFoodsEaten(0),
-      neuralNetwork(props.weights), speed(0), pos(pos) {
+      neuralNetwork(2, 2, props.weights), speed(0), pos(pos) {
   dir << 1, 0;
   Rotation2Df rotation(Util::randf(2.f * Util::pi));
   dir = rotation.toRotationMatrix() * dir;
@@ -46,8 +46,10 @@ unsigned int Boid::getGenerationIndex() const { return generationIndex; }
 int Boid::getNumFoodsEaten() const { return numFoodsEaten; }
 
 void Boid::step(IWorldState &worldState, float timeDelta) {
-  float detectionNeuron = 0;
-  float directionNeuron = 0;
+  neuralNetwork.reset();
+
+  float &detectionNeuron = neuralNetwork.input[0];
+  float &directionNeuron = neuralNetwork.input[1];
 
   std::shared_ptr<FoodSource> foodSource = worldState.getNearestFoodSource(pos);
   if (foodSource != nullptr) {
@@ -63,10 +65,9 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
     }
   }
 
-  std::vector input({detectionNeuron, directionNeuron});
-  std::vector output = neuralNetwork.forward(input);
-  float speedNeuron = output[0];
-  float turnNeuron = output[1];
+  neuralNetwork.forward();
+  const float &speedNeuron = neuralNetwork.output[0];
+  const float &turnNeuron = neuralNetwork.output[1];
 
   float maxTurnDegrees = 1;
   float turnAmount = std::min(abs(turnNeuron), maxTurnDegrees * Util::pi / 180);
