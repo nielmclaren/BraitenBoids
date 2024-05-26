@@ -9,7 +9,7 @@ class FileNamer {
   int index;
 
   int getInitialIndex();
-  std::string getFilename(int i);
+  std::string getFilename(unsigned int i);
   std::string pad(int n);
   std::string escapeRegex(std::string regex);
 

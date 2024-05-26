@@ -52,6 +52,8 @@ unsigned int BraitenBoid::getGenerationIndex() const { return generationIndex; }
 int BraitenBoid::getNumFoodsEaten() const { return numFoodsEaten; }
 
 void BraitenBoid::step(IWorldState &worldState, float timeDelta) {
+  // WIP
+
   /*
   Try with one nearby food source for now.
 

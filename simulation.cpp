@@ -66,7 +66,7 @@ unsigned int Simulation::fastForward(
     return stepCount;
   }
 
-  for (int i = 0; i < 10000; i++) {
+  for (unsigned int i = 0; i < numSteps; i++) {
     step(0.016f);
     stepCount++;
 
@@ -189,12 +189,12 @@ void Simulation::setBoids(std::vector<AgentProps> propses) {
 void Simulation::resetBoids() {
   clearBoids();
 
-  int numAgents = 10;
-  int numWeights = 6;
+  unsigned int numAgents = 10;
+  unsigned int numWeights = 6;
 
-  for (int i = 0; i < numAgents; ++i) {
+  for (unsigned int i = 0; i < numAgents; ++i) {
     AgentProps props(i, 0, 0);
-    for (int w = 0; w < numWeights; ++w) {
+    for (unsigned int w = 0; w < numWeights; ++w) {
       props.weights.push_back(Util::randf(-1.f, 1.f));
     }
     addBoid(props);

@@ -55,7 +55,7 @@ int FileNamer::getInitialIndex() {
   return highestIndex + 1;
 }
 
-std::string FileNamer::getFilename(int i) {
+std::string FileNamer::getFilename(unsigned int i) {
   std::stringstream ss;
   ss << basePath;
   if (basePath.back() != '/')

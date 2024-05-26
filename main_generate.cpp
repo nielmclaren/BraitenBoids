@@ -9,20 +9,20 @@ MainGenerate::MainGenerate(int argc, char *argv[]) {
 
   std::cout << "generate command" << std::endl;
 
-  int numBoids = 10;
-  int numWeights = 6;
+  unsigned int numBoids = 10;
+  unsigned int numWeights = 6;
 
   std::string filename = "output/boids.json";
   std::ofstream file(filename);
 
   file << "id, generation, numFoodsEaten, w0, w1, w2, w3, w4, w5" << std::endl;
 
-  for (int i = 0; i < numBoids; i++) {
+  for (unsigned int i = 0; i < numBoids; i++) {
     // boid ID, generation index, number of food sources consumed
     file << i << ", " << 0 << ", " << 0 << ", ";
 
     // neural network weights
-    for (int j = 0; j < numWeights; j++) {
+    for (unsigned int j = 0; j < numWeights; j++) {
       file << Util::randf(-1.f, 1.f);
       if (j < numWeights - 1) {
         file << ", ";

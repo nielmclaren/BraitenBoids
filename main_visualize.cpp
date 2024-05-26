@@ -142,9 +142,9 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
 
 unsigned int MainVisualize::fastForward(Simulation &simulation) {
   unsigned int numTerminationFoodSources =
-      floor(Simulation::numInitialFoodSources * 0.2);
+      static_cast<int>(Simulation::numInitialFoodSources * 0.2);
   unsigned int stepCount = simulation.fastForward(
-      0.016f, 10000, [&numTerminationFoodSources](Simulation &simulation) {
+      0.016f, 5000, [&numTerminationFoodSources](Simulation &simulation) {
         return simulation.getNumFoodSources() < numTerminationFoodSources;
       });
   return stepCount;
