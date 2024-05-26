@@ -7,7 +7,7 @@ Avatar::Avatar() {
   numFoodsEaten = 0;
 
   radius = 7.f;
-  senseRadius = 100.f;
+  sensorRange = 100.f;
 }
 
 void Avatar::handleCollision(const ICollidable &collidable) {

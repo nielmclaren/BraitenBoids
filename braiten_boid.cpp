@@ -10,7 +10,7 @@ using Eigen::Vector2f;
 
 const float BraitenBoid::maxSpeed = 2.f;
 const float BraitenBoid::radius = 8.f;
-const float BraitenBoid::senseRadius = 200.f;
+const float BraitenBoid::sensorRange = 100.f;
 
 BraitenBoid::BraitenBoid(AgentProps &props, Vector2f pos)
     : id(props.id), generationIndex(props.generationIndex), numFoodsEaten(0),
@@ -55,9 +55,9 @@ void BraitenBoid::step(IWorldState &worldState, float timeDelta) {
   if (foodSource != nullptr) {
     Vector2f toFoodSource = foodSource->position() - pos;
     float dist = toFoodSource.norm();
-    if (dist <= BraitenBoid::senseRadius) {
+    if (dist <= BraitenBoid::sensorRange) {
       detectionNeuron =
-          (BraitenBoid::senseRadius - dist) / BraitenBoid::senseRadius;
+          (BraitenBoid::sensorRange - dist) / BraitenBoid::sensorRange;
 
       float angleBetween =
           atan2(dir.x() * toFoodSource.y() - dir.y() * toFoodSource.x(),

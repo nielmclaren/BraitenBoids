@@ -31,7 +31,7 @@ void AvatarRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->position() - position;
     float dist = (toFoodSource).norm();
-    if (dist <= avatar.senseRadius) {
+    if (dist <= avatar.sensorRange) {
       toNearestFoodSourceShape.setPosition(eigenToSfml(position));
       toNearestFoodSourceShape.setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape.getSize().y));

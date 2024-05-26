@@ -29,7 +29,7 @@ class Boid : public IAgent {
 
 public:
   static const float radius;
-  static const float senseRadius;
+  static const float sensorRange;
 
   Boid(AgentProps &agentProps, Vector2f position);
   ~Boid();

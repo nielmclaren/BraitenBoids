@@ -10,7 +10,7 @@ class Avatar : public ICollidable {
 
 public:
   float radius;
-  float senseRadius;
+  float sensorRange;
   Vector2f position;
   Vector2f direction;
 

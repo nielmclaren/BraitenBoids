@@ -40,7 +40,7 @@ void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->getPosition() - position;
     float dist = toFoodSource.norm();
-    if (dist <= Boid::senseRadius) {
+    if (dist <= Boid::sensorRange) {
       toNearestFoodSourceShape.setPosition(eigenToSfml(position));
       toNearestFoodSourceShape.setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape.getSize().y));

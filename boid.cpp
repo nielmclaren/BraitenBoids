@@ -10,7 +10,7 @@ using Eigen::Vector2f;
 
 const float Boid::maxSpeed = 2.f;
 const float Boid::radius = 8.f;
-const float Boid::senseRadius = 200.f;
+const float Boid::sensorRange = 100.f;
 
 Boid::Boid(AgentProps &props, Vector2f pos)
     : id(props.id), generationIndex(props.generationIndex), numFoodsEaten(0),
@@ -53,8 +53,8 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
   if (foodSource != nullptr) {
     Vector2f toFoodSource = foodSource->position() - pos;
     float dist = toFoodSource.norm();
-    if (dist <= Boid::senseRadius) {
-      detectionNeuron = (Boid::senseRadius - dist) / Boid::senseRadius;
+    if (dist <= Boid::sensorRange) {
+      detectionNeuron = (Boid::sensorRange - dist) / Boid::sensorRange;
 
       float angleBetween =
           atan2(dir.x() * toFoodSource.y() - dir.y() * toFoodSource.x(),

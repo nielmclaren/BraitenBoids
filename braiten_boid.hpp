@@ -29,7 +29,7 @@ class BraitenBoid : public IAgent {
 
 public:
   static const float radius;
-  static const float senseRadius;
+  static const float sensorRange;
 
   BraitenBoid(AgentProps &agentProps, Vector2f position);
   ~BraitenBoid();

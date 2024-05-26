@@ -41,7 +41,7 @@ void BraitenBoidRenderer::draw(IWorldState &worldState,
   if (nearestFoodSource != nullptr) {
     Vector2f toFoodSource = nearestFoodSource->getPosition() - position;
     float dist = toFoodSource.norm();
-    if (dist <= BraitenBoid::senseRadius) {
+    if (dist <= BraitenBoid::sensorRange) {
       toNearestFoodSourceShape.setPosition(eigenToSfml(position));
       toNearestFoodSourceShape.setSize(
           sf::Vector2f(dist, toNearestFoodSourceShape.getSize().y));
