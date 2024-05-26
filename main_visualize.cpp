@@ -4,9 +4,7 @@
 #include <algorithm>
 
 MainVisualize::MainVisualize(int argc, char *argv[])
-    : window(sf::VideoMode(800, 800), "BraitenBoids"),
-      simulation(static_cast<float>(window.getSize().x),
-                 static_cast<float>(window.getSize().y)),
+    : window(sf::VideoMode(800, 800), "BraitenBoids"), simulation(800, 800),
       stepCount(0) {
   std::cout << "visualize command" << std::endl;
 

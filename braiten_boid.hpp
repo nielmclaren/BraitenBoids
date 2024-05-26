@@ -24,11 +24,16 @@ class BraitenBoid : public IAgent {
   Vector2f pos;
   Vector2f vel;
 
+  Vector2f leftSensorPos;
+  Vector2f rightSensorPos;
+
   // Remember direction even when velocity is zero.
   Vector2f dir;
 
 public:
   static const float radius;
+  static const Vector2f sensorOffset;
+  static const float sensorRadius;
   static const float sensorRange;
 
   BraitenBoid(AgentProps &agentProps, Vector2f position);

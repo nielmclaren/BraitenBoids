@@ -16,7 +16,8 @@ public:
   const BraitenBoid &boid;
   sf::CircleShape bodyShape;
   sf::ConvexShape directionShape;
-  sf::RectangleShape toNearestFoodSourceShape;
+  sf::CircleShape leftSensorShape;
+  sf::CircleShape rightSensorShape;
 
   BraitenBoidRenderer(const BraitenBoid &boid);
 

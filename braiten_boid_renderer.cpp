@@ -4,7 +4,8 @@
 
 BraitenBoidRenderer::BraitenBoidRenderer(const BraitenBoid &boid)
     : boid(boid), bodyShape(BraitenBoid::radius), directionShape(),
-      toNearestFoodSourceShape(sf::Vector2f(15.f, 1.f)) {
+      leftSensorShape(BraitenBoid::sensorRadius),
+      rightSensorShape(BraitenBoid::sensorRadius) {
   float radius = BraitenBoid::radius;
 
   int n = static_cast<int>(boid.getId()) % BraitenBoidRenderer::colors.size();
@@ -22,7 +23,20 @@ BraitenBoidRenderer::BraitenBoidRenderer(const BraitenBoid &boid)
   directionShape.setPoint(1, sf::Vector2f(-radius * 0.4f, -radius * 0.4f));
   directionShape.setPoint(2, sf::Vector2f(-radius * 0.4f, +radius * 0.4f));
 
-  toNearestFoodSourceShape.setFillColor(lightColor);
+  float sensorRadius = BraitenBoid::sensorRadius;
+  leftSensorShape.setPosition(BraitenBoid::sensorOffset.x(),
+                              -BraitenBoid::sensorOffset.y());
+  leftSensorShape.setFillColor(lightColor);
+  leftSensorShape.setOutlineColor(normalColor);
+  leftSensorShape.setOutlineThickness(1);
+  leftSensorShape.setOrigin(sensorRadius, sensorRadius);
+
+  rightSensorShape.setPosition(BraitenBoid::sensorOffset.x(),
+                               BraitenBoid::sensorOffset.y());
+  rightSensorShape.setFillColor(lightColor);
+  rightSensorShape.setOutlineColor(normalColor);
+  rightSensorShape.setOutlineThickness(1);
+  rightSensorShape.setOrigin(sensorRadius, sensorRadius);
 }
 
 unsigned int BraitenBoidRenderer::getBoidId() const { return boid.getId(); }
@@ -36,23 +50,10 @@ void BraitenBoidRenderer::draw(IWorldState &worldState,
   transform.setPosition(eigenToSfml(position));
   transform.setRotation(atan2(direction.y(), direction.x()) * 180 / Util::pi);
 
-  std::shared_ptr<FoodSource> nearestFoodSource =
-      worldState.getNearestFoodSource(position);
-  if (nearestFoodSource != nullptr) {
-    Vector2f toFoodSource = nearestFoodSource->getPosition() - position;
-    float dist = toFoodSource.norm();
-    if (dist <= BraitenBoid::sensorRange) {
-      toNearestFoodSourceShape.setPosition(eigenToSfml(position));
-      toNearestFoodSourceShape.setSize(
-          sf::Vector2f(dist, toNearestFoodSourceShape.getSize().y));
-      toNearestFoodSourceShape.setRotation(
-          atan2(toFoodSource.y(), toFoodSource.x()) * 180 / Util::pi);
-      window.draw(toNearestFoodSourceShape);
-    }
-  }
-
   window.draw(bodyShape, transform.getTransform());
   window.draw(directionShape, transform.getTransform());
+  window.draw(leftSensorShape, transform.getTransform());
+  window.draw(rightSensorShape, transform.getTransform());
 }
 
 sf::Vector2f BraitenBoidRenderer::eigenToSfml(Eigen::Vector2f v) {
