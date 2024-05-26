@@ -76,8 +76,8 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
   dir = rotation.toRotationMatrix() * dir;
 
   speed = std::clamp(
-      speed + Util::linearInterp(speedNeuron, -1.f, 1.f, -0.1f, 0.1f), 0.f,
-      maxSpeed);
+      Util::linearInterp(speedNeuron, -1.f, 1.f, 0.f, Boid::maxSpeed), 0.f,
+      Boid::maxSpeed);
   vel = dir * speed;
 
   pos += vel;
