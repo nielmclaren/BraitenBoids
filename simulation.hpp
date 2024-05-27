@@ -30,7 +30,7 @@ class Simulation : public IWorldState {
   void entityDeleted(IEntity &entity);
 
 public:
-  static const unsigned int numInitialFoodSources = 30;
+  static const unsigned int numInitialFoodSources = 10;
 
   Vector2f size;
 
