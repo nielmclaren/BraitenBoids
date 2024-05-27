@@ -14,7 +14,7 @@ const float Boid::sensorRange = 100.f;
 
 Boid::Boid(AgentProps &props, Vector2f pos)
     : id(props.id), generationIndex(props.generationIndex), numFoodsEaten(0),
-      neuralNetwork(2, 2, props.weights), speed(0), pos(pos) {
+      neuralNetwork(2, 2, props.weights), speed(0), pos(pos), energy(1) {
   dir << 1, 0;
   Rotation2Df rotation(Util::randf(2.f * Util::pi));
   dir = rotation.toRotationMatrix() * dir;
@@ -27,13 +27,15 @@ unsigned int Boid::getId() const { return id; }
 EntityType Boid::getEntityType() const { return EntityType::Boid; }
 AgentType Boid::getAgentType() const { return AgentType::Boid; }
 
+float Boid::getSpeed() const { return speed; };
 Vector2f &Boid::position() { return pos; };
 Vector2f Boid::getPosition() const { return pos; };
 Vector2f &Boid::velocity() { return vel; };
 Vector2f Boid::getVelocity() const { return vel; };
 Vector2f &Boid::direction() { return dir; };
 Vector2f Boid::getDirection() const { return dir; };
-float Boid::getSpeed() const { return speed; };
+float Boid::getEnergy() const { return energy; };
+bool Boid::isDead() const { return energy <= 0; };
 
 std::vector<float> Boid::getWeights() const {
   return neuralNetwork.getWeights();
@@ -82,10 +84,13 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
   vel = dir * speed;
 
   pos += vel;
+
+  energy -= speed * 0.005f;
 }
 
 void Boid::handleCollision(const ICollidable &collidable) {
   numFoodsEaten++;
+  energy += 1.f;
   // std::cout << "Boid handle collision; numFoodsEaten=" << numFoodsEaten
   //           << std::endl;
 }

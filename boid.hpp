@@ -27,6 +27,8 @@ class Boid : public IAgent {
   // Remember direction even when velocity is zero.
   Vector2f dir;
 
+  float energy;
+
 public:
   static const float radius;
   static const float sensorRange;
@@ -36,13 +38,16 @@ public:
 
   unsigned int getId() const;
   EntityType getEntityType() const;
+
+  float getSpeed() const;
   Vector2f &position();
   Vector2f getPosition() const;
   Vector2f &velocity();
   Vector2f getVelocity() const;
   Vector2f &direction();
   Vector2f getDirection() const;
-  float getSpeed() const;
+  float getEnergy() const;
+  bool isDead() const;
 
   AgentType getAgentType() const;
 

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "avatar.hpp"
-#include "boid.hpp"
 #include "food_source.hpp"
+#include "iagent.hpp"
+
 
 class CollisionDetection {
 public:
