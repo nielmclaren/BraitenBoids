@@ -16,7 +16,7 @@ void BoidMarshaller::load(Simulation &simulation, std::string filename) {
   cereal::JSONInputArchive archiveIn(file);
   std::vector<AgentProps> props;
   archiveIn(props);
-  simulation.setBoids(props);
+  simulation.setAgents(props);
 }
 
 void BoidMarshaller::save(Simulation &simulation, std::string filename) {
@@ -24,6 +24,6 @@ void BoidMarshaller::save(Simulation &simulation, std::string filename) {
 
   std::ofstream file(filename);
   cereal::JSONOutputArchive archiveOut(file);
-  std::vector<AgentProps> props = simulation.getBoids();
+  std::vector<AgentProps> props = simulation.getAgents();
   archiveOut(props);
 }

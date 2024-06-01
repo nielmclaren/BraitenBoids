@@ -10,7 +10,7 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
 
-  simulation.resetBoids();
+  simulation.resetAgents();
   simulation.resetFoodSources();
 
   totalStopwatch.restart();
@@ -57,7 +57,7 @@ unsigned int MainEvaluate::fastForward(Simulation &simulation) {
       static_cast<int>(Simulation::numInitialFoodSources * 0.2);
   unsigned int stepCount = simulation.fastForward(
       0.016f, 5000, [&numTerminationFoodSources](Simulation &simulation) {
-        return simulation.getNumFoodSources() < numTerminationFoodSources;
+        return simulation.getNumFoodSources() <= numTerminationFoodSources;
       });
   return stepCount;
 }

@@ -22,7 +22,7 @@ class Simulation : public IWorldState {
   std::vector<std::weak_ptr<IEntityListener>> entityListeners;
 
   void stepAvatar(float timeDelta);
-  void stepBoids(float timeDelta);
+  void stepAgents(float timeDelta);
   void stepFoodSources(float timeDelta);
   void handleCollisions();
 
@@ -49,11 +49,11 @@ public:
   fastForward(float timeDelta, unsigned int numSteps,
               std::function<bool(Simulation &)> earlyTerminationCondition);
 
-  void addBoid(AgentProps agentProps);
-  void clearBoids();
-  std::vector<AgentProps> getBoids() const;
-  void setBoids(std::vector<AgentProps> agentPropses);
-  void resetBoids();
+  void addAgent(AgentProps agentProps);
+  void clearAgents();
+  std::vector<AgentProps> getAgents() const;
+  void setAgents(std::vector<AgentProps> agentPropses);
+  void resetAgents();
 
   unsigned int getNumFoodSources() const;
 

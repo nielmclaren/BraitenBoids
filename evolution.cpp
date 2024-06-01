@@ -2,7 +2,7 @@
 #include "util.hpp"
 
 void Evolution::reportGenerationFitness(Simulation &simulation) {
-  std::vector<AgentProps> boids = simulation.getBoids();
+  std::vector<AgentProps> boids = simulation.getAgents();
   std::vector<AgentFitness> scores = getAgentFitnessScores(boids);
 
   std::cout << "\tFitness scores, weights: " << std::endl;
@@ -24,7 +24,7 @@ void Evolution::selectAndMutate(Simulation &simulation) {
   int population = 10;
   int selectNum = 4;
 
-  std::vector<AgentProps> boids = simulation.getBoids();
+  std::vector<AgentProps> boids = simulation.getAgents();
   std::vector<AgentFitness> scores = getAgentFitnessScores(boids);
 
   std::vector<AgentProps> selected;
@@ -48,7 +48,7 @@ void Evolution::selectAndMutate(Simulation &simulation) {
     }
   }
 
-  simulation.setBoids(mutated);
+  simulation.setAgents(mutated);
   simulation.resetFoodSources();
 }
 

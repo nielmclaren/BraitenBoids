@@ -61,7 +61,7 @@ void Simulation::setPlayerDirection(Vector2f direction) {
 
 void Simulation::step(float timeDelta) {
   stepAvatar(timeDelta);
-  stepBoids(timeDelta);
+  stepAgents(timeDelta);
   stepFoodSources(timeDelta);
   handleCollisions();
 }
@@ -103,7 +103,7 @@ void Simulation::stepAvatar(float timeDelta) {
   }
 }
 
-void Simulation::stepBoids(float timeDelta) {
+void Simulation::stepAgents(float timeDelta) {
   for (std::vector<std::shared_ptr<IAgent>>::iterator it = begin(agents);
        it != end(agents); ++it) {
     std::shared_ptr<IAgent> agent = *it;
@@ -165,7 +165,7 @@ void Simulation::handleCollisions() {
   }
 }
 
-void Simulation::addBoid(AgentProps props) {
+void Simulation::addAgent(AgentProps props) {
   Vector2f center(size.x() / 2, size.y() / 2);
   float jitter = 20;
   std::shared_ptr<IAgent> boid(
@@ -175,14 +175,14 @@ void Simulation::addBoid(AgentProps props) {
   entityCreated(*boid);
 }
 
-void Simulation::clearBoids() {
+void Simulation::clearAgents() {
   for (auto &agent : agents) {
     entityDeleted(*agent);
   }
   agents.clear();
 }
 
-std::vector<AgentProps> Simulation::getBoids() const {
+std::vector<AgentProps> Simulation::getAgents() const {
   std::vector<AgentProps> result;
   for (auto &agent : agents) {
     result.push_back(agent->toAgentProps());
@@ -190,15 +190,15 @@ std::vector<AgentProps> Simulation::getBoids() const {
   return result;
 }
 
-void Simulation::setBoids(std::vector<AgentProps> propses) {
-  clearBoids();
+void Simulation::setAgents(std::vector<AgentProps> propses) {
+  clearAgents();
   for (auto &props : propses) {
-    addBoid(props);
+    addAgent(props);
   }
 }
 
-void Simulation::resetBoids() {
-  clearBoids();
+void Simulation::resetAgents() {
+  clearAgents();
 
   unsigned int numAgents = 10;
   unsigned int numWeights = 6;
@@ -208,7 +208,7 @@ void Simulation::resetBoids() {
     for (unsigned int w = 0; w < numWeights; ++w) {
       props.weights.push_back(Util::randf(-1.f, 1.f));
     }
-    addBoid(props);
+    addAgent(props);
   }
 }
 

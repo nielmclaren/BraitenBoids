@@ -18,7 +18,7 @@ MainVisualize::MainVisualize(int argc, char *argv[])
       SimRenderer::create(simulation, window);
   simulation.registerEntityListener(simRenderer);
 
-  simulation.resetBoids();
+  simulation.resetAgents();
   simulation.resetFoodSources();
 
   while (window.isOpen()) {
@@ -86,7 +86,7 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::N) {
-        simulation.resetBoids();
+        simulation.resetAgents();
         simulation.resetFoodSources();
 
         stepCount = 0;
@@ -120,7 +120,7 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
 
 unsigned int MainVisualize::getGenerationIndex(Simulation &simulation) {
   unsigned int result = 0;
-  std::vector<AgentProps> propses = simulation.getBoids();
+  std::vector<AgentProps> propses = simulation.getAgents();
   for (auto &props : propses) {
     result = std::max(props.generationIndex, result);
   }
@@ -145,7 +145,7 @@ unsigned int MainVisualize::fastForward(Simulation &simulation) {
       static_cast<int>(Simulation::numInitialFoodSources * 0.2);
   unsigned int stepCount = simulation.fastForward(
       0.016f, 5000, [&numTerminationFoodSources](Simulation &simulation) {
-        return simulation.getNumFoodSources() < numTerminationFoodSources;
+        return simulation.getNumFoodSources() <= numTerminationFoodSources;
       });
   return stepCount;
 }
