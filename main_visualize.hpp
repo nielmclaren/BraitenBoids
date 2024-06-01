@@ -4,6 +4,7 @@
 #include "hud_renderer.hpp"
 #include "screenshot.hpp"
 #include "sim_renderer.hpp"
+#include "sim_runner.hpp"
 #include "simulation.hpp"
 #include <Eigen/Dense>
 #include <SFML/Graphics.hpp>
@@ -17,6 +18,7 @@ class MainVisualize {
 
   sf::RenderWindow window;
   Simulation simulation;
+  std::shared_ptr<SimRunner> simRunner;
   std::shared_ptr<SimRenderer> simRenderer;
 
   unsigned int generationIndex;

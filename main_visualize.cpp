@@ -1,6 +1,5 @@
 #include "main_visualize.hpp"
 #include "boid_marshaller.hpp"
-#include "evolution.hpp"
 #include <algorithm>
 
 MainVisualize::MainVisualize(int argc, char *argv[])
@@ -14,13 +13,16 @@ MainVisualize::MainVisualize(int argc, char *argv[])
   window.setKeyRepeatEnabled(false);
   window.setFramerateLimit(60);
 
+  simRunner = SimRunner::create(simulation);
+  simulation.registerEntityListener(simRunner);
+
   simRenderer = SimRenderer::create(simulation, window);
   simulation.registerEntityListener(simRenderer);
 
   HudRenderer hudRenderer(window);
 
-  simulation.resetAgents();
-  simulation.resetFoodSources();
+  simRunner->resetAgents();
+  simRunner->resetFoodSources();
 
   while (window.isOpen()) {
     sf::Time elapsed = clockwork.getElapsedTime();
@@ -29,10 +31,10 @@ MainVisualize::MainVisualize(int argc, char *argv[])
 
     handleEvent(window);
     simulation.setPlayerDirection(getPlayerInputDirection());
-    simulation.step(elapsedSeconds);
+    simRunner->step(elapsedSeconds);
     hudRenderer.setGenerationIndex(generationIndex);
     hudRenderer.setStepCount(stepCount);
-    hudRenderer.setFoodConsumed(Simulation::numInitialFoodSources -
+    hudRenderer.setFoodConsumed(SimRunner::numInitialFoodSources -
                                 simulation.getNumFoodSources());
 
     window.clear(sf::Color::White);
@@ -91,15 +93,15 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
       }
       if (event.key.scancode == sf::Keyboard::Scan::L) {
         BoidMarshaller::load(simulation, "output/boids.json");
-        simulation.resetFoodSources();
+        simRunner->resetFoodSources();
         evolutionLog.clear();
 
         generationIndex = getGenerationIndex(simulation);
         stepCount = 0;
       }
       if (event.key.scancode == sf::Keyboard::Scan::N) {
-        simulation.resetAgents();
-        simulation.resetFoodSources();
+        simRunner->resetAgents();
+        simRunner->resetFoodSources();
         evolutionLog.clear();
 
         stepCount = 0;
@@ -107,17 +109,19 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
       if (event.key.scancode == sf::Keyboard::Scan::M) {
         reportGenerationFitness(simulation);
         evolutionLog.addEntry(simulation, generationIndex, stepCount);
-        Evolution::selectAndMutate(simulation);
+        simRunner->selectAndMutate();
+        simRunner->resetFoodSources();
 
         generationIndex = getGenerationIndex(simulation);
         stepCount = 0;
       }
       if (event.key.scancode == sf::Keyboard::Scan::F) {
-        stepCount += fastForward(simulation);
+        stepCount += simRunner->fastForward();
 
         reportGenerationFitness(simulation);
         evolutionLog.addEntry(simulation, generationIndex, stepCount);
-        Evolution::selectAndMutate(simulation);
+        simRunner->selectAndMutate();
+        simRunner->resetFoodSources();
 
         generationIndex = getGenerationIndex(simulation);
         stepCount = 0;
@@ -156,15 +160,5 @@ void MainVisualize::reportGenerationFitness(Simulation &simulation) {
 
   std::cout << "Generation: " << getGenerationIndex(simulation) << std::endl;
   std::cout << "\tSteps: " << stepCount << std::endl;
-  Evolution::reportGenerationFitness(simulation);
-}
-
-unsigned int MainVisualize::fastForward(Simulation &simulation) {
-  unsigned int numTerminationFoodSources =
-      static_cast<int>(Simulation::numInitialFoodSources * 0.2);
-  unsigned int stepCount = simulation.fastForward(
-      0.016f, 5000, [&numTerminationFoodSources](Simulation &simulation) {
-        return simulation.getNumFoodSources() <= numTerminationFoodSources;
-      });
-  return stepCount;
+  simRunner->reportGenerationFitness();
 }

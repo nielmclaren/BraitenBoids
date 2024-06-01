@@ -25,6 +25,14 @@ Simulation::~Simulation() {
   entityListeners.clear();
 }
 
+Vector2f Simulation::getSize() { return size; }
+
+void Simulation::addFoodSource(Vector2f point) {
+  std::shared_ptr<FoodSource> foodSource(new FoodSource(point));
+  foodSources.push_back(foodSource);
+  entityCreated(*foodSource);
+}
+
 void Simulation::clearFoodSources() {
   for (auto &foodSource : foodSources) {
     entityDeleted(*foodSource);
@@ -32,23 +40,8 @@ void Simulation::clearFoodSources() {
   foodSources.clear();
 }
 
-void Simulation::resetFoodSources() {
-  clearFoodSources();
-
-  Vector2f center(size.x() / 2, size.y() / 2);
-  float noFoodZoneRadius = 110;
-  for (unsigned int i = 0; i < Simulation::numInitialFoodSources; i++) {
-    Vector2f point(Util::randf(size.x()), Util::randf(size.y()));
-    while ((point - center).norm() < noFoodZoneRadius) {
-      // TODO Set the point in one line. (Eigen docs offline right now.)
-      point(0) = Util::randf(size.x());
-      point(1) = Util::randf(size.y());
-    }
-
-    std::shared_ptr<FoodSource> foodSource(new FoodSource(point));
-    foodSources.push_back(foodSource);
-    entityCreated(*foodSource);
-  }
+unsigned int Simulation::getNumFoodSources() const {
+  return static_cast<unsigned int>(foodSources.size());
 }
 
 void Simulation::setPlayerDirection(Vector2f direction) {
@@ -64,25 +57,6 @@ void Simulation::step(float timeDelta) {
   stepAgents(timeDelta);
   stepFoodSources(timeDelta);
   handleCollisions();
-}
-
-unsigned int Simulation::fastForward(
-    float timeDelta, unsigned int numSteps,
-    std::function<bool(Simulation &)> earlyTerminationCondition) {
-  int stepCount = 0;
-  if (earlyTerminationCondition(*this)) {
-    return stepCount;
-  }
-
-  for (unsigned int i = 0; i < numSteps; i++) {
-    step(0.016f);
-    stepCount++;
-
-    if (earlyTerminationCondition(*this)) {
-      break;
-    }
-  }
-  return stepCount;
 }
 
 void Simulation::stepAvatar(float timeDelta) {
@@ -195,25 +169,6 @@ void Simulation::setAgents(std::vector<AgentProps> propses) {
   for (auto &props : propses) {
     addAgent(props);
   }
-}
-
-void Simulation::resetAgents() {
-  clearAgents();
-
-  unsigned int numAgents = 10;
-  unsigned int numWeights = 6;
-
-  for (unsigned int i = 0; i < numAgents; ++i) {
-    AgentProps props(i, 0, 0);
-    for (unsigned int w = 0; w < numWeights; ++w) {
-      props.weights.push_back(Util::randf(-1.f, 1.f));
-    }
-    addAgent(props);
-  }
-}
-
-unsigned int Simulation::getNumFoodSources() const {
-  return static_cast<unsigned int>(foodSources.size());
 }
 
 std::shared_ptr<FoodSource>

@@ -1,7 +1,5 @@
 #include "main_evaluate.hpp"
 #include "boid_marshaller.hpp"
-#include "evolution.hpp"
-#include "util.hpp"
 #include <format>
 
 MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
@@ -10,8 +8,11 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
 
-  simulation.resetAgents();
-  simulation.resetFoodSources();
+  simRunner = SimRunner::create(simulation);
+  simulation.registerEntityListener(simRunner);
+
+  simRunner->resetAgents();
+  simRunner->resetFoodSources();
 
   totalStopwatch.restart();
   generationStopwatch.restart();
@@ -21,14 +22,14 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
   for (unsigned int generationIndex = 0; generationIndex < numGenerations;
        ++generationIndex) {
     std::cout << "Running generation " << generationIndex << "...";
-    simulation.resetFoodSources();
+    simRunner->resetFoodSources();
 
-    unsigned int stepCount = fastForward(simulation);
+    unsigned int stepCount = simRunner->fastForward();
 
     unsigned int numFoodSourcesRemaining = simulation.getNumFoodSources();
 
     unsigned int foodConsumed =
-        Simulation::numInitialFoodSources - numFoodSourcesRemaining;
+        SimRunner::numInitialFoodSources - numFoodSourcesRemaining;
     float foodConsumedPerStep =
         stepCount <= 0
             ? 0
@@ -42,7 +43,7 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
     generationStopwatch.restart();
 
     evolutionLog.addEntry(simulation, generationIndex, stepCount);
-    Evolution::selectAndMutate(simulation);
+    simRunner->selectAndMutate();
   }
 
   sf::Time elapsed = totalStopwatch.getElapsedTime();
@@ -50,14 +51,4 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
 
   BoidMarshaller::save(simulation, "output/boids.json");
   evolutionLog.save("output/evolution_log.csv");
-}
-
-unsigned int MainEvaluate::fastForward(Simulation &simulation) {
-  unsigned int numTerminationFoodSources =
-      static_cast<int>(Simulation::numInitialFoodSources * 0.2);
-  unsigned int stepCount = simulation.fastForward(
-      0.016f, 5000, [&numTerminationFoodSources](Simulation &simulation) {
-        return simulation.getNumFoodSources() <= numTerminationFoodSources;
-      });
-  return stepCount;
 }

@@ -15,6 +15,8 @@ class Simulation : public IWorldState {
   // Pixels per second.
   static const float playerSpeed;
 
+  Vector2f size;
+
   Vector2f playerDirection;
 
   std::vector<std::shared_ptr<IAgent>> agents;
@@ -30,32 +32,24 @@ class Simulation : public IWorldState {
   void entityDeleted(IEntity &entity);
 
 public:
-  static const unsigned int numInitialFoodSources = 10;
-
-  Vector2f size;
-
   Avatar avatar;
 
   Simulation(float w, float h);
   ~Simulation();
 
+  Vector2f getSize();
+
+  void addFoodSource(Vector2f point);
   void clearFoodSources();
-  void resetFoodSources();
+  unsigned int getNumFoodSources() const;
 
   void setPlayerDirection(Vector2f direction);
   void step(float timeDelta);
-
-  unsigned int
-  fastForward(float timeDelta, unsigned int numSteps,
-              std::function<bool(Simulation &)> earlyTerminationCondition);
 
   void addAgent(AgentProps agentProps);
   void clearAgents();
   std::vector<AgentProps> getAgents() const;
   void setAgents(std::vector<AgentProps> agentPropses);
-  void resetAgents();
-
-  unsigned int getNumFoodSources() const;
 
   std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point) const;
   float distanceToNearestFoodSource(Vector2f &point) const;

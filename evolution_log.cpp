@@ -1,4 +1,5 @@
 #include "evolution_log.hpp"
+#include "sim_runner.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -14,7 +15,7 @@ void EvolutionLog::addEntry(Simulation &simulation,
   unsigned int numFoodSourcesRemaining = simulation.getNumFoodSources();
   float foodConsumedPerStep =
       stepCount <= 0 ? 0
-                     : static_cast<float>(Simulation::numInitialFoodSources -
+                     : static_cast<float>(SimRunner::numInitialFoodSources -
                                           numFoodSourcesRemaining) /
                            static_cast<float>(stepCount);
   addEntry(generationIndex, foodConsumedPerStep);
