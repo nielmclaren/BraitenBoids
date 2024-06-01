@@ -16,6 +16,8 @@ class SimRenderer : public IEntityListener,
   Simulation &simulation;
   sf::RenderWindow &window;
 
+  bool displayAvatar = false;
+
   AvatarRenderer *avatarRenderer;
   std::vector<IBoidRenderer *> boidRenderers;
   std::vector<FoodSourceRenderer *> foodSourceRenderers;
@@ -38,6 +40,8 @@ public:
   }
 
   void draw();
+
+  void setDisplayAvatar(bool v);
 
   void entityCreated(IEntity &entity);
   void entityDeleted(IEntity &entity);

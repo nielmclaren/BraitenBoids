@@ -17,6 +17,7 @@ class MainVisualize {
 
   sf::RenderWindow window;
   Simulation simulation;
+  std::shared_ptr<SimRenderer> simRenderer;
 
   unsigned int generationIndex;
   unsigned int stepCount;

@@ -14,8 +14,7 @@ MainVisualize::MainVisualize(int argc, char *argv[])
   window.setKeyRepeatEnabled(false);
   window.setFramerateLimit(60);
 
-  std::shared_ptr<SimRenderer> simRenderer =
-      SimRenderer::create(simulation, window);
+  simRenderer = SimRenderer::create(simulation, window);
   simulation.registerEntityListener(simRenderer);
 
   HudRenderer hudRenderer(window);
@@ -122,6 +121,12 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
 
         generationIndex = getGenerationIndex(simulation);
         stepCount = 0;
+      }
+      if (event.key.scancode == sf::Keyboard::Scan::W ||
+          event.key.scancode == sf::Keyboard::Scan::A ||
+          event.key.scancode == sf::Keyboard::Scan::S ||
+          event.key.scancode == sf::Keyboard::Scan::D) {
+        simRenderer->setDisplayAvatar(true);
       }
       break;
     }

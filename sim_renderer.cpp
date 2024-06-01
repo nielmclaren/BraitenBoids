@@ -40,8 +40,12 @@ void SimRenderer::draw() {
     (*it)->draw(window);
   }
 
-  avatarRenderer->draw(simulation, window);
+  if (displayAvatar) {
+    avatarRenderer->draw(simulation, window);
+  }
 }
+
+void SimRenderer::setDisplayAvatar(bool v) { displayAvatar = v; }
 
 void SimRenderer::entityCreated(IEntity &entity) {
   EntityType entityType = entity.getEntityType();
