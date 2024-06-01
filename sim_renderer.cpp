@@ -29,8 +29,6 @@ SimRenderer::~SimRenderer() {
 }
 
 void SimRenderer::draw() {
-  window.clear(sf::Color::White);
-
   for (std::vector<IBoidRenderer *>::iterator it = begin(boidRenderers);
        it != end(boidRenderers); ++it) {
     (*it)->draw(simulation, window);
@@ -43,8 +41,6 @@ void SimRenderer::draw() {
   }
 
   avatarRenderer->draw(simulation, window);
-
-  window.display();
 }
 
 void SimRenderer::entityCreated(IEntity &entity) {

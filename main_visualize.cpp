@@ -5,7 +5,7 @@
 
 MainVisualize::MainVisualize(int argc, char *argv[])
     : window(sf::VideoMode(800, 800), "BraitenBoids"), simulation(800, 800),
-      stepCount(0) {
+      generationIndex(0), stepCount(0) {
   std::cout << "visualize command" << std::endl;
 
   // Seed the random number generator.
@@ -18,6 +18,8 @@ MainVisualize::MainVisualize(int argc, char *argv[])
       SimRenderer::create(simulation, window);
   simulation.registerEntityListener(simRenderer);
 
+  HudRenderer hudRenderer(window);
+
   simulation.resetAgents();
   simulation.resetFoodSources();
 
@@ -29,7 +31,15 @@ MainVisualize::MainVisualize(int argc, char *argv[])
     handleEvent(window);
     simulation.setPlayerDirection(getPlayerInputDirection());
     simulation.step(elapsedSeconds);
+    hudRenderer.setGenerationIndex(generationIndex);
+    hudRenderer.setStepCount(stepCount);
+    hudRenderer.setFoodConsumed(Simulation::numInitialFoodSources -
+                                simulation.getNumFoodSources());
+
+    window.clear(sf::Color::White);
     simRenderer->draw();
+    hudRenderer.draw();
+    window.display();
 
     screenshot.frameChanged(window);
 
@@ -84,29 +94,33 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         BoidMarshaller::load(simulation, "output/boids.json");
         simulation.resetFoodSources();
         evolutionLog.clear();
+
+        generationIndex = getGenerationIndex(simulation);
+        stepCount = 0;
       }
       if (event.key.scancode == sf::Keyboard::Scan::N) {
         simulation.resetAgents();
         simulation.resetFoodSources();
+        evolutionLog.clear();
 
         stepCount = 0;
-        evolutionLog.clear();
       }
       if (event.key.scancode == sf::Keyboard::Scan::M) {
         reportGenerationFitness(simulation);
-        evolutionLog.addEntry(simulation, getGenerationIndex(simulation),
-                              stepCount);
+        evolutionLog.addEntry(simulation, generationIndex, stepCount);
         Evolution::selectAndMutate(simulation);
 
+        generationIndex = getGenerationIndex(simulation);
         stepCount = 0;
       }
       if (event.key.scancode == sf::Keyboard::Scan::F) {
         stepCount += fastForward(simulation);
+
         reportGenerationFitness(simulation);
-        evolutionLog.addEntry(simulation, getGenerationIndex(simulation),
-                              stepCount);
+        evolutionLog.addEntry(simulation, generationIndex, stepCount);
         Evolution::selectAndMutate(simulation);
 
+        generationIndex = getGenerationIndex(simulation);
         stepCount = 0;
       }
       break;

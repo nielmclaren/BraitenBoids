@@ -1,6 +1,7 @@
 #pragma once
 
 #include "evolution_log.hpp"
+#include "hud_renderer.hpp"
 #include "screenshot.hpp"
 #include "sim_renderer.hpp"
 #include "simulation.hpp"
@@ -17,6 +18,7 @@ class MainVisualize {
   sf::RenderWindow window;
   Simulation simulation;
 
+  unsigned int generationIndex;
   unsigned int stepCount;
   EvolutionLog evolutionLog;
 

@@ -30,6 +30,7 @@
     <ClCompile Include="file_namer.cpp" />
     <ClCompile Include="food_source.cpp" />
     <ClCompile Include="food_source_renderer.cpp" />
+    <ClCompile Include="hud_renderer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_evaluate.cpp" />
     <ClCompile Include="main_generate.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="file_namer.hpp" />
     <ClInclude Include="food_source.hpp" />
     <ClInclude Include="food_source_renderer.hpp" />
+    <ClInclude Include="hud_renderer.hpp" />
     <ClInclude Include="iagent.hpp" />
     <ClInclude Include="ientity_listener.hpp" />
     <ClInclude Include="icollidable.hpp" />

@@ -32,6 +32,8 @@ public:
   ~SimRenderer();
   static std::shared_ptr<SimRenderer> create(Simulation &sim,
                                              sf::RenderWindow &win) {
+    // Create a shared pointer during construction so that a weak pointer can be
+    // used for entity listener registration.
     return std::make_shared<SimRenderer>(Private(), sim, win);
   }
 
