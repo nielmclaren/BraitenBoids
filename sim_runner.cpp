@@ -1,4 +1,5 @@
 #include "sim_runner.hpp"
+#include "boid_marshaller.hpp"
 #include "util.hpp"
 
 SimRunner::SimRunner(Private p, Simulation &sim) : simulation(sim) {}
@@ -143,6 +144,15 @@ unsigned int SimRunner::fastForward() {
     }
   }
   return maxSteps;
+}
+
+void SimRunner::loadAgents(std::string path) {
+  BoidMarshaller::load(simulation, path);
+  deletedAgents.clear();
+}
+
+void SimRunner::saveAgents(std::string path) {
+  BoidMarshaller::save(simulation, path);
 }
 
 void SimRunner::entityCreated(IEntity &entity) {}

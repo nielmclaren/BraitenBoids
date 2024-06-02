@@ -1,5 +1,4 @@
 #include "main_visualize.hpp"
-#include "boid_marshaller.hpp"
 #include <algorithm>
 
 MainVisualize::MainVisualize(int argc, char *argv[])
@@ -88,11 +87,11 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         screenshot.toggleRecording();
       }
       if (event.key.scancode == sf::Keyboard::Scan::V) {
-        BoidMarshaller::save(simulation, "output/boids.json");
+        simRunner->saveAgents("output/boids.json");
         evolutionLog.save("output/evolution_log.csv");
       }
       if (event.key.scancode == sf::Keyboard::Scan::L) {
-        BoidMarshaller::load(simulation, "output/boids.json");
+        simRunner->loadAgents("output/boids.json");
         simRunner->resetFoodSources();
         evolutionLog.clear();
 
@@ -104,6 +103,7 @@ void MainVisualize::handleEvent(sf::RenderWindow &window) {
         simRunner->resetFoodSources();
         evolutionLog.clear();
 
+        generationIndex = getGenerationIndex(simulation);
         stepCount = 0;
       }
       if (event.key.scancode == sf::Keyboard::Scan::M) {

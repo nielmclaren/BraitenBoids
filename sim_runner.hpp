@@ -40,6 +40,9 @@ public:
   unsigned int fastForward();
   void reportGenerationFitness();
 
+  void loadAgents(std::string path);
+  void saveAgents(std::string path);
+
   void entityCreated(IEntity &entity);
   void entityDeleted(IEntity &entity);
 };
