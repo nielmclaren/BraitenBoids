@@ -49,6 +49,7 @@ public:
   void addAgent(AgentProps agentProps);
   void clearAgents();
   std::vector<AgentProps> getAgents() const;
+  unsigned int getNumAgents() const;
   void setAgents(std::vector<AgentProps> agentPropses);
 
   std::shared_ptr<FoodSource> getNearestFoodSource(Vector2f &point) const;

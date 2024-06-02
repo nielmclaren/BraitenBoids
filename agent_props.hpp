@@ -17,6 +17,7 @@ public:
   unsigned int id;
   unsigned int generationIndex;
   unsigned int numFoodsEaten;
+  bool isDead;
 
   std::vector<float> weights;
 

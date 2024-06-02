@@ -85,7 +85,7 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
 
   pos += vel;
 
-  energy -= speed * 0.005f;
+  energy -= speed * 0.002f;
 }
 
 void Boid::handleCollision(const ICollidable &collidable) {
@@ -101,5 +101,6 @@ AgentProps Boid::toAgentProps() const {
   props.generationIndex = getGenerationIndex();
   props.numFoodsEaten = getNumFoodsEaten();
   props.weights = getWeights();
+  props.isDead = isDead();
   return props;
 }

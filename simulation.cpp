@@ -79,21 +79,27 @@ void Simulation::stepAvatar(float timeDelta) {
 
 void Simulation::stepAgents(float timeDelta) {
   for (std::vector<std::shared_ptr<IAgent>>::iterator it = begin(agents);
-       it != end(agents); ++it) {
+       it != end(agents);) {
     std::shared_ptr<IAgent> agent = *it;
-    agent->step(*this, timeDelta);
+    if (agent->isDead()) {
+      entityDeleted(*agent);
+      it = agents.erase(it);
+    } else {
+      agent->step(*this, timeDelta);
 
-    while (agent->position().x() < 0) {
-      agent->position().x() += size.x();
-    }
-    while (agent->position().x() > size.x()) {
-      agent->position().x() -= size.x();
-    }
-    while (agent->position().y() < 0) {
-      agent->position().y() += size.y();
-    }
-    while (agent->position().y() > size.y()) {
-      agent->position().y() -= size.y();
+      while (agent->position().x() < 0) {
+        agent->position().x() += size.x();
+      }
+      while (agent->position().x() > size.x()) {
+        agent->position().x() -= size.x();
+      }
+      while (agent->position().y() < 0) {
+        agent->position().y() += size.y();
+      }
+      while (agent->position().y() > size.y()) {
+        agent->position().y() -= size.y();
+      }
+      it++;
     }
   }
 }
@@ -163,6 +169,8 @@ std::vector<AgentProps> Simulation::getAgents() const {
   }
   return result;
 }
+
+unsigned int Simulation::getNumAgents() const { return agents.size(); }
 
 void Simulation::setAgents(std::vector<AgentProps> propses) {
   clearAgents();

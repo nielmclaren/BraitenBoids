@@ -7,6 +7,7 @@ SimRunner::~SimRunner() {}
 
 void SimRunner::resetAgents() {
   simulation.clearAgents();
+  deletedAgents.clear();
 
   unsigned int numAgents = 10;
   unsigned int numWeights = 6;
@@ -42,8 +43,10 @@ void SimRunner::resetFoodSources() {
 void SimRunner::step(float elapsedSeconds) { simulation.step(elapsedSeconds); }
 
 void SimRunner::reportGenerationFitness() {
-  std::vector<AgentProps> boids = simulation.getAgents();
-  std::vector<AgentFitness> scores = getAgentFitnessScores(boids);
+  std::vector<AgentProps> agents = simulation.getAgents();
+  // Put the dead agents back into the list.
+  agents.insert(agents.end(), deletedAgents.begin(), deletedAgents.end());
+  std::vector<AgentFitness> scores = getAgentFitnessScores(agents);
 
   std::cout << "\tFitness scores, weights: " << std::endl;
   for (auto &score : scores) {
@@ -65,6 +68,12 @@ void SimRunner::selectAndMutate() {
   int selectNum = 4;
 
   std::vector<AgentProps> agents = simulation.getAgents();
+  // Add back dead agents until there are enough for selection.
+  while (agents.size() < selectNum && deletedAgents.size() > 0) {
+    AgentProps deletedAgent = deletedAgents.back();
+    deletedAgents.pop_back();
+    agents.push_back(deletedAgent);
+  }
   std::vector<AgentFitness> scores = getAgentFitnessScores(agents);
 
   std::vector<AgentProps> selected;
@@ -89,10 +98,11 @@ void SimRunner::selectAndMutate() {
   }
 
   simulation.setAgents(mutated);
+  deletedAgents.clear();
 }
 
 float SimRunner::fitnessFunction(AgentProps props) {
-  return static_cast<float>(props.numFoodsEaten);
+  return static_cast<float>(props.numFoodsEaten) + (props.isDead ? -100 : 0);
 }
 
 std::vector<float> SimRunner::mutateWeights(std::vector<float> weights) {
@@ -120,13 +130,15 @@ SimRunner::getAgentFitnessScores(std::vector<AgentProps> propses) {
 }
 
 unsigned int SimRunner::fastForward() {
+  unsigned int numTerminationAgents = 4;
   unsigned int numTerminationFoodSources =
       static_cast<int>(SimRunner::numInitialFoodSources * 0.2);
   float timeDelta = 0.016f;
   unsigned int maxSteps = 5000;
   for (unsigned int i = 0; i < maxSteps; i++) {
     simulation.step(timeDelta);
-    if (simulation.getNumFoodSources() <= numTerminationFoodSources) {
+    if (simulation.getNumAgents() <= numTerminationAgents ||
+        simulation.getNumFoodSources() <= numTerminationFoodSources) {
       return i;
     }
   }
@@ -134,4 +146,10 @@ unsigned int SimRunner::fastForward() {
 }
 
 void SimRunner::entityCreated(IEntity &entity) {}
-void SimRunner::entityDeleted(IEntity &entity) {}
+
+void SimRunner::entityDeleted(IEntity &entity) {
+  if (entity.getEntityType() == EntityType::Boid) {
+    IAgent &agent = *(dynamic_cast<IAgent *>(&entity));
+    deletedAgents.push_back(agent.toAgentProps());
+  }
+}

@@ -15,13 +15,15 @@ class SimRunner : public IEntityListener,
 
   Simulation &simulation;
 
+  std::vector<AgentProps> deletedAgents;
+
   static std::vector<float> mutateWeights(std::vector<float> input);
   static std::vector<AgentFitness>
   getAgentFitnessScores(std::vector<AgentProps> propses);
   static float fitnessFunction(AgentProps props);
 
 public:
-  static const unsigned int numInitialFoodSources = 10;
+  static const unsigned int numInitialFoodSources = 60;
 
   SimRunner(Private p, Simulation &sim);
   ~SimRunner();
