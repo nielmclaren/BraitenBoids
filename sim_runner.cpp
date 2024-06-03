@@ -10,7 +10,7 @@ void SimRunner::resetAgents() {
   simulation.clearAgents();
   deletedAgents.clear();
 
-  unsigned int numAgents = 10;
+  unsigned int numAgents = 20;
   unsigned int numWeights = 6;
 
   for (unsigned int i = 0; i < numAgents; ++i) {
@@ -65,7 +65,7 @@ void SimRunner::reportGenerationFitness() {
 }
 
 void SimRunner::selectAndMutate() {
-  int population = 10;
+  int population = 20;
   int selectNum = 4;
 
   std::vector<AgentProps> agents = simulation.getAgents();

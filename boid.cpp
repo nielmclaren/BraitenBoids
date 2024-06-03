@@ -50,8 +50,8 @@ int Boid::getNumFoodsEaten() const { return numFoodsEaten; }
 void Boid::step(IWorldState &worldState, float timeDelta) {
   neuralNetwork.reset();
 
-  float &detectionNeuron = neuralNetwork.input[0];
-  float &directionNeuron = neuralNetwork.input[1];
+  float &detectionNeuron = neuralNetwork.input(0);
+  float &directionNeuron = neuralNetwork.input(1);
 
   std::shared_ptr<FoodSource> foodSource = worldState.getNearestFoodSource(pos);
   if (foodSource != nullptr) {
@@ -68,8 +68,8 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
   }
 
   neuralNetwork.forward();
-  const float &speedNeuron = neuralNetwork.output[0];
-  const float &turnNeuron = neuralNetwork.output[1];
+  const float &speedNeuron = neuralNetwork.output(0);
+  const float &turnNeuron = neuralNetwork.output(1);
 
   float maxTurnDegrees = 1;
   float turnAmount = std::min(abs(turnNeuron), maxTurnDegrees * Util::pi / 180);

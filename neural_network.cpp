@@ -1,27 +1,34 @@
 #include "neural_network.hpp"
+#include <Eigen/Dense>
 
 NeuralNetwork::NeuralNetwork(unsigned int numInputs, unsigned int numOutputs,
                              std::vector<float> weights)
-    : input(numInputs), output(numOutputs), weights(weights) {}
+    : weights(weights), weightsMatrix(numOutputs, numInputs + 1) {
+  inputVector(0) = 1.f; // Bias
+  weightsMatrix << weights[0], weights[1], weights[2], weights[3], weights[4],
+      weights[5];
+}
+
+float &NeuralNetwork::input(unsigned int n) {
+  // Add one because of bias.
+  return inputVector(n + 1);
+}
+
+float &NeuralNetwork::output(unsigned int n) { return outputVector(n); }
 
 std::vector<float> NeuralNetwork::getWeights() const { return weights; }
 
 void NeuralNetwork::forward() {
-  assert(input.size() == 2);
-  assert(input[0] >= -1 && input[0] <= 1);
-  assert(input[1] >= -1 && input[1] <= 1);
+  // assert(inputVector(0) >= -1 && inputVector(0) <= 1);
+  // assert(inputVector(1) >= -1 && inputVector(1) <= 1);
 
-  float bias = 1.0f;
-  output[0] =
-      (bias * weights[0] + input[0] * weights[1] + input[1] * weights[2]) / 3.f;
-  output[1] =
-      (bias * weights[3] + input[0] * weights[4] + input[1] * weights[5]) / 3.f;
+  outputVector = weightsMatrix * inputVector / 3.f;
 
-  assert(output[0] >= -1 && output[0] <= 1);
-  assert(output[1] >= -1 && output[1] <= 1);
+  // assert(outputVector(0) >= -1 && outputVector(0) <= 1);
+  // assert(outputVector(1) >= -1 && outputVector(1) <= 1);
 }
 
 void NeuralNetwork::reset() {
-  std::fill(input.begin(), input.end(), 0);
-  std::fill(output.begin(), output.end(), 0);
+  inputVector.setZero();
+  outputVector.setZero();
 }
