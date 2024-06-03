@@ -5,6 +5,8 @@
 MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
   std::cout << "evaluate command" << std::endl;
 
+  unsigned int numGenerations = parseNumGenerations(argc, argv, 30);
+
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
 
@@ -17,7 +19,6 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
   totalStopwatch.restart();
   generationStopwatch.restart();
 
-  unsigned int numGenerations = 30;
   std::cout << "Total generations: " << numGenerations << std::endl;
   for (unsigned int generationIndex = 0; generationIndex < numGenerations;
        ++generationIndex) {
@@ -51,4 +52,23 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
 
   BoidMarshaller::save(simulation, "output/boids.json");
   evolutionLog.save("output/evolution_log.csv");
+}
+
+unsigned int MainEvaluate::parseNumGenerations(int argc, char *argv[],
+                                               unsigned int defaultValue) {
+  if (argc <= 1)
+    return defaultValue;
+
+  for (int i = 0; i < argc; ++i) {
+    if (strcmp(argv[i], "-g") == 0) {
+      if (i + 1 >= argc) {
+        std::cerr << "Missing parameter value for number of generations -g."
+                  << std::endl;
+        throw "Missing parameter value for number of generations -g.";
+        return defaultValue;
+      }
+      return std::stoi(argv[i + 1]);
+    }
+  }
+  return defaultValue;
 }

@@ -8,7 +8,6 @@
 #include <iostream>
 #include <string>
 
-
 class MainEvaluate {
   sf::Clock totalStopwatch;
   sf::Clock generationStopwatch;
@@ -16,6 +15,9 @@ class MainEvaluate {
   Simulation simulation;
   std::shared_ptr<SimRunner> simRunner;
   EvolutionLog evolutionLog;
+
+  unsigned int parseNumGenerations(int argc, char *argv[],
+                                   unsigned int defaultValue);
 
 public:
   MainEvaluate(int argc, char *argv[]);
