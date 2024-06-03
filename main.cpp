@@ -1,13 +1,10 @@
 #include "main_evaluate.hpp"
-#include "main_generate.hpp"
 #include "main_visualize.hpp"
 #include <iostream>
 
 void printUsage() {
   std::cout << "Usage:" << std::endl;
-  std::cout << "\t./BraitenBoids.exe generate" << std::endl;
   std::cout << "\t./BraitenBoids.exe evaluate" << std::endl;
-  std::cout << "\t./BraitenBoids.exe select" << std::endl;
   std::cout << "\t./BraitenBoids.exe visualize" << std::endl;
 }
 
@@ -23,18 +20,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  if (!strcmp(argv[1], "generate")) {
-    MainGenerate m(argc, argv);
-    return 0;
-  }
-
   if (!strcmp(argv[1], "evaluate")) {
     MainEvaluate m(argc, argv);
-    return 0;
-  }
-
-  if (!strcmp(argv[1], "select")) {
-    std::cout << "select command not implemented." << std::endl;
     return 0;
   }
 

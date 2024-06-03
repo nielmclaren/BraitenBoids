@@ -32,7 +32,6 @@
     <ClCompile Include="hud_renderer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="main_evaluate.cpp" />
-    <ClCompile Include="main_generate.cpp" />
     <ClCompile Include="main_visualize.cpp" />
     <ClCompile Include="neural_network.cpp" />
     <ClCompile Include="boid_marshaller.cpp" />
@@ -60,7 +59,6 @@
     <ClInclude Include="ientity.hpp" />
     <ClInclude Include="iworld_state.hpp" />
     <ClInclude Include="main_evaluate.hpp" />
-    <ClInclude Include="main_generate.hpp" />
     <ClInclude Include="main_visualize.hpp" />
     <ClInclude Include="neural_network.hpp" />
     <ClInclude Include="boid_marshaller.hpp" />
