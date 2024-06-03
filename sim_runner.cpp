@@ -11,7 +11,7 @@ void SimRunner::resetAgents() {
   deletedAgents.clear();
 
   unsigned int numAgents = 20;
-  unsigned int numWeights = 6;
+  unsigned int numWeights = 8;
 
   for (unsigned int i = 0; i < numAgents; ++i) {
     AgentProps props(i, 0, 0);

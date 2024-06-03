@@ -15,6 +15,7 @@ class BoidRenderer : public IBoidRenderer {
 public:
   const Boid &boid;
   sf::CircleShape bodyShape;
+  sf::CircleShape fadeShape;
   sf::ConvexShape directionShape;
   sf::RectangleShape toNearestFoodSourceShape;
 

@@ -14,7 +14,7 @@ const float Boid::sensorRange = 100.f;
 
 Boid::Boid(AgentProps &props, Vector2f pos)
     : id(props.id), generationIndex(props.generationIndex), numFoodsEaten(0),
-      neuralNetwork(2, 2, props.weights), speed(0), pos(pos), energy(1) {
+      neuralNetwork(3, 2, props.weights), speed(0), pos(pos), energy(1) {
   dir << 1, 0;
   Rotation2Df rotation(Util::randf(2.f * Util::pi));
   dir = rotation.toRotationMatrix() * dir;
@@ -52,6 +52,7 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
 
   float &detectionNeuron = neuralNetwork.input(0);
   float &directionNeuron = neuralNetwork.input(1);
+  float &energyNeuron = neuralNetwork.input(2);
 
   std::shared_ptr<FoodSource> foodSource = worldState.getNearestFoodSource(pos);
   if (foodSource != nullptr) {
@@ -66,6 +67,8 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
       directionNeuron = angleBetween / Util::pi;
     }
   }
+
+  energyNeuron = std::clamp(energy, 0.f, 1.f);
 
   neuralNetwork.forward();
   const float &speedNeuron = neuralNetwork.output(0);
@@ -85,7 +88,7 @@ void Boid::step(IWorldState &worldState, float timeDelta) {
 
   pos += vel;
 
-  energy -= speed * 0.002f;
+  energy = std::max(energy - speed * 0.002f, 0.f);
 }
 
 void Boid::handleCollision(const ICollidable &collidable) {

@@ -3,8 +3,8 @@
 #include "util.hpp"
 
 BoidRenderer::BoidRenderer(const Boid &boid)
-    : boid(boid), bodyShape(Boid::radius), directionShape(),
-      toNearestFoodSourceShape(sf::Vector2f(15.f, 1.f)) {
+    : boid(boid), bodyShape(Boid::radius), fadeShape(Boid::radius),
+      directionShape(), toNearestFoodSourceShape(sf::Vector2f(15.f, 1.f)) {
   float radius = Boid::radius;
 
   int n = static_cast<int>(boid.getId()) % BoidRenderer::colors.size();
@@ -15,6 +15,9 @@ BoidRenderer::BoidRenderer(const Boid &boid)
   bodyShape.setOutlineColor(normalColor);
   bodyShape.setOutlineThickness(2);
   bodyShape.setOrigin(radius, radius);
+
+  fadeShape.setFillColor(sf::Color(255, 255, 255, 128));
+  fadeShape.setOrigin(radius, radius);
 
   directionShape.setFillColor(normalColor);
   directionShape.setPointCount(3);
@@ -50,7 +53,13 @@ void BoidRenderer::draw(IWorldState &worldState, sf::RenderWindow &window) {
     }
   }
 
+  fadeShape.setFillColor(
+      sf::Color(255, 255, 255,
+                Util::linearInterp(std::clamp(boid.getEnergy(), 0.f, 1.f), 0, 1,
+                                   255, 0)));
+
   window.draw(bodyShape, transform.getTransform());
+  window.draw(fadeShape, transform.getTransform());
   window.draw(directionShape, transform.getTransform());
 }
 
