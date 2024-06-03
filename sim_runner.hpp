@@ -23,7 +23,11 @@ class SimRunner : public IEntityListener,
   static float fitnessFunction(AgentProps props);
 
 public:
-  static const unsigned int numInitialFoodSources = 60;
+  static const unsigned int numFoodSources = 60;
+  static const unsigned int numAgents = 20;
+  static const unsigned int numAgentWeights = 8;
+  static const unsigned int numSelectionAgents = 4;
+  static const unsigned int numFastForwardSteps = 5000;
 
   SimRunner(Private p, Simulation &sim);
   ~SimRunner();

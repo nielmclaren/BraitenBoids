@@ -29,7 +29,7 @@ MainEvaluate::MainEvaluate(int argc, char *argv[]) : simulation(800, 800) {
     unsigned int numFoodSourcesRemaining = simulation.getNumFoodSources();
 
     unsigned int foodConsumed =
-        SimRunner::numInitialFoodSources - numFoodSourcesRemaining;
+        SimRunner::numFoodSources - numFoodSourcesRemaining;
     float foodConsumedPerStep =
         stepCount <= 0
             ? 0

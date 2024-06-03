@@ -33,7 +33,7 @@ MainVisualize::MainVisualize(int argc, char *argv[])
     simRunner->step(elapsedSeconds);
     hudRenderer.setGenerationIndex(generationIndex);
     hudRenderer.setStepCount(stepCount);
-    hudRenderer.setFoodConsumed(SimRunner::numInitialFoodSources -
+    hudRenderer.setFoodConsumed(SimRunner::numFoodSources -
                                 simulation.getNumFoodSources());
 
     window.clear(sf::Color::White);

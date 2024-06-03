@@ -10,12 +10,9 @@ void SimRunner::resetAgents() {
   simulation.clearAgents();
   deletedAgents.clear();
 
-  unsigned int numAgents = 20;
-  unsigned int numWeights = 8;
-
-  for (unsigned int i = 0; i < numAgents; ++i) {
+  for (unsigned int i = 0; i < SimRunner::numAgents; ++i) {
     AgentProps props(i, 0, 0);
-    for (unsigned int w = 0; w < numWeights; ++w) {
+    for (unsigned int w = 0; w < SimRunner::numAgentWeights; ++w) {
       props.weights.push_back(Util::randf(-1.f, 1.f));
     }
     simulation.addAgent(props);
@@ -29,10 +26,9 @@ void SimRunner::resetFoodSources() {
 
   Vector2f center(size.x() / 2, size.y() / 2);
   float noFoodZoneRadius = 110;
-  for (unsigned int i = 0; i < SimRunner::numInitialFoodSources; i++) {
+  for (unsigned int i = 0; i < SimRunner::numFoodSources; i++) {
     Vector2f point(Util::randf(size.x()), Util::randf(size.y()));
     while ((point - center).norm() < noFoodZoneRadius) {
-      // TODO Set the point in one line. (Eigen docs offline right now.)
       point(0) = Util::randf(size.x());
       point(1) = Util::randf(size.y());
     }
@@ -65,12 +61,10 @@ void SimRunner::reportGenerationFitness() {
 }
 
 void SimRunner::selectAndMutate() {
-  int population = 20;
-  int selectNum = 4;
-
   std::vector<AgentProps> agents = simulation.getAgents();
   // Add back dead agents until there are enough for selection.
-  while (agents.size() < selectNum && deletedAgents.size() > 0) {
+  while (agents.size() < SimRunner::numSelectionAgents &&
+         deletedAgents.size() > 0) {
     AgentProps deletedAgent = deletedAgents.back();
     deletedAgents.pop_back();
     agents.push_back(deletedAgent);
@@ -78,13 +72,13 @@ void SimRunner::selectAndMutate() {
   std::vector<AgentFitness> scores = getAgentFitnessScores(agents);
 
   std::vector<AgentProps> selected;
-  std::transform(scores.begin(), scores.begin() + selectNum,
+  std::transform(scores.begin(), scores.begin() + SimRunner::numSelectionAgents,
                  std::back_inserter(selected),
                  [](const AgentFitness &score) { return score.agent; });
 
-  int nextId = 0;
+  unsigned int nextId = 0;
   std::vector<AgentProps> mutated;
-  while (mutated.size() < population) {
+  while (mutated.size() < SimRunner::numAgents) {
     for (auto &selectedProps : selected) {
       AgentProps mutatedProps;
       mutatedProps.id = ++nextId;
@@ -92,7 +86,7 @@ void SimRunner::selectAndMutate() {
       mutatedProps.weights = mutateWeights(selectedProps.weights);
       mutated.push_back(mutatedProps);
 
-      if (mutated.size() >= population) {
+      if (mutated.size() >= SimRunner::numAgents) {
         break;
       }
     }
@@ -131,19 +125,18 @@ SimRunner::getAgentFitnessScores(std::vector<AgentProps> propses) {
 }
 
 unsigned int SimRunner::fastForward() {
-  unsigned int numTerminationAgents = 4;
+  unsigned int numTerminationAgents = SimRunner::numSelectionAgents;
   unsigned int numTerminationFoodSources =
-      static_cast<int>(SimRunner::numInitialFoodSources * 0.2);
+      static_cast<int>(SimRunner::numFoodSources * 0.2);
   float timeDelta = 0.016f;
-  unsigned int maxSteps = 5000;
-  for (unsigned int i = 0; i < maxSteps; i++) {
+  for (unsigned int i = 0; i < SimRunner::numFastForwardSteps; i++) {
     simulation.step(timeDelta);
     if (simulation.getNumAgents() <= numTerminationAgents ||
         simulation.getNumFoodSources() <= numTerminationFoodSources) {
       return i;
     }
   }
-  return maxSteps;
+  return SimRunner::numFastForwardSteps;
 }
 
 void SimRunner::loadAgents(std::string path) {

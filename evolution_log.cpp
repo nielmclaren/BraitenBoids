@@ -15,7 +15,7 @@ void EvolutionLog::addEntry(Simulation &simulation,
   unsigned int numFoodSourcesRemaining = simulation.getNumFoodSources();
   float foodConsumedPerStep =
       stepCount <= 0 ? 0
-                     : static_cast<float>(SimRunner::numInitialFoodSources -
+                     : static_cast<float>(SimRunner::numFoodSources -
                                           numFoodSourcesRemaining) /
                            static_cast<float>(stepCount);
   addEntry(generationIndex, foodConsumedPerStep);
