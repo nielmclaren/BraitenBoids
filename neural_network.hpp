@@ -7,17 +7,19 @@
 #include <vector>
 
 using Eigen::MatrixXf;
-using Eigen::Vector2f;
-using Eigen::Vector3f;
+using Eigen::VectorXf;
 
 class NeuralNetwork {
   friend class cereal::access;
 
   std::vector<float> weights;
 
-  Vector3f inputVector;
+  unsigned int numInputs;
+  unsigned int numOutputs;
+
+  VectorXf inputVector;
   MatrixXf weightsMatrix;
-  Vector2f outputVector;
+  VectorXf outputVector;
 
   template <class Archive> void serialize(Archive &archive) {
     archive(CEREAL_NVP(weights));
