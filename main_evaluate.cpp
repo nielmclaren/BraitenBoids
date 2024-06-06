@@ -1,6 +1,8 @@
 #include "main_evaluate.hpp"
 #include "boid_marshaller.hpp"
 #include <format>
+#include <fstream>
+#include <iostream>
 
 MainEvaluate::MainEvaluate(int argc, char *argv[])
     : simulation(800, 800), buildNamer("output/", "build", "/"),
@@ -9,6 +11,12 @@ MainEvaluate::MainEvaluate(int argc, char *argv[])
 
   numGenerations = parseNumGenerations(argc, argv, 30);
   numRuns = parseNumRuns(argc, argv, 1);
+  description = parseDescription(argc, argv, "");
+
+  if (description.empty()) {
+    std::cout << "WARN: No description provided. Manifest file will be empty."
+              << std::endl;
+  }
 
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
@@ -24,6 +32,8 @@ MainEvaluate::MainEvaluate(int argc, char *argv[])
   for (unsigned int run = 0; run < numRuns; ++run) {
     performRun(run);
   }
+
+  saveManifest();
 
   sf::Time elapsed = totalStopwatch.getElapsedTime();
   std::cout << "Total time: " << elapsed.asSeconds() << "s" << std::endl;
@@ -62,6 +72,24 @@ unsigned int MainEvaluate::parseNumRuns(int argc, char *argv[],
         return defaultValue;
       }
       return std::stoi(argv[i + 1]);
+    }
+  }
+  return defaultValue;
+}
+
+std::string MainEvaluate::parseDescription(int argc, char *argv[],
+                                           std::string defaultValue) {
+  if (argc <= 1)
+    return defaultValue;
+
+  for (int i = 0; i < argc; ++i) {
+    if (strcmp(argv[i], "-d") == 0) {
+      if (i + 1 >= argc) {
+        std::cerr << "Missing parameter value for description -d." << std::endl;
+        throw "Missing parameter value for description -d.";
+        return defaultValue;
+      }
+      return std::string(argv[i + 1]);
     }
   }
   return defaultValue;
@@ -118,4 +146,18 @@ void MainEvaluate::performGeneration(unsigned int run,
 
   evolutionLog.addEntry(simulation, generation, stepCount);
   simRunner->selectAndMutate();
+}
+
+void MainEvaluate::saveManifest() {
+  std::string buildPath = buildNamer.curr();
+  std::string manifestPath = buildPath + "manifest.txt";
+
+  std::cout << "Saving manifest file " << manifestPath << std::endl;
+
+  std::ofstream file(manifestPath);
+  if (!file.is_open()) {
+    throw std::runtime_error("Could not open file " + manifestPath);
+  }
+
+  file << description << std::endl;
 }

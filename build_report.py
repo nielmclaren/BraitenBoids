@@ -14,6 +14,10 @@ if len(build_paths) <= 0:
 
 build = int(re.match(r"^build(\d{4})$", build_paths[-1]).group(1))
 build_path = join(base_path, build_paths[-1])
+manifest_path = join(build_path, "manifest.txt")
+
+with open(manifest_path, 'r') as file:
+    description = file.read()
 
 run_paths = [f for f in listdir(build_path) if isdir(join(build_path, f)) and re.match(r"^run\d{4}", f)]
 if len(run_paths) <= 0:
@@ -38,7 +42,7 @@ score_max = all_runs_df["score"].max()
 
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(20, 10))
 
-fig.suptitle(f"Build #{build}")
+fig.suptitle(f"Build #{build} - {description}")
 
 all_runs_df.plot(
     ax=axes[0],

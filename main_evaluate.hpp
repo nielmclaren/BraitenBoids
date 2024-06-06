@@ -20,6 +20,7 @@ class MainEvaluate {
 
   unsigned int numGenerations;
   unsigned int numRuns;
+  std::string description;
 
   FileNamer buildNamer;
   FileNamer runNamer;
@@ -27,8 +28,12 @@ class MainEvaluate {
   unsigned int parseNumGenerations(int argc, char *argv[],
                                    unsigned int defaultValue);
   unsigned int parseNumRuns(int argc, char *argv[], unsigned int defaultValue);
+  std::string parseDescription(int argc, char *argv[],
+                               std::string defaultValue);
+
   void performRun(unsigned int run);
   void performGeneration(unsigned int run, unsigned int generation);
+  void saveManifest();
 
 public:
   MainEvaluate(int argc, char *argv[]);

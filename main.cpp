@@ -4,16 +4,13 @@
 
 void printUsage() {
   std::cout << "Usage:" << std::endl;
-  std::cout << "\t./BraitenBoids.exe evaluate" << std::endl;
+  std::cout << "\t./BraitenBoids.exe evaluate -g <num_generations> -r "
+               "<num_runs> -d <description>"
+            << std::endl;
   std::cout << "\t./BraitenBoids.exe visualize" << std::endl;
 }
 
 int main(int argc, char *argv[]) {
-  std::cout << "Command-line arguments:" << std::endl;
-  for (int i(1); i < argc; ++i) {
-    std::cout << "\t" << i << " = " << argv[i] << "\n";
-  }
-
   if (argc < 2) {
     std::cout << "Missing required argument." << std::endl;
     printUsage();
