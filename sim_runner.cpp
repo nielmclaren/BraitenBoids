@@ -2,6 +2,9 @@
 #include "boid_marshaller.hpp"
 #include "util.hpp"
 
+using Eigen::Rotation2Df;
+using Eigen::Vector2f;
+
 SimRunner::SimRunner(Private p, Simulation &sim) : simulation(sim) {}
 
 SimRunner::~SimRunner() {}
@@ -25,14 +28,14 @@ void SimRunner::resetFoodSources() {
   Vector2f size = simulation.getSize();
 
   Vector2f center(size.x() / 2, size.y() / 2);
-  float noFoodZoneRadius = 110;
   for (unsigned int i = 0; i < SimRunner::numFoodSources; i++) {
-    Vector2f point(Util::randf(size.x()), Util::randf(size.y()));
-    while ((point - center).norm() < noFoodZoneRadius) {
-      point(0) = Util::randf(size.x());
-      point(1) = Util::randf(size.y());
-    }
-
+    Vector2f dir;
+    dir << 1, 0;
+    Rotation2Df rotation(static_cast<float>(i) /
+                         static_cast<float>(SimRunner::numFoodSources) * 2 *
+                         Util::pi);
+    dir = rotation.toRotationMatrix() * dir;
+    Vector2f point = center + Util::randf(150, 400) * dir;
     simulation.addFoodSource(point);
   }
 }
