@@ -27,6 +27,8 @@ class MainVisualize {
 
   Screenshot screenshot;
 
+  std::string parseInputPath(int argc, char *argv[], std::string defaultValue);
+
   Vector2f getPlayerInputDirection();
   void handleEvent(sf::RenderWindow &window);
 

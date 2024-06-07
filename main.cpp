@@ -7,7 +7,8 @@ void printUsage() {
   std::cout << "\t./BraitenBoids.exe evaluate -g <num_generations> -r "
                "<num_runs> -d <description>"
             << std::endl;
-  std::cout << "\t./BraitenBoids.exe visualize" << std::endl;
+  std::cout << "\t./BraitenBoids.exe visualize -i path/to/boids.json"
+            << std::endl;
 }
 
 int main(int argc, char *argv[]) {

@@ -6,6 +6,8 @@ MainVisualize::MainVisualize(int argc, char *argv[])
       generationIndex(0), stepCount(0) {
   std::cout << "visualize command" << std::endl;
 
+  std::string inputPath = parseInputPath(argc, argv, "");
+
   // Seed the random number generator.
   srand(static_cast<unsigned>(time(0)));
 
@@ -20,7 +22,12 @@ MainVisualize::MainVisualize(int argc, char *argv[])
 
   HudRenderer hudRenderer(window);
 
-  simRunner->resetAgents();
+  if (inputPath != "") {
+    simRunner->loadAgents(inputPath);
+    generationIndex = getGenerationIndex(simulation);
+  } else {
+    simRunner->resetAgents();
+  }
   simRunner->resetFoodSources();
 
   while (window.isOpen()) {
@@ -45,6 +52,24 @@ MainVisualize::MainVisualize(int argc, char *argv[])
 
     stepCount++;
   }
+}
+
+std::string MainVisualize::parseInputPath(int argc, char *argv[],
+                                          std::string defaultValue) {
+  if (argc <= 1)
+    return defaultValue;
+
+  for (int i = 0; i < argc; ++i) {
+    if (strcmp(argv[i], "-i") == 0) {
+      if (i + 1 >= argc) {
+        std::cerr << "Missing parameter value for input path -i." << std::endl;
+        throw "Missing parameter value for input path -i.";
+        return defaultValue;
+      }
+      return argv[i + 1];
+    }
+  }
+  return defaultValue;
 }
 
 Vector2f MainVisualize::getPlayerInputDirection() {
