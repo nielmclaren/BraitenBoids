@@ -8,10 +8,7 @@ using Eigen::Vector2f;
 
 const float Simulation::playerSpeed = 200.f;
 
-Simulation::Simulation(float w, float h) {
-  width = w;
-  height = h;
-
+Simulation::Simulation(float w, float h) : width(w), height(h), tileMap(w, h) {
   avatar.position.x() = width / 2.f;
   avatar.position.y() = height / 2.f;
 
@@ -25,9 +22,9 @@ Simulation::~Simulation() {
   entityListeners.clear();
 }
 
-Vector2f Simulation::getSize() { return Vector2f(width, height); }
-unsigned int Simulation::getWidth() { return width; }
-unsigned int Simulation::getHeight() { return height; }
+Vector2f Simulation::getSize() const { return Vector2f(width, height); }
+unsigned int Simulation::getWidth() const { return width; }
+unsigned int Simulation::getHeight() const { return height; }
 
 void Simulation::addFoodSource(Vector2f point) {
   std::shared_ptr<FoodSource> foodSource(new FoodSource(point));

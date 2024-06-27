@@ -39,6 +39,8 @@
     <ClCompile Include="simulation.cpp" />
     <ClCompile Include="sim_renderer.cpp" />
     <ClCompile Include="sim_runner.cpp" />
+    <ClCompile Include="tile.cpp" />
+    <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +50,7 @@
     <ClInclude Include="boid.hpp" />
     <ClInclude Include="boid_renderer.hpp" />
     <ClInclude Include="collision_detection.hpp" />
+    <ClInclude Include="constants.hpp" />
     <ClInclude Include="evolution_log.hpp" />
     <ClInclude Include="file_namer.hpp" />
     <ClInclude Include="food_source.hpp" />
@@ -66,6 +69,8 @@
     <ClInclude Include="simulation.hpp" />
     <ClInclude Include="sim_renderer.hpp" />
     <ClInclude Include="sim_runner.hpp" />
+    <ClInclude Include="tile.hpp" />
+    <ClInclude Include="tile_map.hpp" />
     <ClInclude Include="util.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

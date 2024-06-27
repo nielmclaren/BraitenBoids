@@ -5,6 +5,7 @@
 #include "food_source.hpp"
 #include "ientity_listener.hpp"
 #include "iworld_state.hpp"
+#include "tile_map.hpp"
 #include <Eigen/Dense>
 #include <functional>
 #include <vector>
@@ -17,6 +18,8 @@ class Simulation : public IWorldState {
 
   unsigned int width;
   unsigned int height;
+
+  TileMap tileMap;
 
   Vector2f playerDirection;
 
@@ -38,9 +41,9 @@ public:
   Simulation(float w, float h);
   ~Simulation();
 
-  Vector2f getSize();
-  unsigned int getWidth();
-  unsigned int getHeight();
+  Vector2f getSize() const;
+  unsigned int getWidth() const;
+  unsigned int getHeight() const;
 
   void addFoodSource(Vector2f point);
   void clearFoodSources();
