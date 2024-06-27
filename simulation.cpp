@@ -9,11 +9,11 @@ using Eigen::Vector2f;
 const float Simulation::playerSpeed = 200.f;
 
 Simulation::Simulation(float w, float h) {
-  size.x() = w;
-  size.y() = h;
+  width = w;
+  height = h;
 
-  avatar.position.x() = w / 2.f;
-  avatar.position.y() = h / 2.f;
+  avatar.position.x() = width / 2.f;
+  avatar.position.y() = height / 2.f;
 
   avatar.direction.x() = 0;
   avatar.direction.y() = -1;
@@ -25,7 +25,9 @@ Simulation::~Simulation() {
   entityListeners.clear();
 }
 
-Vector2f Simulation::getSize() { return size; }
+Vector2f Simulation::getSize() { return Vector2f(width, height); }
+unsigned int Simulation::getWidth() { return width; }
+unsigned int Simulation::getHeight() { return height; }
 
 void Simulation::addFoodSource(Vector2f point) {
   std::shared_ptr<FoodSource> foodSource(new FoodSource(point));
@@ -64,16 +66,16 @@ void Simulation::stepAvatar(float timeDelta) {
   avatar.position.y() += playerDirection.y() * playerSpeed * timeDelta;
 
   while (avatar.position.x() < 0) {
-    avatar.position.x() += size.x();
+    avatar.position.x() += width;
   }
-  while (avatar.position.x() > size.x()) {
-    avatar.position.x() -= size.x();
+  while (avatar.position.x() > width) {
+    avatar.position.x() -= width;
   }
   while (avatar.position.y() < 0) {
-    avatar.position.y() += size.y();
+    avatar.position.y() += height;
   }
-  while (avatar.position.y() > size.y()) {
-    avatar.position.y() -= size.y();
+  while (avatar.position.y() > height) {
+    avatar.position.y() -= height;
   }
 }
 
@@ -88,16 +90,16 @@ void Simulation::stepAgents(float timeDelta) {
       agent->step(*this, timeDelta);
 
       while (agent->position().x() < 0) {
-        agent->position().x() += size.x();
+        agent->position().x() += width;
       }
-      while (agent->position().x() > size.x()) {
-        agent->position().x() -= size.x();
+      while (agent->position().x() > width) {
+        agent->position().x() -= width;
       }
       while (agent->position().y() < 0) {
-        agent->position().y() += size.y();
+        agent->position().y() += height;
       }
-      while (agent->position().y() > size.y()) {
-        agent->position().y() -= size.y();
+      while (agent->position().y() > height) {
+        agent->position().y() -= height;
       }
       it++;
     }
@@ -146,7 +148,7 @@ void Simulation::handleCollisions() {
 }
 
 void Simulation::addAgent(AgentProps props) {
-  Vector2f center(size.x() / 2, size.y() / 2);
+  Vector2f center(width / 2, height / 2);
   float jitter = 20;
   std::shared_ptr<IAgent> boid(
       new Boid(props, center + Vector2f(Util::randf(-jitter, jitter),

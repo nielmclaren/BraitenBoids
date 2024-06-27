@@ -15,7 +15,8 @@ class Simulation : public IWorldState {
   // Pixels per second.
   static const float playerSpeed;
 
-  Vector2f size;
+  unsigned int width;
+  unsigned int height;
 
   Vector2f playerDirection;
 
@@ -38,6 +39,8 @@ public:
   ~Simulation();
 
   Vector2f getSize();
+  unsigned int getWidth();
+  unsigned int getHeight();
 
   void addFoodSource(Vector2f point);
   void clearFoodSources();
