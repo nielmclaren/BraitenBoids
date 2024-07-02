@@ -1,6 +1,7 @@
 #include "tile_map.hpp"
 #include "util.hpp"
 #include <Eigen/Dense>
+#include <iostream>
 
 using Eigen::Vector2f;
 
@@ -9,15 +10,15 @@ TileMap::TileMap(unsigned int w, unsigned int h) : width(w), height(h) {
   assert(width % tileSize == 0);
   assert(height % tileSize == 0);
 
-  unsigned int iw = width / tileSize;
-  unsigned int ih = height / tileSize;
+  cols = width / tileSize;
+  rows = height / tileSize;
 
-  tiles.reserve(iw * ih);
-  for (unsigned int ix = 0; ix < iw; ++ix) {
-    for (unsigned int iy = 0; iy < ih; ++iy) {
+  tiles.reserve(cols * rows);
+  for (unsigned int ix = 0; ix < cols; ++ix) {
+    for (unsigned int iy = 0; iy < rows; ++iy) {
       Tile tile(ix, iy, ix * tileSize, iy * tileSize);
 
-      if (ix == 0 || iy == 0 || ix == iw - 1 || iy == ih - 1) {
+      if (ix == 0 || iy == 0 || ix == cols - 1 || iy == rows - 1) {
         tile.tileType = TileType::Wall;
       } else if (Util::randf() < 0.1) {
         tile.tileType = TileType::Wall;
@@ -28,12 +29,17 @@ TileMap::TileMap(unsigned int w, unsigned int h) : width(w), height(h) {
   }
 }
 
-Tile TileMap::getTile(unsigned int ix, unsigned int iy) {
+unsigned int TileMap::getCols() const { return cols; }
+unsigned int TileMap::getRows() const { return rows; }
+unsigned int TileMap::getWidth() const { return width; }
+unsigned int TileMap::getHeight() const { return height; }
+
+Tile TileMap::getTile(unsigned int ix, unsigned int iy) const {
   return tiles[ix * cols + iy];
 }
 
-Tile TileMap::getTileAt(float x, float y) {
+Tile TileMap::getTileAt(float x, float y) const {
   return tiles[floor(x / tileSize) * cols + floor(y / tileSize)];
 }
 
-std::vector<Tile> &TileMap::getTiles() { return tiles; }
+const std::vector<Tile> &TileMap::getTiles() const { return tiles; }

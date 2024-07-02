@@ -26,6 +26,8 @@ Vector2f Simulation::getSize() const { return Vector2f(width, height); }
 unsigned int Simulation::getWidth() const { return width; }
 unsigned int Simulation::getHeight() const { return height; }
 
+const TileMap &Simulation::getTileMap() const { return tileMap; }
+
 void Simulation::addFoodSource(Vector2f point) {
   std::shared_ptr<FoodSource> foodSource(new FoodSource(point));
   foodSources.push_back(foodSource);

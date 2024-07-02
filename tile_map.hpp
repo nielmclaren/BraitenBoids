@@ -15,7 +15,12 @@ public:
 
   TileMap(unsigned int w, unsigned int h);
 
-  Tile getTile(unsigned int ix, unsigned int iy);
-  Tile getTileAt(float x, float y);
-  std::vector<Tile> &getTiles();
+  unsigned int getCols() const;
+  unsigned int getRows() const;
+  unsigned int getWidth() const;
+  unsigned int getHeight() const;
+
+  Tile getTile(unsigned int ix, unsigned int iy) const;
+  Tile getTileAt(float x, float y) const;
+  const std::vector<Tile> &getTiles() const;
 };

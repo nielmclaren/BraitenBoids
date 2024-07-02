@@ -41,6 +41,8 @@
     <ClCompile Include="sim_runner.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="tile_map.cpp" />
+    <ClCompile Include="tile_map_renderer.cpp" />
+    <ClCompile Include="tile_renderer.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +73,8 @@
     <ClInclude Include="sim_runner.hpp" />
     <ClInclude Include="tile.hpp" />
     <ClInclude Include="tile_map.hpp" />
+    <ClInclude Include="tile_map_renderer.hpp" />
+    <ClInclude Include="tile_renderer.hpp" />
     <ClInclude Include="util.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

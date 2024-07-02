@@ -10,7 +10,7 @@ using Eigen::Rotation2Df;
 using Eigen::Vector2f;
 
 SimRenderer::SimRenderer(Private p, Simulation &sim, sf::RenderWindow &win)
-    : simulation(sim), window(win) {
+    : simulation(sim), window(win), tileMapRenderer(sim.getTileMap()) {
   avatarRenderer = new AvatarRenderer(simulation.avatar);
 }
 
@@ -29,6 +29,8 @@ SimRenderer::~SimRenderer() {
 }
 
 void SimRenderer::draw() {
+  tileMapRenderer.draw(window);
+
   for (std::vector<IBoidRenderer *>::iterator it = begin(boidRenderers);
        it != end(boidRenderers); ++it) {
     (*it)->draw(simulation, window);

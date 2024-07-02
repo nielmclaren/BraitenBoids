@@ -45,6 +45,8 @@ public:
   unsigned int getWidth() const;
   unsigned int getHeight() const;
 
+  const TileMap &getTileMap() const;
+
   void addFoodSource(Vector2f point);
   void clearFoodSources();
   unsigned int getNumFoodSources() const;
